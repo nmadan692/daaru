@@ -15,7 +15,23 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('brand_id')->nullable();
+            $table->string('name')->nullable();
+            $table->float('volume')->nullable();
+            $table->string('country')->nullable();
+            $table->float('alcohol')->nullable();
+            $table->string('description', 1000)->nullable();
+            $table->float('price')->nullable();
+            $table->float('discount')->nullable();
+            $table->boolean('is%')->default(false)->nullable();
+            $table->float('quantity')->nullable();
+            $table->string('image')->nullable();
+            $table->boolean('status')->default(true)->nullable();
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('brand_id')->references('id')->on('brands');
+
         });
     }
 
