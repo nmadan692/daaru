@@ -26,6 +26,16 @@ class RouteServiceProvider extends ServiceProvider
     protected $adminNamespace = 'App\Http\Controllers\Admin';
 
     /**
+     * This namespace is applied to your staff controller routes.
+     *
+     * In addition, it is set as the URL generator's admin namespace.
+     *
+     * @var string
+     */
+    protected $staffNamespace = 'App\Http\Controllers\Staff';
+
+
+    /**
      * This namespace is applied to your front controller routes.
      *
      * In addition, it is set as the URL generator's root namespace.
@@ -33,6 +43,34 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     protected $frontNamespace = 'App\Http\Controllers\Front';
+
+    /**
+     * The path to the "admin" route for your application.
+     *
+     * @var string
+     */
+    public const ADMIN = '/admin/category';
+
+    /**
+     * The path to the "admin" route for your application.
+     *
+     * @var string
+     */
+    public const ADMINLOGIN = '/admin/login';
+
+    /**
+     * The path to the "staff" route for your application.
+     *
+     * @var string
+     */
+    public const STAFF = '/home';
+
+    /**
+     * The path to the "staff" route for your application.
+     *
+     * @var string
+     */
+    public const STAFFLOGIN = '/staff/login';
 
     /**
      * The path to the "home" route for your application.
@@ -66,6 +104,12 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapAdminRoutes();
 
+        $this->mapAdminAuthRoutes();
+
+        $this->mapStaffRoutes();
+
+        $this->mapStaffAuthRoutes();
+
         $this->mapFrontRoutes();
     }
 
@@ -98,14 +142,59 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/api.php'));
     }
 
+    /**
+     * Admin Routes
+     */
     protected function mapAdminRoutes()
     {
-        Route::middleware('web')
+        Route::middleware(['web', 'auth:admin'])
             ->prefix('admin')
             ->name('admin.')
             ->namespace($this->adminNamespace)
             ->group(function ($route) {
                 require base_path('routes/admin/admin.php');
+            });
+    }
+
+    /**
+     * Admin Auth Routes
+     */
+    protected function mapAdminAuthRoutes()
+    {
+        Route::middleware('web')
+            ->prefix('admin')
+            ->name('admin.auth.')
+            ->namespace($this->adminNamespace)
+            ->group(function ($route) {
+                require base_path('routes/admin/auth.php');
+            });
+    }
+
+    /**
+     * Staff Routes
+     */
+    protected function mapStaffRoutes()
+    {
+        Route::middleware('web')
+            ->prefix('staff')
+            ->name('staff.')
+            ->namespace($this->staffNamespace)
+            ->group(function ($route) {
+                require base_path('routes/staff/staff.php');
+            });
+    }
+
+    /**
+     * Staff Auth Routes
+     */
+    protected function mapStaffAuthRoutes()
+    {
+        Route::middleware('web')
+            ->prefix('staff')
+            ->name('staff.auth.')
+            ->namespace($this->staffNamespace)
+            ->group(function ($route) {
+                require base_path('routes/staff/auth.php');
             });
     }
 
