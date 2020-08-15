@@ -21,3 +21,5 @@ Route::get('/shop-grid', 'ShopGridController@index')->name('shop.grid');
 
 // shoping-cart
 Route::get('/shoping-cart', 'ShopingCartController@index')->name('shoping.cart');
+
+
