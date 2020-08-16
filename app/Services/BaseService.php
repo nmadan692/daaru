@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseService
@@ -68,6 +69,7 @@ abstract class BaseService
         return $this->model->findOrFail($id);
     }
 
+
     /**
      * @param $insertData
      * @return \Illuminate\Database\Eloquent\Collection|Model|null
@@ -103,6 +105,55 @@ abstract class BaseService
      */
     public function updateOrCreate(array $where, array $data) {
         return $this->model->updateOrCreate($where, $data);
+    }
+
+    /**
+     * @param array $where
+     * @return Builder
+     */
+    public function where(array $where)
+    {
+        return $this->model->where($where);
+    }
+
+    /**
+     * @param array $where
+     * @return Builder
+     */
+    public function whereNull(array $where)
+    {
+        return $this->model->whereNull($where);
+    }
+
+    /**
+     * @param array $where
+     * @return Builder
+     */
+    public function whereNotNull(array $where)
+    {
+        return $this->model->whereNotNull($where);
+    }
+
+
+    /**
+     * @param array $where
+     * @param $columns
+     * @return Builder
+     */
+    public function getWhere(array $where, $columns=['*'])
+    {
+        return $this->model->where($where)->get($columns);
+    }
+
+    /**
+     * Find By columns
+     *
+     * @param $array
+     * @return Builder|Model
+     */
+    public function findBy($array)
+    {
+        return $this->model->where($array)->firstOrFail();
     }
 
     /**

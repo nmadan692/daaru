@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
+
 /**
  * @param null $guard
  * @return mixed
@@ -19,5 +21,14 @@ function adminUser($attributes = null) {
     }
     else {
         return me('admin');
+    }
+}
+
+function getImageUrl($image = null) {
+    if($image) {
+        return Storage::url($image);
+    }
+    else {
+        return asset('front/img/liquor/liquor.png');
     }
 }

@@ -47,10 +47,10 @@
                 <nav class="header__menu">
                     <ul>
                         <li class="active"><a href="{{ route('home') }}">Home</a></li>
-                        <li><a href="{{ route('shop.grid') }}">Shop</a></li>
+                        <li><a href="{{ route('products') }}">Products</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="header__menu__dropdown">
-                                <li><a href="{{ route('shop.details') }}">Shop Details</a></li>
+                                <li><a href="">Shop Details</a></li>
                                 <li><a href="{{ route('shoping.cart') }}">Shoping Cart</a></li>
                                 <li><a href="{{ route('checkout') }}">Check Out</a></li>
                                 <li><a href="{{ route('blog') }}">Blog Details</a></li>

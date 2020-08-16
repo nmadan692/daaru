@@ -2,9 +2,11 @@
     @if($label)
         <label for="{{$labelFor}}">{{ $label }}</label>
     @endif
-    <input type="file" class="form-control m-input m-input--air {{ $inputClass ?? '' }}" id="{{ $inputId ?? ''}}" name="{{$name}}" value="{{ $value }}">
-        <img src="https://cdn.britannica.com/55/174255-050-526314B6/brown-Guernsey-cow.jpg" id="preview-image" alt="">
-    @if($helpText)
+        <input type="file" class="form-control m-input m-input--air {{ $inputClass ?? '' }}" id="{{ $inputId ?? ''}}" name="{{$name}}"  onchange="showMyImage(this)" style="display: none;" />
+        <div class="image-div">
+            <img class="input-image" id="preview-image"  src="{{ getImageUrl($value) }}" alt="image" onclick="clickImage()" />
+        </div>
+        @if($helpText)
         <span class="m-form__help {{ $helpClass }}">{{ $helpText }}</span>
     @endif
     @if($errors)
@@ -12,16 +14,45 @@
     @endif
 </div>
 
+@push('style')
+    <style>
+        .input-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+        .image-div {
+            margin-top: 10px;
+            width: 400px;
+            height: 280px;
+            background: #bfd4db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+@endpush
 @push('script')
     <script>
-        $(document).ready(function () {
-            var id = {!! json_encode($inputId) !!}
-            $('#' + id).on('change', function () {
-                var reader = new FileReader();
-                reader.onload =function (e) {
-                    $('#preview-image').attr('src', e.target.result).width(400).height(400);
-                };
-            });
-        })
+            function clickImage() {
+                $("input[type='file']").click();
+            }
+
+            function showMyImage(fileInput) {
+                var files = fileInput.files;
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    var img=document.getElementById("preview-image");
+                    img.file = file;
+                    var reader = new FileReader();
+                    reader.onload = (function(aImg) {
+                        return function(e) {
+                            aImg.src = e.target.result;
+                        };
+                    })(img);
+                    reader.readAsDataURL(file);
+                }
+            }
     </script>
 @endpush

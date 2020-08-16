@@ -3,6 +3,8 @@
 
 <!-- begin::Head -->
 @include('admin.includes.header-link')
+@stack('style')
+
 
 <!-- end::Head -->
 
