@@ -8,6 +8,7 @@ use App\Services\General\DatatableService;
 use App\Services\General\Product\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -86,7 +87,7 @@ class ProductController extends Controller
                 'description',
                 'price',
                 'discount',
-                'is%',
+                'is_percent',
                 'quantity',
                 'products.status as status'
 
@@ -142,7 +143,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $this->productService->create($request->all());
+        $image = $request->file('image');
+        $image_name = time() . '.' . $image->getClientOriginalExtension();
+        $storeData = array_merge(
+            $request->all(),
+            [
+                'image' => Storage::putFileAs('product/images', $image, $image_name)
+            ]
+        );
+        $this->productService->create($storeData);
 
         return redirect()->route('admin.product.index');
     }
@@ -181,8 +190,22 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->productService->update($id, $request->all());
-
+        $updateData = $request->all();
+        if($request->file('image')) {
+            $image = $request->file('image');
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $updateData = array_merge(
+                $updateData,
+                [
+                    'image' => Storage::putFileAs('product/images', $image, $image_name)
+                ]);
+        }
+        $product = $this->productService->findOrFail($id);
+        $this->productService->update($id, $updateData);
+        $oldImage = $product->image;
+        if($oldImage && $request->file('image')) {
+            Storage::delete($oldImage);
+        }
         return redirect()->route('admin.product.index');
     }
 

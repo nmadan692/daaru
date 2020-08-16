@@ -17,13 +17,13 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->string('name')->nullable();
-            $table->float('volume')->nullable();
+            $table->string('volume')->nullable();
             $table->string('country')->nullable();
             $table->float('alcohol')->nullable();
             $table->string('description', 1000)->nullable();
             $table->float('price')->nullable();
             $table->float('discount')->nullable();
-            $table->boolean('is%')->default(false)->nullable();
+            $table->boolean('is_percent')->default(false);
             $table->float('quantity')->nullable();
             $table->string('image')->nullable();
             $table->boolean('status')->default(true)->nullable();
