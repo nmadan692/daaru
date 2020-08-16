@@ -33,3 +33,7 @@ Route::name('blog.')->prefix('blog/')->group(function () {
 Route::get('blog/list', 'Blog\BlogController@list')->name('blog.list');
 Route::get('blog/status/change/{id}', 'Blog\BlogController@changeStatus')->name('blog.status.change');
 Route::resource('blog', 'Blog\BlogController');
+
+// Settings
+Route::get('setting/list', 'Setting\SettingController@list')->name('setting.list');
+Route::resource('setting', 'Setting\SettingController');

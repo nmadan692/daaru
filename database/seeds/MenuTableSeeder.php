@@ -45,7 +45,18 @@ class MenuTableSeeder extends Seeder
                 'order' => 2,
                 'status' => true,
                 'route' => 'admin.category.index',
-                'icon' => 'm-menu__link-icon flaticon-line-graph',
+                'icon' => 'm-menu__link-icon fa fa-box',
+                'parent_id' => null,
+                'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
+                'related_route' => null
+            ],
+            [
+                'name' => 'Sub Category',
+                'slug' => 'subcategory',
+                'order' => 3,
+                'status' => true,
+                'route' => 'admin.subcategory.index',
+                'icon' => 'm-menu__link-icon fa fa-box',
                 'parent_id' => null,
                 'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
                 'related_route' => null
@@ -53,10 +64,10 @@ class MenuTableSeeder extends Seeder
             [
                 'name' => 'Brand',
                 'slug' => 'brad',
-                'order' => 3,
+                'order' => 4,
                 'status' => true,
                 'route' => 'admin.brand.index',
-                'icon' => 'm-menu__link-icon flaticon-line-graph',
+                'icon' => 'm-menu__link-icon flaticon-layers',
                 'parent_id' => null,
                 'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
                 'related_route' => null
@@ -64,10 +75,43 @@ class MenuTableSeeder extends Seeder
             [
                 'name' => 'Product',
                 'slug' => 'product',
-                'order' => 4,
+                'order' => 5,
                 'status' => true,
                 'route' => 'admin.product.index',
-                'icon' => 'm-menu__link-icon flaticon-line-graph',
+                'icon' => 'm-menu__link-icon fa fa-cart-plus ',
+                'parent_id' => null,
+                'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
+                'related_route' => null
+            ],
+            [
+                'name' => 'Blog Category',
+                'slug' => 'blogcategory',
+                'order' => 6,
+                'status' => true,
+                'route' => 'admin.blog.category.index',
+                'icon' => 'm-menu__link-icon fa fa-box',
+                'parent_id' => null,
+                'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
+                'related_route' => null
+            ],
+            [
+                'name' => 'Blog',
+                'slug' => 'blog',
+                'order' => 7,
+                'status' => true,
+                'route' => 'admin.blog.index',
+                'icon' => 'm-menu__link-icon fa fa-blogger',
+                'parent_id' => null,
+                'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
+                'related_route' => null
+            ],
+            [
+                'name' => 'Setting',
+                'slug' => 'setting',
+                'order' => 8,
+                'status' => true,
+                'route' => 'admin.setting.index',
+                'icon' => 'm-menu__link-icon fa fa-cog',
                 'parent_id' => null,
                 'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
                 'related_route' => null
