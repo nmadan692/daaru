@@ -2,16 +2,16 @@
 
 @section('content')
     <div class="m-content">
-        <x-tables.datatable :title="'Category'" :table-id="'category'"
+        <x-tables.datatable :title="'Sub Category'" :table-id="'subcategory'"
                             :theads="[
                             'ID',
                             'Name',
                             'Status',
                             'Action']"
-                            :button="['route' => 'admin.category.create',
+                            :button="['route' => 'admin.subcategory.create',
                                       'name' => 'Create',
                                       'icon' => 'la la-plus']"
-                            :url="'/admin/category/list'"
+                            :url="'/admin/subcategory/list'"
                             columns="[
                             { data: 'id', name: 'id' },
                             { data: 'name', name: 'name' },

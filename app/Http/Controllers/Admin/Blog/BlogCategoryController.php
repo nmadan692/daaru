@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\General\Blog\BlogCategoryService;
 use App\Services\General\DatatableService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BlogCategoryController extends Controller
 {
@@ -63,10 +64,24 @@ class BlogCategoryController extends Controller
                 'status'
             ]
         );
+        $query->editColumn('status', function ($data) {
+            $id = $data->id;
+            $name = 'status';
+            $checked = false;
+            $disabled = false;
+            if($data->status == 1) {
+                $checked = true;
+                $disabled = true;
+            }
+            return view('admin.blog.category.switch', compact('name', 'disabled', 'checked', 'id'));
+        });
         $query->addColumn('action', function ($data) use($actionData) {
             $id = $data->id;
             return view('general.datatable.action', compact('actionData', 'id'));
         });
+
+        $query->rawColumns(['status', 'action']);
+
         return $query->make();
     }
 
@@ -150,5 +165,15 @@ class BlogCategoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function changeStatus($id) {
+        $test = $this->blogCategoryService->findOrFail($id);
+        DB::beginTransaction();
+        // event(new TestPublished($test));
+        $test->status = !$test->status;
+        $test->save();
+        DB::commit();
+
+        return;
     }
 }

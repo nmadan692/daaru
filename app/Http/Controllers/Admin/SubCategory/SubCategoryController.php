@@ -1,44 +1,34 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Product;
+namespace App\Http\Controllers\Admin\SubCategory;
 
 use App\Http\Controllers\Controller;
-use App\Services\General\Brand\BrandService;
+use App\Services\General\Category\CategoryService;
 use App\Services\General\DatatableService;
-use App\Services\General\Product\ProductService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class ProductController extends Controller
+class SubCategoryController extends Controller
 {
     /**
-     * @var BrandService
+     * @var CategoryService
      */
-    private $brandService;
-    /**
-     * @var ProductService
-     */
-    private $productService;
+    private $categoryService;
     /**
      * @var DatatableService
      */
     private $datatableService;
 
     /**
-     * ProductController constructor.
-     * @param BrandService $brandService
-     * @param ProductService $productService
+     * SubCategoryController constructor.
+     * @param CategoryService $categoryService
      * @param DatatableService $datatableService
      */
     public function __construct(
-        BrandService $brandService,
-        ProductService $productService,
+        CategoryService $categoryService,
         DatatableService $datatableService
     )
     {
-
-        $this->brandService = $brandService;
-        $this->productService = $productService;
+        $this->categoryService = $categoryService;
         $this->datatableService = $datatableService;
     }
 
@@ -51,57 +41,40 @@ class ProductController extends Controller
             'icon' => true,
             'text' => false,
             'edit' => true,
-            'editUrl' => 'admin.product.edit',
+            'editUrl' => 'admin.subcategory.edit',
             'editIcon' => 'fa fa-edit',
             'editClass' => '',
             'delete' => true,
-            'deleteUrl' => 'admin.product.destroy',
+            'deleteUrl' => 'admin.subcategory.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
-            'view' => true,
-            'viewUrl' => 'admin.product.show',
+            'view' => false,
+            'viewUrl' => 'admin.subcategory.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
         ];
 
         $query = $this->datatableService->getData(
-            'products',
+            'categories',
+            null,
             [
-                [
-                    'name' => 'brands',
-                    'first' => 'products.brand_id',
-                    'second' => 'brands.id',
-                    'joins' => []
-                ]
-
+                'id',
+                'name',
+                'status'
             ],
-            [
-                'products.id as id',
-                'image',
-                'products.name as name',
-                'brands.name as brand_name',
-                'volume',
-                'country',
-                'alcohol',
-                'description',
-                'price',
-                'discount',
-                'is%',
-                'quantity',
-                'products.status as status'
+            null,
+            [],
+            [],
+            ['parent_id']
 
-            ]
         );
         $query->editColumn('status', function ($data) {
             $id = $data->id;
             $name = 'status';
             $checked = false;
             $disabled = false;
-            if($data->status == 1) {
-                $checked = true;
-                $disabled = true;
-            }
-            return view('admin.product.switch', compact('name', 'disabled', 'checked', 'id'));
+
+            return view('admin.category.switch', compact('name', 'disabled', 'checked', 'id'));
         });
         $query->addColumn('action', function ($data) use($actionData) {
             $id = $data->id;
@@ -119,7 +92,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('admin.product.index');
+        return view('admin.subcategory.index');
 
     }
 
@@ -130,8 +103,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $brandName = $this->brandService->all();
-        return view('admin.product.create', compact( 'brandName'));
+        return view('admin.subcategory.create');
+
     }
 
     /**
@@ -142,9 +115,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $this->productService->create($request->all());
+        $this->categoryService->create($request->all());
 
-        return redirect()->route('admin.product.index');
+        return redirect()->route('admin.subcategory.index');
+
     }
 
     /**
@@ -166,10 +140,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = $this->productService->findOrFail($id);
-        $brandName = $this->brandService->all();
-
-        return view('admin.product.edit', compact('product', 'brandName'));
+        //
     }
 
     /**
@@ -181,9 +152,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->productService->update($id, $request->all());
-
-        return redirect()->route('admin.product.index');
+        //
     }
 
     /**
@@ -195,15 +164,5 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function changeStatus($id) {
-        $test = $this->productService->findOrFail($id);
-        DB::beginTransaction();
-        // event(new TestPublished($test));
-        $test->status = !$test->status;
-        $test->save();
-        DB::commit();
-
-        return;
     }
 }

@@ -21,8 +21,12 @@
         </div>
 
         <div class="form-group m-form__group row">
-            <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Description" labelfor="description" name="description" type="text" value="{{  $data['product']->description ?? null }}"></x-inputs.text>
             <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Price" labelfor="price" name="price" type="number" value="{{  $data['name']->price ?? null }}"></x-inputs.text>
+
+        </div>
+
+        <div class="form-group m-form__group row">
+        <x-inputs.ckeditor form-class="col-lg-12" label="Description" labelfor="description" name="description" input-id="description" value="{!! $data['product'] ? $data['product']->description : null !!}"></x-inputs.ckeditor>
         </div>
 
         <div class="form-group m-form__group row">

@@ -1,44 +1,43 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Product;
+namespace App\Http\Controllers\Admin\Blog;
 
 use App\Http\Controllers\Controller;
-use App\Services\General\Brand\BrandService;
+use App\Services\General\Blog\BlogCategoryService;
+use App\Services\General\Blog\BlogService;
 use App\Services\General\DatatableService;
-use App\Services\General\Product\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ProductController extends Controller
+class BlogController extends Controller
 {
     /**
-     * @var BrandService
+     * @var BlogCategoryService
      */
-    private $brandService;
+    private $blogCategoryService;
     /**
-     * @var ProductService
+     * @var BlogService
      */
-    private $productService;
+    private $blogService;
     /**
      * @var DatatableService
      */
     private $datatableService;
 
     /**
-     * ProductController constructor.
-     * @param BrandService $brandService
-     * @param ProductService $productService
+     * BlogController constructor.
+     * @param BlogCategoryService $blogCategoryService
+     * @param BlogService $blogService
      * @param DatatableService $datatableService
      */
     public function __construct(
-        BrandService $brandService,
-        ProductService $productService,
+        BlogCategoryService $blogCategoryService,
+        BlogService $blogService,
         DatatableService $datatableService
     )
     {
-
-        $this->brandService = $brandService;
-        $this->productService = $productService;
+        $this->blogCategoryService = $blogCategoryService;
+        $this->blogService = $blogService;
         $this->datatableService = $datatableService;
     }
 
@@ -51,44 +50,36 @@ class ProductController extends Controller
             'icon' => true,
             'text' => false,
             'edit' => true,
-            'editUrl' => 'admin.product.edit',
+            'editUrl' => 'admin.blog.edit',
             'editIcon' => 'fa fa-edit',
             'editClass' => '',
             'delete' => true,
-            'deleteUrl' => 'admin.product.destroy',
+            'deleteUrl' => 'admin.blog.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
             'view' => true,
-            'viewUrl' => 'admin.product.show',
+            'viewUrl' => 'admin.blog.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
         ];
 
         $query = $this->datatableService->getData(
-            'products',
+            'blogs',
             [
                 [
-                    'name' => 'brands',
-                    'first' => 'products.brand_id',
-                    'second' => 'brands.id',
+                    'name' => 'blog_categories',
+                    'first' => 'blogs.blog_category_id',
+                    'second' => 'blog_categories.id',
                     'joins' => []
                 ]
 
             ],
             [
-                'products.id as id',
-                'image',
-                'products.name as name',
-                'brands.name as brand_name',
-                'volume',
-                'country',
-                'alcohol',
+                'blogs.id as id',
+                'blogs.image as image',
+                'blogs.name as name',
                 'description',
-                'price',
-                'discount',
-                'is%',
-                'quantity',
-                'products.status as status'
+                'blogs.status as status'
 
             ]
         );
@@ -101,16 +92,18 @@ class ProductController extends Controller
                 $checked = true;
                 $disabled = true;
             }
-            return view('admin.product.switch', compact('name', 'disabled', 'checked', 'id'));
+            return view('admin.blog.blog.switch', compact('name', 'disabled', 'checked', 'id'));
         });
         $query->addColumn('action', function ($data) use($actionData) {
             $id = $data->id;
             return view('general.datatable.action', compact('actionData', 'id'));
         });
+
         $query->rawColumns(['status', 'action']);
 
-        return $query->make();
+        return $query->make(true);
     }
+
 
     /**
      * Display a listing of the resource.
@@ -119,8 +112,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('admin.product.index');
-
+        return view('admin.blog.blog.index');
     }
 
     /**
@@ -130,8 +122,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $brandName = $this->brandService->all();
-        return view('admin.product.create', compact( 'brandName'));
+        $blogCategory = $this->blogCategoryService->all();
+        return view('admin.blog.blog.create', compact( 'blogCategory'));
     }
 
     /**
@@ -142,9 +134,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $this->productService->create($request->all());
+        $this->blogService->create($request->all());
 
-        return redirect()->route('admin.product.index');
+        return redirect()->route('admin.blog.index');
+
     }
 
     /**
@@ -166,10 +159,10 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = $this->productService->findOrFail($id);
-        $brandName = $this->brandService->all();
+        $blog = $this->blogService->findOrFail($id);
+        $blogCategory = $this->blogCategoryService->all();
 
-        return view('admin.product.edit', compact('product', 'brandName'));
+        return view('admin.blog.blog.edit', compact('blog', 'blogCategory'));
     }
 
     /**
@@ -181,9 +174,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->productService->update($id, $request->all());
+        $this->blogService->update($id, $request->all());
 
-        return redirect()->route('admin.product.index');
+        return redirect()->route('admin.blog.index');
     }
 
     /**
@@ -196,8 +189,9 @@ class ProductController extends Controller
     {
         //
     }
+
     public function changeStatus($id) {
-        $test = $this->productService->findOrFail($id);
+        $test = $this->blogService->findOrFail($id);
         DB::beginTransaction();
         // event(new TestPublished($test));
         $test->status = !$test->status;
