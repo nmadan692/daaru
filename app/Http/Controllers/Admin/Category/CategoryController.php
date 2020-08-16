@@ -8,7 +8,7 @@ use App\Http\Requests\Admin\CategoryRequest;
 use App\Services\General\category\CategoryService;
 use App\Services\General\DatatableService;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 
 class CategoryController extends Controller
@@ -53,7 +53,7 @@ class CategoryController extends Controller
             'deleteUrl' => 'admin.category.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
-            'view' => true,
+            'view' => false,
             'viewUrl' => 'admin.category.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
@@ -64,13 +64,30 @@ class CategoryController extends Controller
             null,
             [
                 'id',
-                'name'
-            ]
+                'name',
+                'status'
+            ],
+            null,
+            [],
+            ['parent_id']
         );
+        $query->editColumn('status', function ($data) {
+            $id = $data->id;
+            $name = 'status';
+            $checked = false;
+            $disabled = false;
+            if($data->status == 1) {
+                $checked = true;
+                $disabled = true;
+            }
+            return view('admin.category.switch', compact('name', 'disabled', 'checked', 'id'));
+        });
         $query->addColumn('action', function ($data) use($actionData) {
             $id = $data->id;
             return view('general.datatable.action', compact('actionData', 'id'));
         });
+        $query->rawColumns(['status', 'action']);
+
         return $query->make();
     }
 
@@ -156,5 +173,15 @@ class CategoryController extends Controller
     {
         $this->categoryService->findOrFail($id)->delete();
         return redirect()->route('admin.category.index');
+    }
+    public function changeStatus($id) {
+        $test = $this->categoryService->findOrFail($id);
+        DB::beginTransaction();
+        // event(new TestPublished($test));
+        $test->status = !$test->status;
+        $test->save();
+        DB::commit();
+
+        return;
     }
 }

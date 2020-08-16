@@ -7,6 +7,7 @@ use App\Services\General\Brand\BrandService;
 use App\Services\General\Category\CategoryService;
 use App\Services\General\DatatableService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BrandController extends Controller
 {
@@ -84,10 +85,23 @@ class BrandController extends Controller
 
             ]
         );
+        $query->editColumn('status', function ($data) {
+            $id = $data->id;
+            $name = 'status';
+            $checked = false;
+            $disabled = false;
+            if($data->status == 1) {
+                $checked = true;
+                $disabled = true;
+            }
+            return view('admin.brand.switch', compact('name', 'disabled', 'checked', 'id'));
+        });
         $query->addColumn('action', function ($data) use($actionData) {
             $id = $data->id;
             return view('general.datatable.action', compact('actionData', 'id'));
         });
+        $query->rawColumns(['status', 'action']);
+
         return $query->make();
     }
 
@@ -174,5 +188,15 @@ class BrandController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function changeStatus($id) {
+        $test = $this->brandService->findOrFail($id);
+        DB::beginTransaction();
+        // event(new TestPublished($test));
+        $test->status = !$test->status;
+        $test->save();
+        DB::commit();
+
+        return;
     }
 }

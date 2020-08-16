@@ -15,7 +15,7 @@ class DatatableService
      * @return mixed
      * @throws \Exception
      */
-    public function getData($table, $joins = [], $columns = [], $groupBy = null) {
+    public function getData($table, $joins = [], $columns = [], $groupBy = null, $where = [], $whereNull = [], $whereNotNull = []) {
         $data = DB::table($table);
         if($joins) {
             $this->getInnerJoin($data, $joins);
@@ -24,6 +24,18 @@ class DatatableService
         if($groupBy)
         {
             $data->groupBy($groupBy);
+        }
+        if($where)
+        {
+            $data->where($where);
+        }
+        if($whereNull)
+        {
+            $data->whereNull($whereNull);
+        }
+        if($whereNotNull)
+        {
+            $data->whereNotNull($whereNotNull);
         }
 
         return Datatables::of($data);
