@@ -23,6 +23,9 @@ class CreateSettingsTable extends Migration
             $table->string('viber')->nullable();
             $table->time('delivery_start_hour')->nullable();
             $table->time('delivery_end_hour')->nullable();
+            $table->string('facebook')->default('#')->nullable();
+            $table->string('instagram')->default('#')->nullable();
+            $table->string('twitter')->default('#')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

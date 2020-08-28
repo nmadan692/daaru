@@ -37,3 +37,8 @@ Route::resource('blog', 'Blog\BlogController');
 // Settings
 Route::get('setting/list', 'Setting\SettingController@list')->name('setting.list');
 Route::resource('setting', 'Setting\SettingController');
+
+// Settings
+Route::get('contact/list', 'Contact\ContactController@list')->name('contact.list');
+Route::resource('contact', 'Contact\ContactController');
+

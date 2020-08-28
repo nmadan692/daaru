@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\ViewComposer\AdminMenuComposer;
+use App\ViewComposer\SettingComposer;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +29,11 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer(
             ['admin.includes.sidebar'],
             AdminMenuComposer::class
+        );
+
+        View::composer(
+            ['front.layouts.master'],
+            SettingComposer::class
         );
 
     }

@@ -219,12 +219,15 @@ class ProductController extends Controller
     {
         //
     }
+
+    /**
+     * @param $id
+     */
     public function changeStatus($id) {
-        $test = $this->productService->findOrFail($id);
+        $product = $this->productService->findOrFail($id);
         DB::beginTransaction();
-        // event(new TestPublished($test));
-        $test->status = !$test->status;
-        $test->save();
+        $product->status = !$product->status;
+        $product->save();
         DB::commit();
 
         return;

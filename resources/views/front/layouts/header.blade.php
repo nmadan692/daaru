@@ -6,28 +6,19 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="header__top__left">
                         <ul>
-                            <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                            <li>Free Shipping for all Order of $99</li>
+                            <li><i class="fa fa-envelope"></i> {{ $setting->email }}</li>
+                            <li><b>Delivery Hours : </b>{{ $setting->delivery_start_hour }} to {{ $setting->delivery_end_hour }}</li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="header__top__right">
                         <div class="header__top__right__social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                            <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                            <a href="{{ $setting->facebook }}"><i class="fa fa-facebook"></i></a>
+                            <a href="{{ $setting->twitter }}"><i class="fa fa-twitter"></i></a>
+                            <a href="{{ $setting->instagram }}"><i class="fa fa-instagram"></i></a>
                         </div>
-                        <div class="header__top__right__language">
-                            <img src="{{asset('front')}}/img/language.png" alt="">
-                            <div>English</div>
-                            <span class="arrow_carrot-down"></span>
-                            <ul>
-                                <li><a href="#">Spanis</a></li>
-                                <li><a href="#">English</a></li>
-                            </ul>
-                        </div>
+
                         <div class="header__top__right__auth">
                             <a href="#"><i class="fa fa-user"></i> Login</a>
                         </div>
@@ -40,24 +31,16 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="header__logo">
-                    <a href="{{ route('home') }}"><img src="{{asset('front')}}/img/logo.png" alt=""></a>
+                    <a href="{{ route('home') }}"><img src="{{ getImageUrl($setting->logo) }}" alt="Daaru Dot Com"></a>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6" style="text-align: center;">
                 <nav class="header__menu">
                     <ul>
-                        <li class="active"><a href="{{ route('home') }}">Home</a></li>
-                        <li><a href="{{ route('products') }}">Products</a></li>
-                        <li><a href="#">Pages</a>
-                            <ul class="header__menu__dropdown">
-                                <li><a href="">Shop Details</a></li>
-                                <li><a href="{{ route('shoping.cart') }}">Shoping Cart</a></li>
-                                <li><a href="{{ route('checkout') }}">Check Out</a></li>
-                                <li><a href="{{ route('blog') }}">Blog Details</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="{{ route('blog') }}">Blog</a></li>
-                        <li><a href="{{ route('contact') }}">Contact</a></li>
+                        <li class="{{  request()->segment(1) == ''? 'active': ''   }}"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="{{  request()->segment(1) == 'products'? 'active': ''   }}"><a href="{{ route('products') }}">Products</a></li>
+                        <li class="{{  request()->segment(1) == 'blog'? 'active': ''   }}"><a href="{{ route('blog') }}">Blog</a></li>
+                        <li class="{{  request()->segment(1) == 'contact'? 'active': ''   }}"><a href="{{ route('contact.index') }}">Contact</a></li>
                     </ul>
                 </nav>
             </div>

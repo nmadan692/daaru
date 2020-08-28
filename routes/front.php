@@ -1,3 +1,4 @@
+
 <?php
 // Homepage
 Route::get('/', 'HomeController@index')->name('home');
@@ -8,7 +9,8 @@ Route::get('/blog/{id}', 'BlogController@show')->name('blog.details');
 
 
 // contact
-Route::get('/contact', 'ContactController@index')->name('contact');
+Route::resource('/contact', 'ContactController');
+
 
 // checkout
 Route::get('/checkout', 'CheckoutController@index')->name('checkout');

@@ -1,68 +1,60 @@
 @extends('front.layouts.master')
 @section('content')
-    <!-- Hero Section Begin -->
-    <section class="hero hero-normal">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>All departments</span>
-                        </div>
-                        <ul>
-                            <li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <div class="hero__search">
-                        <div class="hero__search__form">
-                            <form action="#">
-                                <div class="hero__search__categories">
-                                    All Categories
-                                    <span class="arrow_carrot-down"></span>
-                                </div>
-                                <input type="text" placeholder="What do yo u need?">
-                                <button type="submit" class="site-btn">SEARCH</button>
-                            </form>
-                        </div>
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
-                            </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+65 11.188.888</h5>
-                                <span>support 24/7 time</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Hero Section End -->
+    @push('style')
+        <style>
+       .container{
+           margin-top: 1%;
+           margin-bottom: 1%;
+            }
+        /* Style the tab */
+        .tab {
+        overflow: hidden;
+        background-color:#f28e1c;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+        background-color: #ffcc00;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+        background-color: #ffcc00;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #f28e1c;
+        border-top: none;
+        }
+        </style>
+    @endpush
 
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="{{asset('front')}}/img/breadcrumb.jpg">
+    <section class="breadcrumb-section set-bg" data-setbg="{{asset('front')}}/img/daaruu.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Contact Us</h2>
+                        <h2>Daaruu Dot Com</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <span>Contact Us</span>
+                            <a href="{{ route('home')}}">Home</a>
+
+                            <span>Contact</span>
                         </div>
                     </div>
                 </div>
@@ -71,6 +63,13 @@
     </section>
     <!-- Breadcrumb Section End -->
 
+    <div class="container">
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Dharan</button>
+        <button class="tablinks" onclick="openCity(event, 'Paris')">Biratnagar</button>
+    </div>
+
+    <div id="London" class="tabcontent">
     <!-- Contact Section Begin -->
     <section class="contact spad">
         <div class="container">
@@ -79,34 +78,75 @@
                     <div class="contact__widget">
                         <span class="icon_phone"></span>
                         <h4>Phone</h4>
-                        <p>+01-3-8888-6868</p>
+                        <p>{{ $setting->phone }}</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_pin_alt"></span>
                         <h4>Address</h4>
-                        <p>60-49 Road 11378 New York</p>
+                        <p>{{ $setting->address }}</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_clock_alt"></span>
                         <h4>Open time</h4>
-                        <p>10:00 am to 23:00 pm</p>
+                        <p>{{ $setting->delivery_start_hour}} to {{ $setting->delivery_start_hour }}</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_mail_alt"></span>
                         <h4>Email</h4>
-                        <p>hello@colorlib.com</p>
+                        <p>{{ $setting->email }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- Contact Section End -->
+    </div>
+
+    <div id="Paris" class="tabcontent">
+        <!-- Contact Section Begin -->
+        <section class="contact spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                        <div class="contact__widget">
+                            <span class="icon_phone"></span>
+                            <h4>Phone Biratnagar</h4>
+                            <p>{{ $setting->phone }}</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                        <div class="contact__widget">
+                            <span class="icon_pin_alt"></span>
+                            <h4>Address Biratnagar</h4>
+                            <p>{{ $setting->address }}</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                        <div class="contact__widget">
+                            <span class="icon_clock_alt"></span>
+                            <h4>Open time Biratnagar</h4>
+                            <p>{{ $setting->delivery_start_hour}} to {{ $setting->delivery_start_hour }}</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                        <div class="contact__widget">
+                            <span class="icon_mail_alt"></span>
+                            <h4>Email Biratnagar</h4>
+                            <p>{{ $setting->email }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Contact Section End -->
+    </div>
+    </div>
 
     <!-- Map Begin -->
     <div class="map">
@@ -136,16 +176,17 @@
                     </div>
                 </div>
             </div>
-            <form action="#">
+            <form action="{{ route('contact.store') }}" method="post">
+                @csrf
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Your name">
+                        <input type="text" name="name" placeholder="Your name">
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Your Email">
+                        <input type="text" name="email" placeholder="Your Email">
                     </div>
                     <div class="col-lg-12 text-center">
-                        <textarea placeholder="Your message"></textarea>
+                        <textarea placeholder="Your message" name="message"></textarea>
                         <button type="submit" class="site-btn">SEND MESSAGE</button>
                     </div>
                 </div>
@@ -153,4 +194,25 @@
         </div>
     </div>
     <!-- Contact Form End -->
+    @push('script')
+
+        <script>
+            function openCity(evt, cityName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(cityName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+        </script>
+    @endpush
 @endsection
