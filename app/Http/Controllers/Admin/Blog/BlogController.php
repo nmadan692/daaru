@@ -8,6 +8,9 @@ use App\Services\General\Blog\BlogService;
 use App\Services\General\DatatableService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class BlogController extends Controller
 {
@@ -76,13 +79,16 @@ class BlogController extends Controller
             ],
             [
                 'blogs.id as id',
-                'blogs.image as image',
+                'blog_categories.name as blog_category_name',
                 'blogs.name as name',
                 'description',
                 'blogs.status as status'
 
             ]
         );
+        $query->editColumn('description', function ($data) {
+            return  strip_tags(Str::limit($data->description,100));
+        });
         $query->editColumn('status', function ($data) {
             $id = $data->id;
             $name = 'status';
@@ -99,7 +105,7 @@ class BlogController extends Controller
             return view('general.datatable.action', compact('actionData', 'id'));
         });
 
-        $query->rawColumns(['status', 'action']);
+        $query->rawColumns(['description', 'status', 'action']);
 
         return $query->make(true);
     }
@@ -134,7 +140,20 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        $this->blogService->create($request->all());
+
+        $image = $request->file('image');
+        $image_name = time() . '.' . $image->getClientOriginalExtension();
+        $resizedImage = Image::make($image);
+
+        $storeData = array_merge(
+            $request->all(),
+            [
+                'image' => Storage::putFileAs('blog/images/', $image, $image_name)
+            ]
+        );
+        Storage::put('200x300/blog/images/'.$image_name, $resizedImage->resize(200,300)->encode());
+        Storage::put('300x400/blog/images/'.$image_name, $resizedImage->resize(300,400)->encode());
+        $this->blogService->create($storeData);
 
         return redirect()->route('admin.blog.index');
 
@@ -174,7 +193,22 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->blogService->update($id, $request->all());
+        $updateData = $request->all();
+        if($request->file('image')) {
+            $image = $request->file('image');
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $updateData = array_merge(
+                $updateData,
+                [
+                    'image' => Storage::putFileAs('blog/images', $image, $image_name)
+                ]);
+        }
+        $blog = $this->blogService->findOrFail($id);
+        $this->blogService->update($id, $updateData);
+        $oldImage = $blog->image;
+        if($oldImage && $request->file('image')) {
+            Storage::delete($oldImage);
+        }
 
         return redirect()->route('admin.blog.index');
     }

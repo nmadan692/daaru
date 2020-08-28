@@ -157,6 +157,23 @@ abstract class BaseService
     }
 
     /**
+     * @param $take
+     * @param string $orderBy
+     * @param string $orderColumn
+     * @return mixed
+     */
+    public function take($take=3, $orderBy='asc', $orderColumn='id') {
+        return $this->model->take($take)->orderBy($orderColumn, $orderBy)->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function firstOrFail() {
+        return $this->model->firstOrFail();
+    }
+
+    /**
      * @return mixed
      */
     public abstract  function model();

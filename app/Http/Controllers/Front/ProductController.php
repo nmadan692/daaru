@@ -88,7 +88,7 @@ class ProductController extends Controller
             });
         }
 
-        $products = $products->get();
+        $products = $products->paginate(12);
 
         return view('front.products.index', compact('categories', 'subCategories', 'brands', 'products'));
     }

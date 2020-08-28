@@ -5,12 +5,13 @@
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer__about">
                     <div class="footer__about__logo">
-                        <a href="./index.html"><img src="{{asset('front')}}/img/logo.png" alt=""></a>
+                        <a href="./index.html"><img src="{{ getImageUrl($setting->logo) }}" alt=""></a>
                     </div>
                     <ul>
-                        <li>Address: 60-49 Road 11378 New York</li>
-                        <li>Phone: +65 11.188.888</li>
-                        <li>Email: hello@colorlib.com</li>
+                        <li>Address: {{ $setting->address }}</li>
+                        <li>Phone: {{ $setting->phone }}</li>
+                        <li>Viber: {{ $setting->viber }}</li>
+                        <li>Email: {{ $setting->email }}</li>
                     </ul>
                 </div>
             </div>
@@ -37,17 +38,12 @@
             </div>
             <div class="col-lg-4 col-md-12">
                 <div class="footer__widget">
-                    <h6>Join Our Newsletter Now</h6>
-                    <p>Get E-mail updates about our latest shop and special offers.</p>
-                    <form action="#">
-                        <input type="text" placeholder="Enter your mail">
-                        <button type="submit" class="site-btn">Subscribe</button>
-                    </form>
+                    <h6>Join Our Social Links</h6>
+
                     <div class="footer__widget__social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-pinterest"></i></a>
+                        <a href="{{ $setting->facebook }}"><i class="fa fa-facebook"></i></a>
+                        <a href="{{ $setting->instagram }}"><i class="fa fa-instagram"></i></a>
+                        <a href="{{ $setting->twitter }}"><i class="fa fa-twitter"></i></a>
                     </div>
                 </div>
             </div>
@@ -56,9 +52,12 @@
             <div class="col-lg-12">
                 <div class="footer__copyright">
                     <div class="footer__copyright__text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
-                    <div class="footer__copyright__payment"><img src="{{asset('front')}}/img/payment-item.png" alt=""></div>
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved |
+                        {{ $setting->name }} </div>
+                    <div class="footer__copyright__payment">
+                        Designed  by <a href="https://softmine.com.np" target="_blank">SoftMine Technologies</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,37 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Setting;
+namespace App\Http\Controllers\Admin\Contact;
 
 use App\Http\Controllers\Controller;
 use App\Services\General\DatatableService;
-use App\Services\General\Setting\SettingService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 
-class SettingController extends Controller
+class ContactController extends Controller
 {
-    /**
-     * @var SettingService
-     */
-    private $settingService;
     /**
      * @var DatatableService
      */
     private $datatableService;
 
     /**
-     * SettingController constructor.
-     * @param SettingService $settingService
+     * ContactController constructor.
      * @param DatatableService $datatableService
      */
     public function __construct(
-        SettingService $settingService,
         DatatableService $datatableService
-
     )
     {
-        $this->settingService = $settingService;
         $this->datatableService = $datatableService;
     }
 
@@ -43,36 +32,28 @@ class SettingController extends Controller
         $actionData = [
             'icon' => true,
             'text' => false,
-            'edit' => true,
-            'editUrl' => 'admin.setting.edit',
+            'edit' => false,
+            'editUrl' => 'admin.contact.edit',
             'editIcon' => 'fa fa-edit',
             'editClass' => '',
             'delete' => true,
-            'deleteUrl' => 'admin.setting.destroy',
+            'deleteUrl' => 'admin.contact.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
             'view' => true,
-            'viewUrl' => 'admin.setting.show',
+            'viewUrl' => 'admin.contact.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
         ];
 
         $query = $this->datatableService->getData(
-            'settings',
+            'contacts',
             null,
             [
                 'id',
-                'logo',
                 'name',
-                'phone',
-                'viber',
                 'email',
-                'address',
-                'delivery_start_hour',
-                'delivery_end_hour',
-                'facebook',
-                'instagram',
-                'twitter'
+                'message'
             ]
         );
 
@@ -83,8 +64,6 @@ class SettingController extends Controller
 
         return $query->make();
     }
-
-
     /**
      * Display a listing of the resource.
      *
@@ -92,7 +71,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        return view('admin.setting.index');
+        return view('admin.contact.index');
 
     }
 
@@ -103,8 +82,7 @@ class SettingController extends Controller
      */
     public function create()
     {
-        return view('admin.setting.create');
-
+        //
     }
 
     /**
@@ -115,25 +93,7 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-
-        $image = $request->file('logo');
-        $image_name = time() . '.' . $image->getClientOriginalExtension();
-        $resizedImage = Image::make($image);
-
-        $storeData = array_merge(
-            $request->all(),
-            [
-                'logo' => Storage::putFileAs('setting/images/', $image, $image_name)
-            ]
-        );
-        Storage::put('200x300/setting/images/'.$image_name, $resizedImage->resize(200,300)->encode());
-        Storage::put('300x400/setting/images/'.$image_name, $resizedImage->resize(300,400)->encode());
-        $this->settingService->create($storeData);
-
-
-        return redirect()->route('admin.setting.index');
-
-
+        //
     }
 
     /**
@@ -153,11 +113,9 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
-        $setting = $this->settingService->findOrFail($id);
-
-        return view('admin.setting.edit', compact('setting'));
+        //
     }
 
     /**
@@ -169,25 +127,7 @@ class SettingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $updateData = $request->all();
-        if($request->file('logo')) {
-            $image = $request->file('logo');
-            $image_name = time() . '.' . $image->getClientOriginalExtension();
-            $updateData = array_merge(
-                $updateData,
-                [
-                    'logo' => Storage::putFileAs('setting/images', $image, $image_name)
-                ]);
-        }
-        $setting = $this->settingService->findOrFail($id);
-
-        $this->settingService->update($id, $updateData);
-        $oldImage = $setting->logo;
-        if($oldImage && $request->file('logo')) {
-            Storage::delete($oldImage);
-        }
-
-        return redirect()->route('admin.setting.index');
+        //
     }
 
     /**

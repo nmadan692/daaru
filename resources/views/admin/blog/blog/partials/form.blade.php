@@ -2,21 +2,19 @@
     <x-slot name="headTitle"> {{ $data['form-title'] }}</x-slot>
     <x-slot name="content">
         <div class="form-group m-form__group row">
-            <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Image" labelfor="image" name="image" type="file" value="{{  $data['blog']->image ?? null }}"></x-inputs.text>
             <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Title" labelfor="name" name="name" type="text" value="{{  $data['blog']->name ?? null }}"></x-inputs.text>
-        </div>
-
-        <div class="form-group m-form__group row">
-
             <x-inputs.bootstrap-select form-class="col-lg-6" label="Category" labelfor="category" name="blog_category_id"
                                        select-id="category" placeHolder="Select Category" :options="$blogCategory" optionText="name"
                                        optionValue="id">
 
             </x-inputs.bootstrap-select>
         </div>
+
+
         <div class="form-group m-form__group row">
 
             <x-inputs.ckeditor form-class="col-lg-12" label="News" labelfor="news" name="description" input-id="description" value="{!! $data['blog'] ? $data['blog']->description : null !!}"></x-inputs.ckeditor>
+            <x-inputs.image form-class="col-lg-6" :errors="$errors" label="Image" labelfor="image" name="image" value="{{  $data['blog']->image ?? null }}"></x-inputs.image>
 
         </div>
 

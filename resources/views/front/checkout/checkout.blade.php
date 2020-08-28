@@ -1,5 +1,23 @@
 @extends('front.layouts.master')
 @section('content')
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{{asset('front')}}/img/daaruu.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Daaruu Dot Com</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{{ route('home')}}">Home</a>
+                            <a href="{{ route('product')}}">Product</a>
+                            <span>Checkout</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
 
     <!-- Hero Section Begin -->
     <section class="hero hero-normal">

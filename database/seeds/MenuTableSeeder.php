@@ -100,7 +100,7 @@ class MenuTableSeeder extends Seeder
                 'order' => 7,
                 'status' => true,
                 'route' => 'admin.blog.index',
-                'icon' => 'm-menu__link-icon fa fa-blogger',
+                'icon' => 'm-menu__link-icon fa fa-book-reader',
                 'parent_id' => null,
                 'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
                 'related_route' => null
@@ -112,6 +112,17 @@ class MenuTableSeeder extends Seeder
                 'status' => true,
                 'route' => 'admin.setting.index',
                 'icon' => 'm-menu__link-icon fa fa-cog',
+                'parent_id' => null,
+                'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
+                'related_route' => null
+            ],
+            [
+                'name' => 'Contact',
+                'slug' => 'contact',
+                'order' => 9,
+                'status' => true,
+                'route' => 'admin.contact.index',
+                'icon' => 'm-menu__link-icon fa fa-comment-dots',
                 'parent_id' => null,
                 'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
                 'related_route' => null
