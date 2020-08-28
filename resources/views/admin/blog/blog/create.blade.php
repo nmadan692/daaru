@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="m-content">
-        <div class="m-content">
             @include('admin.blog.blog.partials.form',
                         $data=[
                             'form-action' => 'admin.blog.store',
@@ -12,6 +11,5 @@
                             'blog' => null
                         ]
             )
-        </div>
     </div>
 @endsection

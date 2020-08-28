@@ -1,55 +1,49 @@
-<div class="m-portlet">
+<div class="m-portlet m-portlet--mobile">
     @if($title)
         <div class="m-portlet__head">
-            <div class="m-portlet__head-wrapper">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <h3 class="m-portlet__head-text">
-                            {{ $title }}
-                        </h3>
-                    </div>
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        {{ $title }}
+                    </h3>
                 </div>
+            </div>
                 @if($button)
                     <div class="m-portlet__head-tools">
-                        <a href="{{ route($button['route']) }}"
-                           class="btn btn-primary m-btn m-btn--icon m-btn--wide m-btn--md m--margin-right-10">
-                            <span>
-                                <i class="{{ $button['icon'] }}"></i>
-                                <span>{{ $button['name'] }}</span>
-                            </span>
-                        </a>
+                        <ul class="m-portlet__nav">
+                            <li class="m-portlet__nav-item">
+                                <a href="{{ route($button['route']) }}" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+                                    <span>
+                                        <i class="{{ $button['icon'] }}"></i>
+                                        <span>{{ $button['name'] }}</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 @endif
-            </div>
         </div>
     @endif
+
     <div class="m-portlet__body">
         @if($contentHeader)
             {{ $contentHeader }}
-        @endif
-
-    <!--begin::Section-->
-        <div class="m-section">
-            <div class="m-section__content">
-                <table class="table table-bordered table-hover {{ $tableClass }}" id="{{ $tableId }}">
-                    <thead>
-                    <tr>
-                        @foreach($theads as $thead)
-                            <th>{{ $thead }}</th>
-                        @endforeach
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!--end::Section-->
+        @endif`
+        <!--begin: Datatable -->
+        <table class="table table-striped- table-bordered table-hover table-checkable {{ $tableClass }}" id="{{ $tableId }}">
+            <thead>
+                <tr>
+                    @foreach($theads as $thead)
+                        <th>{{ $thead }}</th>
+                    @endforeach
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
-
-    <!--end::Form-->
 </div>
+
 
 @push('script')
     <script>

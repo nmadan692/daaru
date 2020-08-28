@@ -24,4 +24,5 @@
                             ]">
         </x-tables.datatable>
     </div>
+
 @endsection

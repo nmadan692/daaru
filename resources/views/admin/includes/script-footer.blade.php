@@ -13,7 +13,10 @@
 <!--begin::Page Scripts -->
 <script src="{{asset('admin/assets/app/js/dashboard.js')}}" type="text/javascript"></script>
 
-<script src="{{asset('general/datatables/js/datatables.min.js')}}"></script>
+<script src="{{ asset('admin/assets/vendors/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
+
+{{--<script src="{{ asset('admin/assets/demo/demo12/custom/crud/datatables/basic/basic.js') }}" type="text/javascript"></script>--}}
+{{--<script src="{{asset('general/datatables/js/datatables.min.js')}}"></script>--}}
 
 <script src="{{ asset('general/ckeditor/ckeditor.js') }}"></script>
 <script src="{{asset('admin/assets/demo/demo12/custom/crud/forms/widgets/select2.js')}}" type="text/javascript"></script>

@@ -1,4 +1,4 @@
-<div class="m-portlet {{ $portletClass ?? '' }}">
+<div class="m-portlet m-portlet--mobile {{ $portletClass ?? '' }}">
     @if($headTitle)
         <div class="m-portlet__head {{ $headClass ?? '' }}">
             <div class="m-portlet__head-caption {{ $headCaptionClass ?? ''}}">
