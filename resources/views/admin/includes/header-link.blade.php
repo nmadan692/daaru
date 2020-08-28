@@ -27,13 +27,12 @@
 
     <!--end::Global Theme Styles -->
 
-    <!--begin::Page Vendors Styles -->
-    <link href="{{asset('admin/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css" />
-
     <!--RTL version:<link href="assets/vendors/custom/fullcalendar/fullcalendar.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
 
     <!--end::Page Vendors Styles -->
     <link rel="shortcut icon" href="{{asset('admin/assets/demo/demo12/media/img/logo/favicon.ico')}}" />
-    <link  href="{{asset('general/datatables/css/datatables.min.css')}}" rel="stylesheet">
+    <link rel="shortcut icon" href="{{asset('admin/assets/vendors/custom/datatables/datatables.bundle.css')}}" />
+
+{{--    <link  href="{{asset('general/datatables/css/datatables.min.css')}}" rel="stylesheet">--}}
     <link rel="stylesheet" href="{{asset('general/assets/css/style.css')}}">
 </head>

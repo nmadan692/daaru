@@ -2,7 +2,7 @@
     <x-slot name="headTitle"> {{ $data['form-title'] }}</x-slot>
     <x-slot name="content">
         <div class="form-group m-form__group row">
-            <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Name" labelfor="name" name="name" type="text" value="{{  $data['name']->name ?? null }}"></x-inputs.text>
+            <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Name" labelfor="name" name="name" type="text" value="{{  $data['product']->name ?? null }}"></x-inputs.text>
             <x-inputs.bootstrap-select form-class="col-lg-6" label="Brand" labelfor="brand" name="brand_id"
                                        select-id="brand" placeHolder="Select Brand" :options="$brandName" optionText="name"
                                        optionValue="id">
@@ -15,8 +15,8 @@
         </div>
 
         <div class="form-group m-form__group row">
-            <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Alcohol" labelfor="alcohol" name="alcohol" type="number" value="{{  $data['name']->alcohol ?? null }}"></x-inputs.text>
-            <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Price" labelfor="price" name="price" type="number" value="{{  $data['name']->price ?? null }}"></x-inputs.text>
+            <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Alcohol" labelfor="alcohol" name="alcohol" type="number" value="{{  $data['product']->alcohol ?? null }}"></x-inputs.text>
+            <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Price" labelfor="price" name="price" type="number" value="{{  $data['product']->price ?? null }}"></x-inputs.text>
 
         </div>
 
