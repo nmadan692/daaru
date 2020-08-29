@@ -83,7 +83,10 @@ class BrandController extends Controller
                 'categories.name as category_name',
                 'brands.status as status'
 
-            ]
+            ],
+            null,
+            [],
+            ['brands.deleted_at']
         );
         $query->editColumn('status', function ($data) {
             $id = $data->id;
@@ -187,7 +190,9 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->brandService->findOrFail($id)->delete();
+
+        return redirect()->route('admin.brand.index');
     }
     public function changeStatus($id) {
         $test = $this->brandService->findOrFail($id);

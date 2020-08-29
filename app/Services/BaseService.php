@@ -176,5 +176,12 @@ abstract class BaseService
     /**
      * @return mixed
      */
+    public function first() {
+        return $this->model->first();
+    }
+
+    /**
+     * @return mixed
+     */
     public abstract  function model();
 }

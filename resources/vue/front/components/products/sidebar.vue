@@ -1,6 +1,10 @@
 <template>
     <div class="sidebar">
         <div class="sidebar__item">
+                    <input type="text" v-model="search" name="search" placeholder="Search">
+        </div>
+
+        <div class="sidebar__item">
             <h4>Categories</h4>
             <ul>
                 <li v-for="category in categories">
@@ -52,6 +56,7 @@
                 self.filteredSubCategories = []
                 if(Object.keys(self.inputs).length) {
                     self.handleChecked(self.inputs);
+                    self.handleSearch(self.inputs);
                 }
             })
         },
@@ -61,7 +66,8 @@
                 checkedSubCategories: [],
                 checkedBrands: [],
                 filteredSubCategories : [],
-                filteredBrands: []
+                filteredBrands: [],
+                search: '',
             }
         },
         props: {
@@ -91,6 +97,10 @@
             }
         },
         methods : {
+            handleSearch(data) {
+                let self = this;
+                self.search = data.search;
+            },
             handleCategory(id) {
                 let self = this;
                 self.handleFiteredSubCategory(id);

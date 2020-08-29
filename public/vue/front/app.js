@@ -141,6 +141,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     var self = this;
@@ -149,6 +153,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (Object.keys(self.inputs).length) {
         self.handleChecked(self.inputs);
+        self.handleSearch(self.inputs);
       }
     });
   },
@@ -158,7 +163,8 @@ __webpack_require__.r(__webpack_exports__);
       checkedSubCategories: [],
       checkedBrands: [],
       filteredSubCategories: [],
-      filteredBrands: []
+      filteredBrands: [],
+      search: ''
     };
   },
   props: {
@@ -188,6 +194,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    handleSearch: function handleSearch(data) {
+      var self = this;
+      self.search = data.search;
+    },
     handleCategory: function handleCategory(id) {
       var self = this;
       self.handleFiteredSubCategory(id);
@@ -17937,6 +17947,29 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "sidebar" }, [
+    _c("div", { staticClass: "sidebar__item" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.search,
+            expression: "search"
+          }
+        ],
+        attrs: { type: "text", name: "search", placeholder: "Search" },
+        domProps: { value: _vm.search },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.search = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
     _c("div", { staticClass: "sidebar__item" }, [
       _c("h4", [_vm._v("Categories")]),
       _vm._v(" "),

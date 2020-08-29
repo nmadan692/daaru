@@ -12,7 +12,9 @@
     @endif
 
     @if($actionData['delete'])
-        <a href="{{ route($actionData['deleteUrl'], $id) }}" class="btn btn-danger">
+        <a href="{{ route($actionData['deleteUrl'], $id) }}" class="btn btn-danger"
+           onclick="event.preventDefault();
+                    document.getElementById('delete-form-@json($id)').submit();">
             <i class="{{$actionData['deleteIcon']}}"> Delete</i>
         </a>
     @endif
@@ -31,7 +33,9 @@
     @endif
 
     @if($actionData['delete'])
-        <a href="{{ route($actionData['deleteUrl'], $id) }}" class="btn btn-danger">
+        <a href="{{ route($actionData['deleteUrl'], $id) }}" class="btn btn-danger"
+           onclick="event.preventDefault();
+                    document.getElementById('delete-form-@json($id)').submit();">
             <i class="{{$actionData['deleteIcon']}}"></i>
         </a>
     @endif
@@ -49,9 +53,17 @@
     @endif
 
     @if($actionData['delete'])
-        <a href="{{ route($actionData['deleteUrl'], $id) }}" class="btn btn-danger">
-            Delete
+        <a href="{{ route($actionData['deleteUrl'], $id) }}" class="btn btn-danger"
+           onclick="event.preventDefault();
+                    document.getElementById('delete-form-@json($id)').submit();">Delete
         </a>
     @endif
 @endif
+
+
+<form id="{{ 'delete-form-'.$id }}" action="{{ route($actionData['deleteUrl'], $id) }}" method="post"
+      style="display: none;">
+    @csrf
+    @method('DELETE')
+</form>
 

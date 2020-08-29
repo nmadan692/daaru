@@ -27,7 +27,7 @@ class SettingComposer
      * @param View $view
      */
     public function compose(View $view) {
-        $setting = $this->settingService->firstOrFail();
+        $setting = $this->settingService->all();
 
         $view->with(compact('setting'));
 
