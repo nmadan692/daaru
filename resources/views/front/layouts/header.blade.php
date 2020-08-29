@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="row">
+        <div class="row" id="navbar">
             <div class="col-lg-3">
                 <div class="header__logo">
                     <a href="{{ route('home') }}"><img src="{{ getImageUrl($setting->logo) }}" alt="Daaru Dot Com"></a>

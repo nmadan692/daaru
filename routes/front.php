@@ -24,3 +24,5 @@ Route::get('/product-detail/{id}', 'ProductController@show')->name('product.show
 Route::get('/shoping-cart', 'ShopingCartController@index')->name('shoping.cart');
 
 
+
+
