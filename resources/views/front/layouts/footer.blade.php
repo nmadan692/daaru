@@ -17,7 +17,7 @@
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
                 <div class="footer__widget">
-                    <h6>Useful Links</h6>
+                    <h4><b>Useful Links</b></h4><br>
                     <ul>
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">About Our Shop</a></li>
@@ -38,13 +38,19 @@
             </div>
             <div class="col-lg-4 col-md-12">
                 <div class="footer__widget">
-                    <h6>Join Our Social Links</h6>
+                    <h4><b>Join Our Social Links</b></h4><br>
 
                     <div class="footer__widget__social">
-                        <a href="{{ $setting->facebook }}"><i class="fa fa-facebook"></i></a>
-                        <a href="{{ $setting->instagram }}"><i class="fa fa-instagram"></i></a>
-                        <a href="{{ $setting->twitter }}"><i class="fa fa-twitter"></i></a>
+                        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FDaaruu.comBiratnagar&tabs&width=340&height=200&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                                width="340" height="200" style="border:none;overflow:hidden"
+                                scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
                     </div>
+{{--                    <h6>Join Our Social Links</h6>--}}
+{{--                    <div class="footer__widget__social">--}}
+{{--                        <a href="{{ $setting->facebook }}"><i class="fa fa-facebook"></i></a>--}}
+{{--                        <a href="{{ $setting->instagram }}"><i class="fa fa-instagram"></i></a>--}}
+{{--                        <a href="{{ $setting->twitter }}"><i class="fa fa-twitter"></i></a>--}}
+{{--                    </div>--}}
                 </div>
             </div>
         </div>
