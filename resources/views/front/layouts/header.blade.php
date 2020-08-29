@@ -6,17 +6,17 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="header__top__left">
                         <ul>
-                            <li><i class="fa fa-envelope"></i> {{ $setting->email }}</li>
-                            <li><b>Delivery Hours : </b>{{ $setting->delivery_start_hour }} to {{ $setting->delivery_end_hour }}</li>
+                            <li><i class="fa fa-envelope"></i> {{ $setting[0]->email ?? null}}</li>
+                            <li><b>Delivery Hours : </b>{{ $setting[0]->delivery_start_hour ?? null}} to {{ $setting[0]->delivery_end_hour ?? null}}</li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="header__top__right">
                         <div class="header__top__right__social">
-                            <a href="{{ $setting->facebook }}"><i class="fa fa-facebook"></i></a>
-                            <a href="{{ $setting->twitter }}"><i class="fa fa-twitter"></i></a>
-                            <a href="{{ $setting->instagram }}"><i class="fa fa-instagram"></i></a>
+                            <a href="{{ $setting[0]->facebook ?? null}}"><i class="fa fa-facebook"></i></a>
+                            <a href="{{ $setting[0]->twitter ?? null}}"><i class="fa fa-twitter"></i></a>
+                            <a href="{{ $setting[0]->instagram ?? null}}"><i class="fa fa-instagram"></i></a>
                         </div>
 
                         <div class="header__top__right__auth">
@@ -31,7 +31,7 @@
         <div class="row" id="navbar">
             <div class="col-lg-3">
                 <div class="header__logo">
-                    <a href="{{ route('home') }}"><img src="{{ getImageUrl($setting->logo) }}" alt="Daaru Dot Com"></a>
+                    <a href="{{ route('home') }}"><img src="{{ getImageUrl($setting[0]->logo ?? null) }}" alt="Daaru Dot Com"></a>
                 </div>
             </div>
             <div class="col-lg-6" style="text-align: center;">

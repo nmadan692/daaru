@@ -64,7 +64,7 @@ class SubCategoryController extends Controller
             ],
             null,
             [],
-            [],
+            ['categories.deleted_at'],
             ['parent_id']
 
         );
@@ -163,6 +163,8 @@ class SubCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->categoryService->findOrFail($id)->delete();
+
+        return redirect()->route('admin.subcategory.index');
     }
 }

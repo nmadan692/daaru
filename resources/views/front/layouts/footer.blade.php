@@ -5,13 +5,13 @@
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer__about">
                     <div class="footer__about__logo">
-                        <a href="./index.html"><img src="{{ getImageUrl($setting->logo) }}" alt=""></a>
+                        <a href="./index.html"><img src="{{ getImageUrl($setting[0]->logo ?? null) }}" alt=""></a>
                     </div>
                     <ul>
-                        <li>Address: {{ $setting->address }}</li>
-                        <li>Phone: {{ $setting->phone }}</li>
-                        <li>Viber: {{ $setting->viber }}</li>
-                        <li>Email: {{ $setting->email }}</li>
+                        <li>Address: {{ $setting[0]->address ?? null }}</li>
+                        <li>Phone: {{ $setting[0]->phone ?? null}}</li>
+                        <li>Viber: {{ $setting[0]->viber ?? null}}</li>
+                        <li>Email: {{ $setting[0]->email ?? null}}</li>
                     </ul>
                 </div>
             </div>
@@ -44,13 +44,10 @@
                         <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FDaaruu.comBiratnagar&tabs&width=340&height=200&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
                                 width="340" height="200" style="border:none;overflow:hidden"
                                 scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+{{--                        <a href="{{ $setting[0]->facebook ?? null }}"><i class="fa fa-facebook"></i></a>--}}
+{{--                        <a href="{{ $setting[0]->instagram ?? null}}"><i class="fa fa-instagram"></i></a>--}}
+{{--                        <a href="{{ $setting[0]->twitter ?? null}}"><i class="fa fa-twitter"></i></a>--}}
                     </div>
-{{--                    <h6>Join Our Social Links</h6>--}}
-{{--                    <div class="footer__widget__social">--}}
-{{--                        <a href="{{ $setting->facebook }}"><i class="fa fa-facebook"></i></a>--}}
-{{--                        <a href="{{ $setting->instagram }}"><i class="fa fa-instagram"></i></a>--}}
-{{--                        <a href="{{ $setting->twitter }}"><i class="fa fa-twitter"></i></a>--}}
-{{--                    </div>--}}
                 </div>
             </div>
         </div>
@@ -59,7 +56,7 @@
                 <div class="footer__copyright">
                     <div class="footer__copyright__text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved |
-                        {{ $setting->name }} </div>
+                        {{ $setting[0]->name ?? null}} </div>
                     <div class="footer__copyright__payment">
                         Designed  by <a href="https://softmine.com.np" target="_blank">SoftMine Technologies</a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>

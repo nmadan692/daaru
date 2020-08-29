@@ -2,7 +2,7 @@
     <x-slot name="headTitle"> {{ $data['form-title'] }}</x-slot>
     <x-slot name="content">
         <div class="form-group m-form__group row">
-            <x-inputs.text form-class="col-lg-12" :errors="$errors" label="Name" labelfor="name" name="name" type="text" value="{{  $data['category']->name ?? null }}"></x-inputs.text>
+            <x-inputs.text form-class="col-lg-12" :errors="$errors" label="Name" labelfor="name" name="name" type="text" value="{{  old('name') ?? ($data['category']->name ?? null) }}"></x-inputs.text>
         </div>
 
     </x-slot>

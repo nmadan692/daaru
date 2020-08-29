@@ -69,7 +69,7 @@ class CategoryController extends Controller
             ],
             null,
             [],
-            ['parent_id']
+            ['parent_id','categories.deleted_at']
         );
         $query->editColumn('status', function ($data) {
             $id = $data->id;
@@ -174,6 +174,8 @@ class CategoryController extends Controller
         $this->categoryService->findOrFail($id)->delete();
         return redirect()->route('admin.category.index');
     }
+
+
     public function changeStatus($id) {
         $test = $this->categoryService->findOrFail($id);
         DB::beginTransaction();

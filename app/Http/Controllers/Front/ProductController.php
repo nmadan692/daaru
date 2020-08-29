@@ -54,6 +54,14 @@ class ProductController extends Controller
         $brands = $this->brandService->all(['parent_id']);
         $products = $this->productService->query();
 
+        if($search = $request->input('search')) {
+            $products->where( 'name', 'like', '%'.$search.'%')->orWhereHas('brand', function ($query) use($search) {
+                $query->where( 'name', 'like', '%'.$search.'%')->orWhereHas('category', function ($query) use($search) {
+                    $query->where( 'name', 'like', '%'.$search.'%');
+                });
+            });
+        }
+
         if($categoriesInput = $request->input('categories')) {
             $products->whereHas('brand', function($query) use($categoriesInput) {
                 $query->whereHas('category', function($query) use($categoriesInput) {
@@ -88,7 +96,7 @@ class ProductController extends Controller
             });
         }
 
-        $products = $products->paginate(12);
+        $products = $products->paginate(12)->appends(request()->query());
 
         return view('front.products.index', compact('categories', 'subCategories', 'brands', 'products'));
     }
@@ -99,9 +107,10 @@ class ProductController extends Controller
      * @return Factory|View
      */
     public function show($id) {
-        $product = Product::findOrFail(decrypt($id));
+        $product = $this->productService->findOrFail(decrypt($id));
         $product->load('brand.category.parent');
+        $relatedProducts = $this->productService->query()->where('id', '!=', decrypt($id))->where('brand_id', $product->brand_id)->take(8)->get();
 
-        return view('front.products.product-detail', compact('product'));
+        return view('front.products.product-detail', compact('product', 'relatedProducts'));
     }
 }
