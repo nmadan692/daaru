@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Product;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ProductRequest;
 use App\Services\General\Brand\BrandService;
 use App\Services\General\DatatableService;
 use App\Services\General\Product\ProductService;
@@ -78,7 +79,6 @@ class ProductController extends Controller
             ],
             [
                 'products.id as id',
-                'image',
                 'products.name as name',
                 'brands.name as brand_name',
                 'volume',
@@ -88,10 +88,14 @@ class ProductController extends Controller
                 'price',
                 'discount',
                 'is_percent',
+                'is_featured',
                 'quantity',
                 'products.status as status'
 
-            ]
+            ],
+            null,
+            [],
+            ['products.deleted_at']
         );
         $query->editColumn('status', function ($data) {
             $id = $data->id;
@@ -141,7 +145,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $image = $request->file('image');
         $image_name = time() . '.' . $image->getClientOriginalExtension();
@@ -188,7 +192,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         $updateData = $request->all();
         if($request->file('image')) {
@@ -217,7 +221,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->productService->findOrFail($id)->delete();
+
+        return redirect()->route('admin.product.index');
     }
 
     /**

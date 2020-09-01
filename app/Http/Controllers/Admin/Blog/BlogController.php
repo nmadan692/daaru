@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Blog;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\BlogRequest;
 use App\Services\General\Blog\BlogCategoryService;
 use App\Services\General\Blog\BlogService;
 use App\Services\General\DatatableService;
@@ -84,7 +85,10 @@ class BlogController extends Controller
                 'description',
                 'blogs.status as status'
 
-            ]
+            ],
+            null,
+            [],
+            ['blogs.deleted_at']
         );
         $query->editColumn('description', function ($data) {
             return  strip_tags(Str::limit($data->description,100));
@@ -138,7 +142,7 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogRequest $request)
     {
 
         $image = $request->file('image');
@@ -191,7 +195,7 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BlogRequest $request, $id)
     {
         $updateData = $request->all();
         if($request->file('image')) {
@@ -221,7 +225,8 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->blogService->findOrFail($id)->delete();
+        return redirect()->route('admin.blog.index');
     }
 
     public function changeStatus($id) {

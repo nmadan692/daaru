@@ -178,16 +178,28 @@
             </div>
             <form action="{{ route('contact.store') }}" method="post">
                 @csrf
-                <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <input type="text" name="name" placeholder="Your name">
+                <div class="row contact-custom">
+                    <div class="col-lg-6">
+                        <input type="text" name="name" placeholder="Your name" class="{{ $errors->first('name') ? 'has-error' : ''}}">
+                        @if($errors->first('name'))
+                            <span class="error">{{ $errors->first('name') }}</span>
+                        @endif
                     </div>
-                    <div class="col-lg-6 col-md-6">
-                        <input type="text" name="email" placeholder="Your Email">
+                    <div class="col-lg-6">
+                        <input type="text" name="email" placeholder="Your Email" class="{{ $errors->first('email') ? 'has-error' : ''}}">
+                        @if($errors->first('email'))
+                            <span class="error">{{ $errors->first('email') }}</span>
+                        @endif
                     </div>
+                </div>
+
+                <div class="row contact-custom">
                     <div class="col-lg-12 text-center">
-                        <textarea placeholder="Your message" name="message"></textarea>
-                        <button type="submit" class="site-btn">SEND MESSAGE</button>
+                            <textarea placeholder="Your message" name="message" class="{{ $errors->first('message') ? 'has-error' : ''}}"></textarea>
+                            @if($errors->first('message'))
+                                <span class="error">{{ $errors->first('message') }}</span>
+                            @endif
+                            <button type="submit" class="site-btn">SEND MESSAGE</button>
                     </div>
                 </div>
             </form>

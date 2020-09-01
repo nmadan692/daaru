@@ -54,7 +54,10 @@ class ContactController extends Controller
                 'name',
                 'email',
                 'message'
-            ]
+            ],
+            null,
+            [],
+            ['contacts.deleted_at']
         );
 
         $query->addColumn('action', function ($data) use($actionData) {
@@ -138,6 +141,8 @@ class ContactController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->contactService->findOrFail($id)->delete();
+
+        return redirect()->route('admin.contact.index');
     }
 }

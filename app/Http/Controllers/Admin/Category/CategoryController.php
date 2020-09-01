@@ -71,6 +71,7 @@ class CategoryController extends Controller
             [],
             ['parent_id','categories.deleted_at']
         );
+        $query->addIndexColumn();
         $query->editColumn('status', function ($data) {
             $id = $data->id;
             $name = 'status';
@@ -88,7 +89,7 @@ class CategoryController extends Controller
         });
         $query->rawColumns(['status', 'action']);
 
-        return $query->make();
+        return $query->make(true);
     }
 
     /**
