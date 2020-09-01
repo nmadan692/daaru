@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\SubCategory;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\SubCategoryRequest;
 use App\Services\General\Category\CategoryService;
 use App\Services\General\DatatableService;
 use Illuminate\Http\Request;
@@ -113,7 +114,7 @@ class SubCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SubCategoryRequest $request)
     {
         $this->categoryService->create($request->all());
 

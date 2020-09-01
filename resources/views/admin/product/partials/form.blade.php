@@ -27,6 +27,12 @@
         <div class="form-group m-form__group row">
             <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Discount" labelfor="discount" name="discount" type="text" value="{{  $data['product']->discount ?? null }}"></x-inputs.text>
             <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Quantity" labelfor="quantity" name="quantity" type="number" value="{{  $data['product']->quantity ?? null }}"></x-inputs.text>
+
+        </div>
+        <div class="form-group m-form__group row">
+            <x-inputs.checkbox form-class="col-lg-6" :errors="$errors" label="Is Percent" labelfor="is_percent" name="is_percent" type="checkbox" value="{{  $data['product']->is_percent ?? null }}"></x-inputs.checkbox>
+
+            <x-inputs.checkbox form-class="col-lg-6" :errors="$errors" label="Is Featured" labelfor="is_featured" name="is_featured" type="checkbox" value="{{  $data['product']->is_featured ?? null }}"></x-inputs.checkbox>
         </div>
 
         <div class="form-group m-form__group row">

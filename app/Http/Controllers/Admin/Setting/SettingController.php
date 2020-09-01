@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\SettingRequest;
 use App\Services\General\DatatableService;
 use App\Services\General\Setting\SettingService;
 use Illuminate\Http\Request;
@@ -73,7 +74,10 @@ class SettingController extends Controller
                 'facebook',
                 'instagram',
                 'twitter'
-            ]
+            ],
+            null,
+            [],
+            ['settings.deleted_at']
         );
 
         $query->addColumn('action', function ($data) use($actionData) {
@@ -113,7 +117,7 @@ class SettingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SettingRequest $request)
     {
 
         $image = $request->file('logo');
@@ -167,7 +171,7 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SettingRequest $request, $id)
     {
         $updateData = $request->all();
         if($request->file('logo')) {
@@ -198,6 +202,8 @@ class SettingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->settingService->findOrFail($id)->delete();
+
+        return redirect()->route('admin.setting.index');
     }
 }

@@ -7,7 +7,6 @@
                             'ID',
                             'Category',
                             'Title',
-                            'News',
                             'Status',
                             'Action']"
                             :button="['route' => 'admin.blog.create',
@@ -18,7 +17,6 @@
                             { data: 'id', name: 'id' },
                             { data: 'blog_category_name', name: 'blog_category_name' },
                             { data: 'name', name: 'name' },
-                            { data: 'description', name: 'description' },
                             { data: 'status', name: 'status' },
                             { data: 'action', name: 'action', orderable: false, searchable: false }
                             ]">

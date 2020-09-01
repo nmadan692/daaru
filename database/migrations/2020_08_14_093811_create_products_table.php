@@ -20,10 +20,11 @@ class CreateProductsTable extends Migration
             $table->string('volume')->nullable();
             $table->string('country')->nullable();
             $table->float('alcohol')->nullable();
-            $table->string('description', 1000)->nullable();
+            $table->string('description', 10000)->nullable();
             $table->float('price')->nullable();
             $table->float('discount')->nullable();
             $table->boolean('is_percent')->default(false);
+            $table->boolean('is_featured')->default(false);
             $table->float('quantity')->nullable();
             $table->string('image')->nullable();
             $table->boolean('status')->default(true)->nullable();

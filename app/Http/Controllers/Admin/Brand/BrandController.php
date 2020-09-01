@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Brand;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\BrandRequest;
 use App\Services\General\Brand\BrandService;
 use App\Services\General\Category\CategoryService;
 use App\Services\General\DatatableService;
@@ -136,7 +137,7 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BrandRequest $request)
     {
         $this->brandService->create($request->all());
 
@@ -175,7 +176,7 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BrandRequest $request, $id)
     {
         $this->brandService->update($id, $request->all());
 

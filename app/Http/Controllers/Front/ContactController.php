@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ContactRequest;
 use App\Services\General\Contact\ContactService;
 use App\Services\General\Setting\SettingService;
 use Illuminate\Http\Request;
@@ -44,7 +45,7 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
         $this->contactService->create($request->all());
 

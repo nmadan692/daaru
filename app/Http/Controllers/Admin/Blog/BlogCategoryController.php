@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Blog;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\BlogCategoryRequest;
 use App\Services\General\Blog\BlogCategoryService;
 use App\Services\General\DatatableService;
 use Illuminate\Http\Request;
@@ -62,7 +63,10 @@ class BlogCategoryController extends Controller
                 'id',
                 'name',
                 'status'
-            ]
+            ],
+            null,
+            [],
+            ['blog_categories.deleted_at']
         );
         $query->editColumn('status', function ($data) {
             $id = $data->id;
@@ -111,7 +115,7 @@ class BlogCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogCategoryRequest $request)
     {
         $this->blogCategoryService->create($request->all());
 
@@ -149,7 +153,7 @@ class BlogCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BlogCategoryRequest $request, $id)
     {
         $this->blogCategoryService->update($id, $request->all());
 
@@ -164,7 +168,8 @@ class BlogCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->blogCategoryService->findOrFail($id)->delete();
+        return redirect()->route('admin.blog.category.index');
     }
     public function changeStatus($id) {
         $test = $this->blogCategoryService->findOrFail($id);

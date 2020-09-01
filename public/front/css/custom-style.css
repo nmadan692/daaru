@@ -6,3 +6,19 @@
     color: #b2b2b2;
     margin-bottom: 18px;
 }
+
+.error {
+    color : red;
+}
+
+.has-error{
+    border-color: red!important;
+}
+
+.contact-form form input {
+    margin-bottom: 0px!important;
+}
+
+.contact-custom{
+    margin-bottom: 30px!important;
+}
