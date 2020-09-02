@@ -61,7 +61,7 @@ class BrandController extends Controller
             'deleteUrl' => 'admin.brand.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
-            'view' => true,
+            'view' => false,
             'viewUrl' => 'admin.brand.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',

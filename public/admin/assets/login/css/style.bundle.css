@@ -7897,12 +7897,12 @@ a.text-dark:hover, a.text-dark:focus {
 
 .btn-focus {
     color: #fff;
-    background-color: #9816f4;
-    border-color: #9816f4; }
+    background-color: #f28e1c;
+    border-color: #f28e15; }
 .btn-focus:hover {
     color: #fff;
-    background-color: #840ad9;
-    border-color: #7c0acd; }
+    background-color: #722f37;
+    border-color: #722f15; }
 .btn-focus:focus, .btn-focus.focus {
     -webkit-box-shadow: 0 0 0 0.2rem rgba(152, 22, 244, 0.5);
     box-shadow: 0 0 0 0.2rem rgba(152, 22, 244, 0.5); }

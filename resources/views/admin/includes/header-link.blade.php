@@ -1,6 +1,6 @@
 <head>
     <meta charset="utf-8" />
-    <title>Metronic | Dashboard</title>
+    <title>Daaruu Dot Com | Admin</title>
     <meta name="description" content="Latest updates and statistic charts">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
 
@@ -30,7 +30,7 @@
     <!--RTL version:<link href="assets/vendors/custom/fullcalendar/fullcalendar.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
 
     <!--end::Page Vendors Styles -->
-    <link rel="shortcut icon" href="{{asset('admin/assets/demo/demo12/media/img/logo/favicon.ico')}}" />
+    <link rel="shortcut icon" href="{{asset('admin/assets/demo/demo12/media/img/logo/logo-2.png')}}" />
     <link rel="shortcut icon" href="{{asset('admin/assets/vendors/custom/datatables/datatables.bundle.css')}}" />
 
 {{--    <link  href="{{asset('general/datatables/css/datatables.min.css')}}" rel="stylesheet">--}}

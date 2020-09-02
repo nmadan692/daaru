@@ -52,7 +52,7 @@ class SettingController extends Controller
             'deleteUrl' => 'admin.setting.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
-            'view' => true,
+            'view' => false,
             'viewUrl' => 'admin.setting.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',

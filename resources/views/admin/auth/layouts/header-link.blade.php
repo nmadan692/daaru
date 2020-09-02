@@ -9,4 +9,4 @@
 <!--RTL version:<link href="../../../assets/demo/base/style.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
 
 <!--end::Global Theme Styles -->
-<link rel="shortcut icon" href="{{asset('admin')}}/assets/login/icon/favicon.ico" />
+<link rel="shortcut icon" href="{{asset('admin')}}/assets/login/icon/logo-2.png" />

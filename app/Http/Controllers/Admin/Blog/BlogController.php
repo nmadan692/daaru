@@ -61,7 +61,7 @@ class BlogController extends Controller
             'deleteUrl' => 'admin.blog.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
-            'view' => true,
+            'view' => false,
             'viewUrl' => 'admin.blog.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
