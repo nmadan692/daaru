@@ -60,7 +60,7 @@ class ProductController extends Controller
             'deleteUrl' => 'admin.product.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
-            'view' => true,
+            'view' => false,
             'viewUrl' => 'admin.product.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',

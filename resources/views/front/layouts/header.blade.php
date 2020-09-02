@@ -38,7 +38,7 @@
                 <nav class="header__menu">
                     <ul>
                         <li class="{{  request()->segment(1) == ''? 'active': ''   }}"><a href="{{ route('home') }}">Home</a></li>
-                        <li class="{{  request()->segment(1) == 'products'? 'active': ''   }}"><a href="{{ route('products') }}">Products</a></li>
+                        <li class="{{  request()->segment(1) == 'products'? 'active': '' ||  request()->segment(1) == 'product-detail'? 'active': ''}}"><a href="{{ route('products') }}">Products</a></li>
                         <li class="{{  request()->segment(1) == 'blog'? 'active': ''   }}"><a href="{{ route('blog') }}">Blog</a></li>
                         <li class="{{  request()->segment(1) == 'contact'? 'active': ''   }}"><a href="{{ route('contact.index') }}">Contact</a></li>
                     </ul>
@@ -48,7 +48,7 @@
                 <div class="header__cart">
                     <ul>
                         <li><a href="{{ route('my-cart') }}"><i class="fa fa-heart"></i> <span>0</span></a></li>
-                        <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+                        <li><a href="{{ route('my-cart') }}"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
                     </ul>
                     <div class="header__cart__price">item: <span>$150.00</span></div>
                 </div>

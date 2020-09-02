@@ -40,7 +40,7 @@ class ContactController extends Controller
             'deleteUrl' => 'admin.contact.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
-            'view' => true,
+            'view' => false,
             'viewUrl' => 'admin.contact.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
