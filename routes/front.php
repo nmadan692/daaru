@@ -19,6 +19,10 @@ Route::get('/checkout', 'CheckoutController@index')->name('checkout');
 Route::get('/products', 'ProductController@index')->name('products');
 Route::get('/product-detail/{id}', 'ProductController@show')->name('product.show');
 
+Route::get('/my-cart', 'CartController@index')->name('my-cart');
+Route::post('/product/shop/{id}/add', 'CartController@shop')->name('product.shop.add');
+Route::delete('/cart/{id}', 'CartController@deleteCart')->name('my-cart.delete');
+
 
 // shoping-cart
 Route::get('/shoping-cart', 'ShopingCartController@index')->name('shoping.cart');

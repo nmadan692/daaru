@@ -8,6 +8,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 var _ = require('lodash');
+window.axios = require('axios');
 
 import frontComponents from './frontComponents'
 
