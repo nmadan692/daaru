@@ -40,15 +40,21 @@
                             <span class="product-discount">{{ $product->original_price }}</span>
                         @endif
                         <p>{!! $product->description !!}</p>
-                        <div class="product__details__quantity">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
+                        <form action="{{ route('product.shop.add', encrypt($product->id)) }}" method="post">
+                            @csrf
+                            <div class="product__details__quantity">
+                                <div class="quantity">
+                                    <div class="pro-qty">
+                                        <input type="text" value="1" name="quantity">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <a href="#" class="primary-btn">ADD TO CARD</a>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                            <button name="action" type="submit" class="primary-btn no-border" value="cart">ADD TO CART</button>
+                            <button name="action" type="submit" class="heart-icon no-border" value="wishList"><span class="icon_heart_alt"></span></button>
+                        </form>
+
+{{--                        <a href="#" class="primary-btn">ADD TO CARD</a>--}}
+{{--                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>--}}
                         <ul>
                             <li><b>Volume</b> <span>{{ $product->volume }}</span></li>
                             <li><b>Brand</b> <span>{{ $product->brand->name ?? null}}</span></li>
@@ -87,12 +93,11 @@
                             <div class="product__item__pic set-bg" data-setbg="{{ getImageUrl($product->image) }}">
                                 <ul class="product__item__pic__hover">
                                     <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                     <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">
-                                <h6><a href="#">{{ $product->name }}</a></h6>
+                                <h6><a href="{{ route('product.show', encrypt($product->id)) }}">{{ $product->name }}</a></h6>
                                 <h5>$30.00</h5>
                             </div>
                         </div>
