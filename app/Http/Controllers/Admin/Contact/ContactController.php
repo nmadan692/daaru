@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Contact;
 
 use App\Http\Controllers\Controller;
+use App\Services\General\Contact\ContactService;
 use App\Services\General\DatatableService;
 use Illuminate\Http\Request;
 
@@ -12,16 +13,25 @@ class ContactController extends Controller
      * @var DatatableService
      */
     private $datatableService;
+    /**
+     * @var ContactService
+     */
+    private $contactService;
 
     /**
      * ContactController constructor.
      * @param DatatableService $datatableService
+     * @param ContactService $contactService
      */
     public function __construct(
-        DatatableService $datatableService
+        DatatableService $datatableService,
+        ContactService $contactService
+
     )
     {
         $this->datatableService = $datatableService;
+
+        $this->contactService = $contactService;
     }
 
     /**
@@ -40,7 +50,7 @@ class ContactController extends Controller
             'deleteUrl' => 'admin.contact.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
-            'view' => false,
+            'view' => true,
             'viewUrl' => 'admin.contact.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
@@ -107,7 +117,9 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        //
+        $contact = $this->contactService-> firstOrFail($id);
+
+        return view('admin.contact.show', compact('contact'));
     }
 
     /**

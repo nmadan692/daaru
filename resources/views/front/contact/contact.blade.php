@@ -78,28 +78,28 @@
                     <div class="contact__widget">
                         <span class="icon_phone"></span>
                         <h4>Phone</h4>
-                        <p>{{ $setting->phone }}</p>
+                        <p>{{ $setting[0]->phone ?? null}}</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_pin_alt"></span>
                         <h4>Address</h4>
-                        <p>{{ $setting->address }}</p>
+                        <p>{{ $setting[0]->address ?? null}}</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_clock_alt"></span>
                         <h4>Open time</h4>
-                        <p>{{ $setting->delivery_start_hour}} to {{ $setting->delivery_start_hour }}</p>
+                        <p>{{ $setting[0]->delivery_start_hour ?? null}} to {{ $setting[0]->delivery_start_hour ?? null}}</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_mail_alt"></span>
                         <h4>Email</h4>
-                        <p>{{ $setting->email }}</p>
+                        <p>{{ $setting[0]->email ?? null }}</p>
                     </div>
                 </div>
             </div>
@@ -117,28 +117,28 @@
                         <div class="contact__widget">
                             <span class="icon_phone"></span>
                             <h4>Phone Biratnagar</h4>
-                            <p>{{ $setting->phone }}</p>
+                            <p>{{ $setting[0]->phone ?? null}}</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                         <div class="contact__widget">
                             <span class="icon_pin_alt"></span>
                             <h4>Address Biratnagar</h4>
-                            <p>{{ $setting->address }}</p>
+                            <p>{{ $setting[0]->address ?? null}}</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                         <div class="contact__widget">
                             <span class="icon_clock_alt"></span>
                             <h4>Open time Biratnagar</h4>
-                            <p>{{ $setting->delivery_start_hour}} to {{ $setting->delivery_start_hour }}</p>
+                            <p>{{ $setting[0]->delivery_start_hour ?? null}} to {{ $setting[0]->delivery_start_hour ?? null }}</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                         <div class="contact__widget">
                             <span class="icon_mail_alt"></span>
                             <h4>Email Biratnagar</h4>
-                            <p>{{ $setting->email }}</p>
+                            <p>{{ $setting[0]->email ?? null}}</p>
                         </div>
                     </div>
                 </div>

@@ -11,6 +11,10 @@
                             'Address',
                             'Action']"
 
+                            :button="['route' => 'admin.setting.create',
+                                      'name' => 'Create',
+                                      'icon' => 'la la-plus']"
+
                             :url="'/admin/setting/list'"
                             columns="[
                             { data: 'id', name: 'id' },
