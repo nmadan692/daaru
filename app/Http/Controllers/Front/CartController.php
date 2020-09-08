@@ -23,11 +23,18 @@ class CartController extends Controller
         $this->productService = $productService;
     }
 
-    public function index(Request $request) {
+    public function cart(Request $request) {
 
         $products = session()->get('cart');
 
         return view('front.cart.index', compact('products'));
+    }
+
+    public function wishList(Request $request) {
+
+        $products = session()->get('list');
+
+        return view('front.wishList.index', compact('products'));
     }
 
     /**
@@ -123,6 +130,28 @@ class CartController extends Controller
         }
 
         return;
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function updateCart(Request $request) {
+        if(session()->get('cart')) {
+            \session()->forget('cart');
+        }
+
+        foreach ($request->all() as $data) {
+            $product = $this->productService->findOrFail($data['id']);
+            $carts = [
+                $data['id'] => [
+                    'product' => $product,
+                    'quantity' => $data['quantity'],
+                ]
+            ];
+            $request->session()->put('cart', $carts);
+        }
+
+        return response()->json(['message' => 'Successfully Updated Session.']);
     }
 
     /**

@@ -1,13 +1,13 @@
 <div class="filter__item">
     <div class="row">
         <div class="col-lg-4 col-md-5">
-{{--            <div class="filter__sort">--}}
-{{--                <span>Sort By</span>--}}
-{{--                <select>--}}
-{{--                    <option value="0">Default</option>--}}
-{{--                    <option value="0">Default</option>--}}
-{{--                </select>--}}
-{{--            </div>--}}
+            <div class="filter__sort">
+                <span>Sort By</span>
+                <select name="sortBy" onchange="sortBy(this)">
+                    <option value="name" {{ request()->get('sortBy') == 'name' ? 'selected' : null }}>Product</option>
+                    <option value="price" {{ request()->get('sortBy') == 'price' ? 'selected' : null }}>Price</option>
+                </select>
+            </div>
         </div>
         <div class="col-lg-4 col-md-4">
             <div class="filter__found">

@@ -25,7 +25,7 @@
                             <td class="shoping__cart__quantity">
                                 <div class="quantity">
                                     <div class="cart-qty">
-                                        <span class="dec qtybtn" @click="decrementQuantityp(index)">-</span>
+                                        <span class="dec qtybtn" @click="decrementQuantity(index)">-</span>
                                         <input type="text" v-model="product.quantity">
                                         <span class="inc qtybtn" @click="incrementQuantity(index)">+</span>
                                     </div>
@@ -48,7 +48,7 @@
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
                     <a :href="continueShopping()" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                    <a href="#" class="primary-btn cart-btn cart-btn-right ml-2">Update Cart</a>
+                    <button @click="updateCart" class="primary-btn cart-btn cart-btn-right ml-2 no-border">Update Cart</button>
                     <button @click="resetCart" class="primary-btn cart-btn cart-btn-right no-border">Reset</button>
                 </div>
             </div>
@@ -81,7 +81,7 @@
         mounted() {
             let self =  this;
             self.$nextTick(function () {
-                self.populateTemporaryProductsData();
+                self.populateTemporaryProductsData(self.products);
             })
         },
         data() {
@@ -103,12 +103,13 @@
             resetCart() {
                 let self = this;
                 self.productsData = [];
+                self.total = 0;
                 self.populateProductsData();
 
             },
-            populateTemporaryProductsData() {
+            populateTemporaryProductsData(products) {
                 let self = this;
-                _.forEach(self.products, function(product, key) {
+                _.forEach(products, function(product, key) {
                     self.tempProductsData.push({
                         'id': product['product'].id,
                         'name': product['product'].name,
@@ -122,6 +123,7 @@
             },
             populateProductsData() {
                 let self = this;
+                self.productsData = [];
                 _.forEach(self.tempProductsData, function(product, key) {
                     self.productsData.push({
                         'id': product.id,
@@ -136,6 +138,28 @@
             },
             continueShopping() {
                 return front.continueShopping();
+            },
+            updateCart() {
+                let self = this;
+                front.updateCart(self.productsData).then(res => {
+                    if (res.status == 200) {
+                        self.total = 0;
+                        self.tempProductsData = [];
+                        _.forEach(self.productsData, function(product, key) {
+                            self.tempProductsData.push({
+                                'id': product.id,
+                                'name': product.name,
+                                'price': product.price,
+                                'discount_amount' : product.discount_amount,
+                                'discount_price': product.discount_price,
+                                'quantity': parseInt(product.quantity)
+                            }) ;
+                            self.total+= (product.discount_amount*product.quantity)
+                        });
+                    }
+                }).catch(res => {
+                    alert('Sorry something went wrong.')
+                })
             },
             deleteCart(index) {
                 let self = this;
