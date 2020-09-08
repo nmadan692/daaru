@@ -32,3 +32,4 @@ function getImageUrl($image = null) {
         return asset('front/img/liquor/liquor.png');
     }
 }
+

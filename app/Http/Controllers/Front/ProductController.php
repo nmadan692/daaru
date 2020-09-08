@@ -53,14 +53,21 @@ class ProductController extends Controller
         $subCategories = $this->categoryService->whereNotNull(['parent_id'])->get();
         $brands = $this->brandService->all(['parent_id']);
         $products = $this->productService->query();
-
+        $minAmount = $request->input('minAmount') ? (int)  $request->input('minAmount') : 0;
+        $maxAmount = $request->input('maxAmount') ? (int) $request->input('maxAmount') : 100000;
+        $products = $products->where(function ($query) use ($minAmount, $maxAmount) {
+          $query->whereBetween('price', [$minAmount, $maxAmount]);
+        });
         if($search = $request->input('search')) {
-            $products->where( 'name', 'like', '%'.$search.'%')->orWhereHas('brand', function ($query) use($search) {
-                $query->where( 'name', 'like', '%'.$search.'%')->orWhereHas('category', function ($query) use($search) {
-                    $query->where( 'name', 'like', '%'.$search.'%');
+            $products->where(function ($query) use ($search) {
+                $query->where( 'name', 'like', '%'.$search.'%')->orWhereHas('brand', function ($query) use($search) {
+                    $query->where( 'name', 'like', '%'.$search.'%')->orWhereHas('category', function ($query) use($search) {
+                        $query->where( 'name', 'like', '%'.$search.'%');
+                    });
                 });
             });
         }
+
 
         if($categoriesInput = $request->input('categories')) {
             $products->whereHas('brand', function($query) use($categoriesInput) {
@@ -94,6 +101,10 @@ class ProductController extends Controller
             $products->whereHas('brand', function($query) use($brandsInput) {
                 return  $query->whereIn('id', $brandsInput);
             });
+        }
+
+        if($sortBy = $request->input('sortBy')) {
+            $products->orderBy($sortBy, 'asc');
         }
 
         $products = $products->paginate(12)->appends(request()->query());
