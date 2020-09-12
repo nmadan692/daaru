@@ -52,7 +52,7 @@ class SettingController extends Controller
             'deleteUrl' => 'admin.setting.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
-            'view' => false,
+            'view' => true,
             'viewUrl' => 'admin.setting.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
@@ -148,7 +148,10 @@ class SettingController extends Controller
      */
     public function show($id)
     {
-        //
+        $setting = $this->settingService->findOrFail($id);
+
+        return view('admin.setting.show', compact('setting'));
+
     }
 
     /**

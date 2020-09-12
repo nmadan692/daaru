@@ -34,7 +34,8 @@ class ContactController extends Controller
     }
 
     public function index(){
-        $setting = $this->settingService->firstOrFail();
+
+        $setting = $this->settingService->all();
 
         return view('front.contact.contact', compact('setting'));
     }

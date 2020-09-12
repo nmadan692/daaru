@@ -40,6 +40,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public $appends = [
+        'full_name','address'
+    ];
+
+
+
     /**
      * Password Notification
      *
@@ -76,5 +82,21 @@ class User extends Authenticatable
      */
     public function hasRole($role) {
         return $this->role()->where('name', $role)->exists();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullNameAttribute() {
+        return $this->first_name.' '.$this->last_name;
+    }
+
+    public function getAddressAttribute() {
+           if($this->address_2!=null) {
+               return $this->address_1.' '.$this->address_2;
+           }
+           else{
+               return $this->address_1;
+           }
     }
 }

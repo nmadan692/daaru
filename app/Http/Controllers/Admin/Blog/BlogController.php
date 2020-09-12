@@ -61,7 +61,7 @@ class BlogController extends Controller
             'deleteUrl' => 'admin.blog.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
-            'view' => false,
+            'view' => true,
             'viewUrl' => 'admin.blog.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
@@ -171,7 +171,10 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        //
+        $blog = $this->blogService->findOrFail($id);
+
+        return view('admin.blog.blog.show', compact('blog'));
+
     }
 
     /**

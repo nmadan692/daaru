@@ -38,6 +38,12 @@ Route::get('/my-wish-list', 'CartController@wishList')->name('my-wish-list');
 // shoping-cart
 //Route::get('/shoping-cart', 'ShopingCartController@index')->name('shoping.cart');
 
+// customer-login
+Route::get('/login', 'LoginController@index')->name('login');
+
+// customer-signup
+Route::get('/sign_up', 'LoginController@index')->name('sign_up');
+
 
 
 

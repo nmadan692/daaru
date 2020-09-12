@@ -13,5 +13,4 @@ class RoleConstant
     const ADMIN_ID = 1;
     const STAFF_ID = 2;
     const CUSTOMER_ID = 3;
-
 }

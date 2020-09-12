@@ -60,7 +60,7 @@ class ProductController extends Controller
             'deleteUrl' => 'admin.product.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
-            'view' => false,
+            'view' => true,
             'viewUrl' => 'admin.product.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
@@ -168,7 +168,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = $this->productService->findOrFail($id);
+
+        return view('admin.product.show', compact('product'));
     }
 
     /**

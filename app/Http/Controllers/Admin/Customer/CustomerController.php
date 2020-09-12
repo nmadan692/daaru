@@ -1,78 +1,87 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Contact;
+namespace App\Http\Controllers\Admin\Customer;
 
+use App\Daaruu\Constants\RoleConstant;
 use App\Http\Controllers\Controller;
-use App\Services\General\Contact\ContactService;
 use App\Services\General\DatatableService;
+use App\Services\General\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class ContactController extends Controller
+class CustomerController extends Controller
 {
     /**
      * @var DatatableService
      */
     private $datatableService;
     /**
-     * @var ContactService
+     * @var UserService
      */
-    private $contactService;
+    private $userService;
 
     /**
-     * ContactController constructor.
+     * CustomerController constructor.
      * @param DatatableService $datatableService
-     * @param ContactService $contactService
+     * @param UserService $userService
      */
     public function __construct(
         DatatableService $datatableService,
-        ContactService $contactService
-
+        UserService $userService
     )
     {
         $this->datatableService = $datatableService;
-
-        $this->contactService = $contactService;
+        $this->userService = $userService;
     }
 
     /**
      * @return mixed
-     * @throws \Exception
      */
     public function list() {
         $actionData = [
             'icon' => true,
             'text' => false,
             'edit' => false,
-            'editUrl' => 'admin.contact.edit',
+            'editUrl' => 'admin.customer.edit',
             'editIcon' => 'fa fa-edit',
             'editClass' => '',
             'delete' => true,
-            'deleteUrl' => 'admin.contact.destroy',
+            'deleteUrl' => 'admin.customer.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
             'view' => true,
-            'viewUrl' => 'admin.contact.show',
+            'viewUrl' => 'admin.customer.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
         ];
 
         $query = $this->datatableService->getData(
-            'contacts',
-            null,
+            'users',
+            [],
             [
                 'id',
-                'name',
+                'first_name',
+                'last_name',
+                'address_1',
+                'address_2',
+                'city',
                 'email',
-                'message'
+                'phone'
             ],
             null,
-            [],
-            ['contacts.deleted_at']
+            ['role_id' => RoleConstant::CUSTOMER_ID]
         );
 
         $query->addColumn('action', function ($data) use($actionData) {
             $id = $data->id;
             return view('general.datatable.action', compact('actionData', 'id'));
+        });
+        $query->addColumn('full_name', function ($data) {
+            return $data->first_name.' '.$data->last_name;
+        });
+
+        $query->addColumn('address', function ($data) {
+            return $data->address_1.' '.$data->address_2;
         });
 
         return $query->make();
@@ -84,7 +93,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        return view('admin.contact.index');
+        return view('admin.customer.index');
 
     }
 
@@ -106,7 +115,7 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -117,9 +126,9 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        $contact = $this->contactService-> firstOrFail($id);
+        $customer = $this->userService->findOrFail($id);
 
-        return view('admin.contact.show', compact('contact'));
+        return view('admin.customer.show', compact('customer'));
     }
 
     /**
@@ -130,7 +139,7 @@ class ContactController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -153,8 +162,8 @@ class ContactController extends Controller
      */
     public function destroy($id)
     {
-        $this->contactService->findOrFail($id)->delete();
+        $this->userService->findOrFail($id)->delete();
 
-        return redirect()->route('admin.contact.index');
+        return redirect()->route('admin.customer.index');
     }
 }
