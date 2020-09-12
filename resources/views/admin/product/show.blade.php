@@ -62,7 +62,7 @@
                                 <div class="col-4">
                                     <p>{!! strip_tags($product->description) !!}</p>
                                 </div>
-                            </div>div
+                            </div>
 
 
                         </div>

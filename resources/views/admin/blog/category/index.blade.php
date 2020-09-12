@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="m-content">
-        <x-tables.datatable :title="'Categoty'" :table-id="'category'"
+        <x-tables.datatable :title="'Category'" :table-id="'category'"
                             :theads="[
                             'ID',
                             'Name',

@@ -38,7 +38,14 @@ Route::resource('blog', 'Blog\BlogController');
 Route::get('setting/list', 'Setting\SettingController@list')->name('setting.list');
 Route::resource('setting', 'Setting\SettingController');
 
-// Settings
+// Contact
 Route::get('contact/list', 'Contact\ContactController@list')->name('contact.list');
 Route::resource('contact', 'Contact\ContactController');
 
+// customer
+Route::get('customer/list', 'Customer\CustomerController@list')->name('customer.list');
+Route::resource('customer', 'Customer\CustomerController');
+
+// Staff
+Route::get('staff/list', 'Staff\StaffController@list')->name('staff.list');
+Route::resource('staff', 'Staff\StaffController');
