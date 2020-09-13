@@ -90,6 +90,8 @@ class BlogController extends Controller
             [],
             ['blogs.deleted_at']
         );
+        $query->addIndexColumn();
+
         $query->editColumn('description', function ($data) {
             return  strip_tags(Str::limit($data->description,100));
         });

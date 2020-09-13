@@ -68,6 +68,8 @@ class BlogCategoryController extends Controller
             [],
             ['blog_categories.deleted_at']
         );
+        $query->addIndexColumn();
+
         $query->editColumn('status', function ($data) {
             $id = $data->id;
             $name = 'status';

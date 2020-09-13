@@ -16,6 +16,13 @@ class CreateCmsPagesTable extends Migration
         Schema::create('cms_pages', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
+            $table->string('image');
+            $table->longText('terms_and_conditions')->nullable();
+            $table->longText('return_policy')->nullable();
+            $table->longText('privacy_policy')->nullable();
+
+
         });
     }
 

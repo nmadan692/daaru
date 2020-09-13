@@ -97,6 +97,8 @@ class ProductController extends Controller
             [],
             ['products.deleted_at']
         );
+        $query->addIndexColumn();
+
         $query->editColumn('status', function ($data) {
             $id = $data->id;
             $name = 'status';

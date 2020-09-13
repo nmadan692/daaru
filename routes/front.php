@@ -38,12 +38,12 @@ Route::get('/my-wish-list', 'CartController@wishList')->name('my-wish-list');
 // shoping-cart
 //Route::get('/shoping-cart', 'ShopingCartController@index')->name('shoping.cart');
 
-// customer-login
-Route::get('/login', 'LoginController@index')->name('login');
 
-// customer-signup
-Route::get('/sign_up', 'LoginController@index')->name('sign_up');
+// terms-and-condition
+Route::get('/terms-and-condition', 'TermsController@index')->name('terms');
 
+// return policy
+Route::get('/return-policy', 'ReturnController@index')->name('return');
 
-
-
+// privacy policy
+Route::get('/privacy-policy', 'PrivacyController@index')->name('privacy');

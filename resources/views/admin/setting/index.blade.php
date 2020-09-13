@@ -8,7 +8,6 @@
                             'Company Name',
                             'Phone',
                             'Email',
-                            'Address',
                             'Action']"
 
                             :button="['route' => 'admin.setting.create',
@@ -17,11 +16,10 @@
 
                             :url="'/admin/setting/list'"
                             columns="[
-                            { data: 'id', name: 'id' },
+                            {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false, width: '5%'},
                             { data: 'name', name: 'name' },
                             { data: 'phone', name: 'phone' },
                             { data: 'email', name: 'email' },
-                            { data: 'address', name: 'address' },
                             { data: 'action', name: 'action', orderable: false, searchable: false }
                             ]">
         </x-tables.datatable>

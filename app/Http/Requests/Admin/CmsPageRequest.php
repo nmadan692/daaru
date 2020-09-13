@@ -5,7 +5,7 @@ namespace App\Http\Requests\Admin;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ProductRequest extends FormRequest
+class CmsPageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,13 +25,14 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('categories')->ignore($this->product)],
-            'volume' => 'required',
-            'alcohol' => 'required|numeric|between:1,100',
-            'price' => 'required',
-            'quantity' => 'required|integer',
-            'image' => 'image|mimes:jpg,png,jpeg,gif,svg',
-            'brand_id' => 'required'
+
+            'image' => 'required',
+            'terms_and_conditions' => 'required',
+            'return_policy' => 'required',
+            'privacy_policy' => 'required',
+
+
+
         ];
     }
 }

@@ -62,8 +62,14 @@ class bootstrapSelect extends Component
      * @var null
      */
     public $optionValue;
-
-
+    /**
+     * @var null
+     */
+    public $value;
+    /**
+     * @var null
+     */
+    public $errors;
     /**
      * bootstrapSelect constructor.
      * @param null $formClass
@@ -80,6 +86,8 @@ class bootstrapSelect extends Component
      * @param null $helpClass
      * @param null $optionText
      * @param null $optionValue
+     * @param null $value
+     * @param null $errors
      */
     public function __construct(
         $formClass = null,
@@ -95,7 +103,9 @@ class bootstrapSelect extends Component
         $helpText = null,
         $helpClass = null,
         $optionText = null,
-        $optionValue = null
+        $optionValue = null,
+        $value = null,
+        $errors = null
     )
     {
         $this->formClass = $formClass;
@@ -112,6 +122,8 @@ class bootstrapSelect extends Component
         $this->helpClass = $helpClass;
         $this->optionText = $optionText;
         $this->optionValue = $optionValue;
+        $this->value = $value;
+        $this->errors = $errors;
     }
 
     /**
