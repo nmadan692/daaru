@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Daaruu\Constants\OrderConstant;
 use App\Daaruu\Constants\RoleConstant;
 use App\Http\Controllers\Controller;
 use App\Services\General\UserService;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class CheckoutController extends Controller
 {
@@ -24,12 +28,20 @@ class CheckoutController extends Controller
         $this->userService = $userService;
     }
 
+    /**
+     * @return Factory|View
+     */
     public function index(){
-        return view('front.checkout.checkout');
+        $products = session()->get('cart') ?? collect([]);
+
+        return view('front.checkout.checkout', compact('products'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request) {
-//        dd($request->all());
         $userData[] =  [
             'first_name' => $request->input('first_name')[0],
             'last_name' => $request->input('last_name')[0],
@@ -65,11 +77,40 @@ class CheckoutController extends Controller
             }
         }
 
-        foreach ($userData as $user) {
-            $this->userService->create($user);
+        DB::beginTransaction();
+        foreach ($userData as $key => $user) {
+            $u[$key] = $this->userService->create($user);
         }
+        $ordersData = [
+            'status' => OrderConstant::ORDERED_ID,
+        ];
+        if(isset($u[1])) {
+            $ordersData = [
+                array_merge(
+                    $ordersData,
+                    [
+                        'ordered_by' => $u[0]->id,
+                    ]
+                )
+            ];
+            $order = $u[1]->orders()->create($ordersData);
+        }
+        else {
+            $order = $u[0]->orders()->create($ordersData);
+        }
+        foreach (session()->get('cart') as $product) {
+            $order->products()->attach(
+                $product['product']->id,
+                [
+                    'quantity' => $product['quantity'],
+                    'amount' => $product['quantity']*$product['product']->discount_amount,
+                ]
+            );
+        }
+        session()->forget('cart');
+        DB::commit();
 
-        return redirect()->back();
+        return redirect()->route('products');
 
     }
 }
