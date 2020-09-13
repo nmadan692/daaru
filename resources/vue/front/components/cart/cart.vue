@@ -58,7 +58,7 @@
                     <ul>
                         <li>Total <span>{{ 'NRs ' + total }}</span></li>
                     </ul>
-                    <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                    <a :href="handleCheckout()" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>
             </div>
         </div>
@@ -174,6 +174,9 @@
                 }).catch(res => {
                     alert('Sorry something went wrong.')
                 });
+            },
+            handleCheckout() {
+                return front.checkout();
             }
         }
     }

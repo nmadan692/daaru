@@ -139,9 +139,20 @@ class MenuTableSeeder extends Seeder
                 'related_route' => null
             ],
             [
+                'name' => 'Orders',
+                'slug' => 'order',
+                'order' => 11,
+                'status' => true,
+                'route' => 'admin.order.index',
+                'icon' => 'm-menu__link-icon fa fa-user',
+                'parent_id' => null,
+                'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
+                'related_route' => null
+            ],
+            [
                 'name' => 'Staff',
                 'slug' => 'staff',
-                'order' => 11,
+                'order' => 12,
                 'status' => true,
                 'route' => 'admin.staff.index',
                 'icon' => 'm-menu__link-icon fa fa-user',

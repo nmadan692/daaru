@@ -22,6 +22,11 @@ Route::get('product/list', 'Product\ProductController@list')->name('product.list
 Route::get('product/status/change/{id}', 'Product\ProductController@changeStatus')->name('product.status.change');
 Route::resource('product', 'Product\ProductController');
 
+// Product
+Route::get('order/list', 'Order\OrderController@list')->name('order.list');
+Route::get('order/status/change/{id}', 'Order\OrderController@changeStatus')->name('order.status.change');
+Route::resource('order', 'Order\OrderController');
+
 //BlogCategory
 Route::name('blog.')->prefix('blog/')->group(function () {
     Route::get('category/list', 'Blog\BlogCategoryController@list')->name('type.list');

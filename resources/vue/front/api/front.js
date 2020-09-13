@@ -7,5 +7,8 @@ export default {
     },
     deleteCart(id) {
         return axios.delete(`cart/${id}`);
-    }
+    },
+    checkout: function (data) {
+        return 'checkout';
+    },
 };

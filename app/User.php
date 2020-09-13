@@ -2,10 +2,12 @@
 
 namespace App;
 
+use App\Entities\Order;
 use App\Entities\Role;
 use App\Notifications\MailTemplateNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -98,5 +100,19 @@ class User extends Authenticatable
            else{
                return $this->address_1;
            }
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function orders() {
+        return $this->hasMany(Order::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function foreignOrders() {
+        return $this->hasMany(Order::class, 'ordered_by', 'id');
     }
 }

@@ -3,12 +3,16 @@
         <h4>Your Order</h4>
         <div class="checkout__order__products">Products <span>Total</span></div>
         <ul>
-            <li>Vegetable’s Package <span>$75.99</span></li>
-            <li>Fresh Vegetable <span>$151.99</span></li>
-            <li>Organic Bananas <span>$53.99</span></li>
+            <p style="display: none;">{{ $quantity = 0 }} </p>
+        @forelse($products as $product)
+            <li>{{$product['product']->name }} <span>{{ 'Nrs '. $product['product']->discount_amount * $product['quantity']}}</span></li>
+                <p style="display: none;">{{ $quantity+= $product['product']->discount_amount * $product['quantity'] }} </p>
+            @empty
+                <p>No Products found.</p>
+            @endforelse
         </ul>
-        <div class="checkout__order__subtotal">Subtotal <span>$750.99</span></div>
-        <div class="checkout__order__total">Total <span>$750.99</span></div>
+{{--        <div class="checkout__order__subtotal">Subtotal <span>$750.99</span></div>--}}
+        <div class="checkout__order__total">Total <span>{{'Nrs '. $quantity ?? 0 }}</span></div>
 
         <p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt
             ut labore et dolore magna aliqua.</p>
