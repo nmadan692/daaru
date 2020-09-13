@@ -71,6 +71,8 @@ class CustomerController extends Controller
             null,
             ['role_id' => RoleConstant::CUSTOMER_ID]
         );
+        $query->addIndexColumn();
+
 
         $query->addColumn('action', function ($data) use($actionData) {
             $id = $data->id;

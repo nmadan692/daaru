@@ -1,39 +1,39 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Setting;
+namespace App\Http\Controllers\Admin\CmsPage;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\SettingRequest;
+use App\Http\Requests\Admin\CmsPageRequest;
+use App\Services\General\CmsPage\CmsPageService;
 use App\Services\General\DatatableService;
-use App\Services\General\Setting\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 
-class SettingController extends Controller
+class CmsPageController extends Controller
 {
-    /**
-     * @var SettingService
-     */
-    private $settingService;
     /**
      * @var DatatableService
      */
     private $datatableService;
+    /**
+     * @var CmsPageService
+     */
+    private $cmsPageService;
 
     /**
-     * SettingController constructor.
-     * @param SettingService $settingService
+     * CmsPageController constructor.
      * @param DatatableService $datatableService
+     * @param CmsPageService $cmsPageService
      */
     public function __construct(
-        SettingService $settingService,
-        DatatableService $datatableService
 
+        DatatableService $datatableService,
+        CmsPageService $cmsPageService
     )
     {
-        $this->settingService = $settingService;
         $this->datatableService = $datatableService;
+        $this->cmsPageService = $cmsPageService;
     }
 
     /**
@@ -45,39 +45,32 @@ class SettingController extends Controller
             'icon' => true,
             'text' => false,
             'edit' => true,
-            'editUrl' => 'admin.setting.edit',
+            'editUrl' => 'admin.cms-page.edit',
             'editIcon' => 'fa fa-edit',
             'editClass' => '',
             'delete' => true,
-            'deleteUrl' => 'admin.setting.destroy',
+            'deleteUrl' => 'admin.cms-page.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
             'view' => true,
-            'viewUrl' => 'admin.setting.show',
+            'viewUrl' => 'admin.cms-page.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
         ];
 
         $query = $this->datatableService->getData(
-            'settings',
+            'cms_pages',
             null,
             [
                 'id',
-                'logo',
-                'name',
-                'phone',
-                'viber',
-                'email',
-                'address',
-                'delivery_start_hour',
-                'delivery_end_hour',
-                'facebook',
-                'instagram',
-                'twitter'
+                'terms_and_conditions',
+                'return_policy',
+                'privacy_policy',
+                'image'
             ],
             null,
             [],
-            ['settings.deleted_at']
+            ['deleted_at']
         );
 
         $query->addIndexColumn();
@@ -85,11 +78,23 @@ class SettingController extends Controller
             $id = $data->id;
             return view('general.datatable.action', compact('actionData', 'id'));
         });
+        $query->editColumn('terms_and_conditions', function ($data) {
+            return  strip_tags(Str::limit($data->terms_and_conditions,100));
+        });
+
+        $query->editColumn('return_policy', function ($data) {
+            return  strip_tags(Str::limit($data->return_policy,100));
+        });
+
+        $query->editColumn('privacy_policy', function ($data) {
+            return  strip_tags(Str::limit($data->privacy_policy,100));
+        });
+
+
+        $query->rawColumns(['terms_and_conditions', 'return_policy', 'privacy_policy', 'action']);
 
         return $query->make();
     }
-
-
     /**
      * Display a listing of the resource.
      *
@@ -97,8 +102,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        return view('admin.setting.index');
-
+        return view('admin.cmspage.index');
     }
 
     /**
@@ -108,8 +112,7 @@ class SettingController extends Controller
      */
     public function create()
     {
-        return view('admin.setting.create');
-
+        return view('admin.cmspage.create');
     }
 
     /**
@@ -118,27 +121,19 @@ class SettingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SettingRequest $request)
+    public function store(CmsPageRequest $request)
     {
-
-        $image = $request->file('logo');
+        $image = $request->file('image');
         $image_name = time() . '.' . $image->getClientOriginalExtension();
-        $resizedImage = Image::make($image);
-
         $storeData = array_merge(
             $request->all(),
             [
-                'logo' => Storage::putFileAs('setting/images/', $image, $image_name)
+                'image' => Storage::putFileAs('cms_page/images', $image, $image_name)
             ]
         );
-        Storage::put('200x300/setting/images/'.$image_name, $resizedImage->resize(200,300)->encode());
-        Storage::put('300x400/setting/images/'.$image_name, $resizedImage->resize(300,400)->encode());
-        $this->settingService->create($storeData);
+        $this->cmsPageService->create($storeData);
 
-
-        return redirect()->route('admin.setting.index');
-
-
+        return redirect()->route('admin.cms-page.index');
     }
 
     /**
@@ -149,10 +144,9 @@ class SettingController extends Controller
      */
     public function show($id)
     {
-        $setting = $this->settingService->findOrFail($id);
+        $cms_page = $this->cmsPageService->findOrFail($id);
 
-        return view('admin.setting.show', compact('setting'));
-
+        return view('admin.cmspage.show', compact('cms_page'));
     }
 
     /**
@@ -161,11 +155,10 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
-        $setting = $this->settingService->findOrFail($id);
-
-        return view('admin.setting.edit', compact('setting'));
+        $cms_page = $this->cmsPageService->findOrFail($id);
+        return view('admin.cmspage.edit', compact('cms_page'));
     }
 
     /**
@@ -175,27 +168,26 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SettingRequest $request, $id)
+    public function update(CmsPageRequest $request, $id)
     {
         $updateData = $request->all();
-        if($request->file('logo')) {
-            $image = $request->file('logo');
+        if($request->file('image')) {
+            $image = $request->file('image');
             $image_name = time() . '.' . $image->getClientOriginalExtension();
             $updateData = array_merge(
                 $updateData,
                 [
-                    'logo' => Storage::putFileAs('setting/images', $image, $image_name)
+                    'image' => Storage::putFileAs('cms_page/images', $image, $image_name)
                 ]);
         }
-        $setting = $this->settingService->findOrFail($id);
-
-        $this->settingService->update($id, $updateData);
-        $oldImage = $setting->logo;
-        if($oldImage && $request->file('logo')) {
+        $blog = $this->cmsPageService->findOrFail($id);
+        $this->cmsPageService->update($id, $updateData);
+        $oldImage = $blog->image;
+        if($oldImage && $request->file('image')) {
             Storage::delete($oldImage);
         }
 
-        return redirect()->route('admin.setting.index');
+        return redirect()->route('admin.cms-page.index');
     }
 
     /**
@@ -206,8 +198,7 @@ class SettingController extends Controller
      */
     public function destroy($id)
     {
-        $this->settingService->findOrFail($id)->delete();
-
-        return redirect()->route('admin.setting.index');
+        $this->cmsPageService->findOrFail($id)->delete();
+        return redirect()->route('admin.cms-page.index');
     }
 }

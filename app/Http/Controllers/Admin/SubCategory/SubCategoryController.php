@@ -69,11 +69,17 @@ class SubCategoryController extends Controller
             ['parent_id']
 
         );
+        $query->addIndexColumn();
+
         $query->editColumn('status', function ($data) {
             $id = $data->id;
             $name = 'status';
             $checked = false;
             $disabled = false;
+            if($data->status == 1) {
+                $checked = true;
+                $disabled = true;
+            }
 
             return view('admin.category.switch', compact('name', 'disabled', 'checked', 'id'));
         });
@@ -104,7 +110,9 @@ class SubCategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.subcategory.create');
+        $categoryName = $this->categoryService->getWhere([['parent_id', '=', null]]);
+
+        return view('admin.subcategory.create',compact('categoryName'));
 
     }
 

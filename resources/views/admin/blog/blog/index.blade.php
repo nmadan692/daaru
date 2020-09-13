@@ -15,7 +15,7 @@
                             :url="'/admin/blog/list'"
                             columns="[
                             { data: 'id', name: 'id' },
-                            { data: 'blog_category_name', name: 'blog_category_name' },
+                            { data: 'blog_category_name', name: 'blog_categories.name' },
                             { data: 'name', name: 'name' },
                             { data: 'status', name: 'status' },
                             { data: 'action', name: 'action', orderable: false, searchable: false }

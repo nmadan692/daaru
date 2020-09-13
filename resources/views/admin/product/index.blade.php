@@ -15,9 +15,9 @@
                                       'icon' => 'la la-plus']"
                             :url="'/admin/product/list'"
                             columns="[
-                            { data: 'id', name: 'id' },
+                            {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false, width: '5%'},
                             { data: 'name', name: 'name' },
-                            { data: 'brand_name', name: 'brand_name' },
+                            { data: 'brand_name', name: 'brands.name' },
                             { data: 'status', name: 'status' },
                             { data: 'action', name: 'action', orderable: false, searchable: false }
                             ]">

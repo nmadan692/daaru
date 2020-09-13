@@ -55,6 +55,7 @@ class ContactController extends Controller
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
         ];
+        $query->addIndexColumn();
 
         $query = $this->datatableService->getData(
             'contacts',

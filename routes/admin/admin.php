@@ -54,3 +54,7 @@ Route::resource('customer', 'Customer\CustomerController');
 // Staff
 Route::get('staff/list', 'Staff\StaffController@list')->name('staff.list');
 Route::resource('staff', 'Staff\StaffController');
+
+// cmspages
+Route::get('cms-page/list', 'CmsPage\CmsPageController@list')->name('cms-page.list');
+Route::resource('cms-page', 'CmsPage\CmsPageController');

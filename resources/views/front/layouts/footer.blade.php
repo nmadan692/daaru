@@ -26,8 +26,10 @@
                         <li><a href="{{ route('my-cart') }}">My wishlist</a></li>
                     </ul>
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms and Conditions</a></li>
+                        <li><a href="{{ route('terms') }}">Terms and Conditions</a></li>
+                        <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
+                        <li><a href="{{ route('return') }}">Return Policy</a></li>
+
 
                     </ul>
                 </div>

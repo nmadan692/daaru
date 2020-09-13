@@ -89,6 +89,8 @@ class BrandController extends Controller
             [],
             ['brands.deleted_at']
         );
+        $query->addIndexColumn();
+
         $query->editColumn('status', function ($data) {
             $id = $data->id;
             $name = 'status';

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Staff;
 
 use App\Daaruu\Constants\RoleConstant;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StaffRequest;
 use App\Services\General\DatatableService;
 use App\Services\General\UserService;
 use Illuminate\Http\Request;
@@ -71,6 +72,7 @@ class StaffController extends Controller
             null,
             ['role_id' => RoleConstant::STAFF_ID]
         );
+        $query->addIndexColumn();
 
         $query->addColumn('action', function ($data) use($actionData) {
             $id = $data->id;
@@ -113,7 +115,7 @@ class StaffController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StaffRequest $request)
     {
         $storeData = array_merge(
             $request->all(),
@@ -161,7 +163,7 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StaffRequest $request, $id)
     {
         $updateData = array_merge(
             $request->all(),

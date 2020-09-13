@@ -37,7 +37,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="hero__item set-bg" data-setbg="{{asset('front')}}/img/hero/bannner.jpg">
+                    <div class="hero__item set-bg" data-setbg="{{ getImageUrl($cms_page[0]->image) }}">
                         <div class="hero__text">
 {{--                            <span>Red Wine</span>--}}
 

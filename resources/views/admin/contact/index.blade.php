@@ -12,7 +12,7 @@
 
                             :url="'/admin/contact/list'"
                             columns="[
-                            { data: 'id', name: 'id' },
+                            {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false, width: '5%'},
                             { data: 'name', name: 'name' },
                             { data: 'email', name: 'email' },
                             { data: 'message', name: 'message' },
