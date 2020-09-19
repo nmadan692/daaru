@@ -6,6 +6,8 @@ use App\View\Components\basic\accordion\Accordion;
 use App\View\Components\basic\accordion\AccordionDetail;
 use App\View\Components\Inputs\bootstrapDependentSelect;
 use App\View\Components\Inputs\bootstrapSelect;
+use App\View\Components\inputs\checkbox;
+use App\View\Components\inputs\ckeditor;
 use App\View\Components\inputs\Image;
 use App\View\Components\Inputs\Text;
 use App\View\Components\Portlets\Base;
@@ -38,6 +40,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('portlets.base', Base::class);
         Blade::component('inputs.text', Text::class);
         Blade::component('inputs.image', Image::class);
+        Blade::component('inputs.ckeditor', ckeditor::class);
+        Blade::component('inputs.checkbox', checkbox::class);
 
         Blade::component('inputs.bootstrap-select', bootstrapSelect::class);
         Blade::component('inputs.bootstrap-dependent-select', bootstrapDependentSelect::class);

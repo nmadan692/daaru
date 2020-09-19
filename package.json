@@ -23,6 +23,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "axios": "^0.20.0"
+        "axios": "^0.20.0",
+        "toastr": "^2.1.4"
     }
 }
