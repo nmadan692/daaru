@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Services\General\Brand\BrandService;
 use App\Services\General\DatatableService;
+use App\Services\General\DefaultProfile\DefaultProfileService;
 use App\Services\General\Product\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,23 +26,30 @@ class ProductController extends Controller
      * @var DatatableService
      */
     private $datatableService;
+    /**
+     * @var DefaultProfileService
+     */
+    private $defaultProfileService;
 
     /**
      * ProductController constructor.
      * @param BrandService $brandService
      * @param ProductService $productService
      * @param DatatableService $datatableService
+     * @param DefaultProfileService $defaultProfileService
      */
     public function __construct(
         BrandService $brandService,
         ProductService $productService,
-        DatatableService $datatableService
+        DatatableService $datatableService,
+        DefaultProfileService $defaultProfileService
     )
     {
 
         $this->brandService = $brandService;
         $this->productService = $productService;
         $this->datatableService = $datatableService;
+        $this->defaultProfileService = $defaultProfileService;
     }
 
     /**
@@ -94,7 +102,9 @@ class ProductController extends Controller
 
             ],
             null,
-            [],
+            [
+                'city_id' => $this->defaultProfileService->get('id')
+            ],
             ['products.deleted_at']
         );
         $query->addIndexColumn();
@@ -154,7 +164,8 @@ class ProductController extends Controller
         $storeData = array_merge(
             $request->all(),
             [
-                'image' => Storage::putFileAs('product/images', $image, $image_name)
+                'image' => Storage::putFileAs('product/images', $image, $image_name),
+                'city_id' => $this->defaultProfileService->get('id')
             ]
         );
         $this->productService->create($storeData);

@@ -1,40 +1,35 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Category;
+namespace App\Http\Controllers\Admin\City;
 
-use App\Entities\Category;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CategoryRequest;
-use App\Services\General\category\CategoryService;
+use App\Services\General\City\CityService;
 use App\Services\General\DatatableService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-
-class CategoryController extends Controller
+class CityController extends Controller
 {
-    /**
-     * @var CategoryService
-     */
-    private $categoryService;
     /**
      * @var DatatableService
      */
     private $datatableService;
+    /**
+     * @var CityService
+     */
+    private $cityService;
 
     /**
-     * CategoryController constructor.
-     * @param CategoryService $categoryService
+     * CityController constructor.
      * @param DatatableService $datatableService
+     * @param CityService $cityService
      */
     public function __construct(
-        CategoryService $categoryService,
-        DatatableService $datatableService
+        DatatableService $datatableService,
+        CityService $cityService
     )
     {
-
-        $this->categoryService = $categoryService;
         $this->datatableService = $datatableService;
+        $this->cityService = $cityService;
     }
 
     /**
@@ -46,48 +41,36 @@ class CategoryController extends Controller
             'icon' => true,
             'text' => false,
             'edit' => true,
-            'editUrl' => 'admin.category.edit',
+            'editUrl' => 'admin.city.edit',
             'editIcon' => 'fa fa-edit',
             'editClass' => '',
             'delete' => true,
-            'deleteUrl' => 'admin.category.destroy',
+            'deleteUrl' => 'admin.city.destroy',
             'deleteIcon' => 'fa fa-trash',
             'deleteClass' => '',
             'view' => false,
-            'viewUrl' => 'admin.category.show',
+            'viewUrl' => 'admin.cities.show',
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
         ];
 
         $query = $this->datatableService->getData(
-            'categories',
+            'cities',
             null,
             [
                 'id',
                 'name',
-                'status'
             ],
             null,
             [],
-            ['parent_id','categories.deleted_at']
+            ['deleted_at']
         );
         $query->addIndexColumn();
-        $query->editColumn('status', function ($data) {
-            $id = $data->id;
-            $name = 'status';
-            $checked = false;
-            $disabled = false;
-            if($data->status == 1) {
-                $checked = true;
-                $disabled = true;
-            }
-            return view('admin.category.switch', compact('name', 'disabled', 'checked', 'id'));
-        });
         $query->addColumn('action', function ($data) use($actionData) {
             $id = $data->id;
             return view('general.datatable.action', compact('actionData', 'id'));
         });
-        $query->rawColumns(['status', 'action']);
+        $query->rawColumns(['action']);
 
         return $query->make(true);
     }
@@ -97,8 +80,9 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        return view('admin.category.index');
+    public function index()
+    {
+        return view('admin.city.index');
     }
 
     /**
@@ -106,9 +90,9 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        return view('admin.category.create');
-
+    public function create()
+    {
+        return view('admin.city.create');
     }
 
     /**
@@ -117,11 +101,11 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request)
+    public function store(Request $request)
     {
-        $this->categoryService->create($request->all());
+        $this->cityService->create($request->all());
 
-        return redirect()->route('admin.category.index');
+        return redirect()->route('admin.city.index');
     }
 
     /**
@@ -132,9 +116,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = $this->categoryService->findOrFail($id);
-
-        return view('admin.category.show', compact('category'));
+        //
     }
 
     /**
@@ -145,9 +127,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = $this->categoryService->findOrFail($id);
+        $city = $this->cityService->findOrFail($id);
 
-        return view('admin.category.edit', compact('category'));
+        return view('admin.city.edit', compact('city'));
     }
 
     /**
@@ -157,11 +139,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $this->categoryService->update($id, $request->all());
+        $this->cityService->update($id, $request->all());
 
-        return redirect()->route('admin.category.index');
+        return redirect()->route('admin.city.index');
     }
 
     /**
@@ -172,20 +154,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $this->categoryService->findOrFail($id)->delete();
+        $this->cityService->findOrFail($id)->delete();
 
-        return redirect()->route('admin.category.index');
-    }
-
-
-    public function changeStatus($id) {
-        $test = $this->categoryService->findOrFail($id);
-        DB::beginTransaction();
-        // event(new TestPublished($test));
-        $test->status = !$test->status;
-        $test->save();
-        DB::commit();
-
-        return;
+        return redirect()->route('admin.city.index');
     }
 }

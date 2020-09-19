@@ -1,3 +1,4 @@
 {
-    "/vue/front/app.js": "/vue/front/app.js"
+    "/vue/front/app.js": "/vue/front/app.js",
+    "/vue/front/toastr.js": "/vue/front/toastr.js"
 }

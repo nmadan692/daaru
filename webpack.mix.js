@@ -12,3 +12,4 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/vue/front/app.js', 'public/vue/front')
+mix.js('resources/sass/toastr.scss', 'public/vue/front')

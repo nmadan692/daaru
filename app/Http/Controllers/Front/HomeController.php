@@ -68,10 +68,10 @@ class HomeController extends Controller
         $latestProducts = $this->productService->take(8, 'desc');
         $featuredProducts = $this->productService->query()->where(['is_featured' => true])->take(8)->orderBy('id', 'desc')->get();
         $recentBlogs = $this->blogService->take(3, 'desc');
-        $cms_page = $this->cmsPageService->all();
+        $cmsPages = $this->cmsPageService->all();
 
 
-        return view('front.home.index', compact('setting', 'categories', 'latestProducts', 'recentBlogs', 'featuredProducts', 'cms_page'));
+        return view('front.home.index', compact('setting', 'categories', 'latestProducts', 'recentBlogs', 'featuredProducts', 'cmsPages'));
     }
 }
 

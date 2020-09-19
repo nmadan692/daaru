@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Services\General\Product\ProductService;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use MongoDB\Driver\Session;
 
 class CartController extends Controller
@@ -23,13 +25,20 @@ class CartController extends Controller
         $this->productService = $productService;
     }
 
+    /**
+     * @param Request $request
+     * @return Factory|View
+     */
     public function cart(Request $request) {
-
         $products = session()->get('cart');
 
         return view('front.cart.index', compact('products'));
     }
 
+    /**
+     * @param Request $request
+     * @return Factory|View
+     */
     public function wishList(Request $request) {
 
         $products = session()->get('list');
@@ -45,14 +54,12 @@ class CartController extends Controller
     public function shop($id, Request $request) {
         if($request['action'] == 'cart') {
             $this->addToCart(decrypt($id), $request);
-
-            return redirect()->back()->with('success', 'Product added to cart successfully!');
         }
         elseif($request['action'] == 'wishList') {
             $this->addToWishList(decrypt($id), $request);
-
-            return redirect()->back()->with('success', 'Product added to cart successfully!');
         }
+
+        return redirect()->back();
     }
 
     /**
@@ -89,6 +96,8 @@ class CartController extends Controller
                 $request->session()->put('cart', $carts);
             }
         }
+
+        $request->session()->flash('message', 'Product added to cart successfully.');
 
         return;
     }
@@ -128,6 +137,7 @@ class CartController extends Controller
                 $request->session()->put('list', $lists);
             }
         }
+        $request->session()->flash('message', 'Product added to wishlist successfully.');
 
         return;
     }
