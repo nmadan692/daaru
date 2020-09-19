@@ -58,3 +58,11 @@ Route::resource('staff', 'Staff\StaffController');
 // cmspages
 Route::get('cms-page/list', 'CmsPage\CmsPageController@list')->name('cms-page.list');
 Route::resource('cms-page', 'CmsPage\CmsPageController');
+
+// cities
+Route::get('city/list', 'City\CityController@list')->name('city.list');
+Route::resource('city', 'City\CityController');
+
+
+//default Profile
+Route::get('default-profile/{id}', 'DefaultProfile\DefaultProfileController@store')->name('default-profile');

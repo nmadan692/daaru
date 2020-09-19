@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['name', 'brand_id', 'volume', 'country', 'alcohol', 'description', 'price', 'discount', 'is_percent', 'is_featured', 'quantity', 'image', 'status'];
+    protected $fillable = ['name', 'brand_id', 'volume', 'country', 'alcohol', 'description', 'price', 'discount', 'is_percent', 'is_featured', 'quantity', 'image', 'status', 'city_id'];
     public $appends =  ['original_price', 'discount_price', 'discount_amount'];
     /**
      * @return BelongsTo

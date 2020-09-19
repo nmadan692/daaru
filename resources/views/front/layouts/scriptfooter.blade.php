@@ -8,4 +8,5 @@
 <script src="{{asset('front')}}/js/mixitup.min.js"></script>
 <script src="{{asset('front')}}/js/owl.carousel.min.js"></script>
 <script src="{{asset('front')}}/js/main.js"></script>
+<script  src="{{asset('vue/front/toastr.js') }}"></script>
 @stack('script')

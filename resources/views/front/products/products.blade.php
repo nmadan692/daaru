@@ -53,3 +53,15 @@
 {{--    <a href="#">3</a>--}}
 {{--    <a href="#"><i class="fa fa-long-arrow-right"></i></a>--}}
 {{--</div>--}}
+
+
+@push('script')
+    <script>
+        $( document ).ready(function() {
+            var message = @json(session()->get('message'));
+            if(message) {
+                toastr.success(message);
+            }
+        });
+    </script>
+@endpush

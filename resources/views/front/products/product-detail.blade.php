@@ -116,5 +116,17 @@
 
 @endsection
 
+@push('script')
+    <script>
+        $( document ).ready(function() {
+            var message = @json(session()->get('message'));
+            if(message) {
+                toastr.success(message);
+            }
+        });
+    </script>
+
+@endpush
+
 
 

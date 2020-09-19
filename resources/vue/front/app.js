@@ -9,7 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 var _ = require('lodash');
 window.axios = require('axios');
-
+window.toastr = require('toastr');
 import frontComponents from './frontComponents'
 
 
