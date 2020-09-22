@@ -94,3 +94,31 @@
     padding-left: 0px;
     color: #dd2222;
 }
+
+.list-active a{
+    background: red!important;
+    border-color: red!important;
+    color: #ffffff!important;
+    transform: rotate(360deg);
+}
+
+.list-active:hover a{
+    background: red!important;
+    border-color: red!important;
+    color: #ffffff !important;
+    transform: rotate(360deg);
+}
+
+.cart-active a {
+    background: red!important;
+    border-color: red!important;
+    color: #ffffff !important;
+    transform: rotate(360deg);
+}
+
+.cart-active:hover a {
+    background: red!important;
+    border-color: red!important;
+    color: #ffffff !important;
+    transform: rotate(360deg);
+}

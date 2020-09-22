@@ -52,14 +52,26 @@
 
                 <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-dark m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark ">
                     <ul class="m-menu__nav ">
-                        <li class="m-menu__item m-menu__item--submenu m-menu__item--rel m-menu__item--open-dropdown" m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true"><a href="javascript:;" class="m-menu__link m-menu__toggle" title="Non functional dummy link"><i class="m-menu__link-icon flaticon-add"></i><span class="m-menu__link-text">Locations</span><i class="m-menu__hor-arrow la la-angle-down"></i><i class="m-menu__ver-arrow la la-angle-right"></i></a>
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--rel m-menu__item--open-dropdown" m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true">
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle" title="Non functional dummy link">
+                                <i class="m-menu__link-icon fa fa-location-arrow"></i>
+                                <span class="m-menu__link-text">Location : {{ defaultCity('name') }}</span>
+                                <i class="m-menu__hor-arrow la la-angle-down"></i>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
                             <div class="m-menu__submenu m-menu__submenu--classic m-menu__submenu--left">
                                 <ul class="m-menu__subnav">
-                                    <li class="m-menu__item " aria-haspopup="true"><a href="actions.html" class="m-menu__link "><i class="m-menu__link-icon flaticon-diagram"></i><span class="m-menu__link-text">Dharan</span></a></li>
-                                    <li class="m-menu__item " m-menu-link-redirect="1" aria-haspopup="true"><a href="actions.html" class="m-menu__link "><i class="m-menu__link-icon flaticon-diagram"></i><span class="m-menu__link-title"> <span class="m-menu__link-wrap">
-																<span class="m-menu__link-text">Biratnagar</span> <span class="m-menu__link-badge"><span class="m-badge m-badge--success"></span></span> </span></span></a></li>
-
-
+                                    @foreach($cities as $city)
+                                        <li class="m-menu__item location {{ defaultCity('id') == $city->id ? 'active-location' : null}}" m-menu-link-redirect="1" aria-haspopup="true">
+                                            <a href="{{ route('admin.default.city', encrypt($city->id)) }}" class="m-menu__link ">
+                                                <span class="m-menu__link-title">
+                                                    <span class="m-menu__link-wrap">
+                                                        <span class="m-menu__link-text {{ defaultCity('id') == $city->id ? 'active-location-text' : null}}">{{ $city->name }}</span>
+                                                    </span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </li>

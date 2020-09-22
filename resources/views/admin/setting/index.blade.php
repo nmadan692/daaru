@@ -9,11 +9,9 @@
                             'Phone',
                             'Email',
                             'Action']"
-
                             :button="['route' => 'admin.setting.create',
                                       'name' => 'Create',
                                       'icon' => 'la la-plus']"
-
                             :url="'/admin/setting/list'"
                             columns="[
                             {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false, width: '5%'},

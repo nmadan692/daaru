@@ -65,4 +65,4 @@ Route::resource('city', 'City\CityController');
 
 
 //default Profile
-Route::get('default-profile/{id}', 'DefaultProfile\DefaultProfileController@store')->name('default-profile');
+Route::get('default-city/{id}', 'DefaultCity\DefaultCityController@change')->name('default.city');

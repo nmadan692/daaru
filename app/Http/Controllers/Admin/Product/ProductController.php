@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Services\General\Brand\BrandService;
 use App\Services\General\DatatableService;
-use App\Services\General\DefaultProfile\DefaultProfileService;
+use App\Services\General\DefaultCity\DefaultCityService;
 use App\Services\General\Product\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,29 +27,29 @@ class ProductController extends Controller
      */
     private $datatableService;
     /**
-     * @var DefaultProfileService
+     * @var DefaultCityService
      */
-    private $defaultProfileService;
+    private $defaultCityService;
 
     /**
      * ProductController constructor.
      * @param BrandService $brandService
      * @param ProductService $productService
      * @param DatatableService $datatableService
-     * @param DefaultProfileService $defaultProfileService
+     * @param DefaultCityService $defaultCityService
      */
     public function __construct(
         BrandService $brandService,
         ProductService $productService,
         DatatableService $datatableService,
-        DefaultProfileService $defaultProfileService
+        DefaultCityService $defaultCityService
     )
     {
 
         $this->brandService = $brandService;
         $this->productService = $productService;
         $this->datatableService = $datatableService;
-        $this->defaultProfileService = $defaultProfileService;
+        $this->defaultCityService = $defaultCityService;
     }
 
     /**
@@ -103,7 +103,7 @@ class ProductController extends Controller
             ],
             null,
             [
-                'city_id' => $this->defaultProfileService->get('id')
+                'city_id' => $this->defaultCityService->get('id')
             ],
             ['products.deleted_at']
         );
@@ -165,7 +165,7 @@ class ProductController extends Controller
             $request->all(),
             [
                 'image' => Storage::putFileAs('product/images', $image, $image_name),
-                'city_id' => $this->defaultProfileService->get('id')
+                'city_id' => $this->defaultCityService->get('id')
             ]
         );
         $this->productService->create($storeData);

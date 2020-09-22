@@ -55,7 +55,6 @@ class ContactController extends Controller
             'viewIcon' => 'fa fa-eye',
             'viewClass' => '',
         ];
-        $query->addIndexColumn();
 
         $query = $this->datatableService->getData(
             'contacts',
@@ -70,7 +69,7 @@ class ContactController extends Controller
             [],
             ['contacts.deleted_at']
         );
-
+        $query->addIndexColumn();
         $query->addColumn('action', function ($data) use($actionData) {
             $id = $data->id;
             return view('general.datatable.action', compact('actionData', 'id'));

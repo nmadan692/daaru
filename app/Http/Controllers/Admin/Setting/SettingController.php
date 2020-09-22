@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Setting;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SettingRequest;
 use App\Services\General\DatatableService;
+use App\Services\General\DefaultCity\DefaultCityService;
 use App\Services\General\Setting\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -20,20 +21,27 @@ class SettingController extends Controller
      * @var DatatableService
      */
     private $datatableService;
+    /**
+     * @var DefaultCityService
+     */
+    private $defaultCityService;
 
     /**
      * SettingController constructor.
      * @param SettingService $settingService
      * @param DatatableService $datatableService
+     * @param DefaultCityService $defaultCityService
      */
     public function __construct(
         SettingService $settingService,
-        DatatableService $datatableService
+        DatatableService $datatableService,
+        DefaultCityService $defaultCityService
 
     )
     {
         $this->settingService = $settingService;
         $this->datatableService = $datatableService;
+        $this->defaultCityService = $defaultCityService;
     }
 
     /**
@@ -76,7 +84,9 @@ class SettingController extends Controller
                 'twitter'
             ],
             null,
-            [],
+            [
+                'city_id' => $this->defaultCityService->get('id')
+            ],
             ['settings.deleted_at']
         );
 
@@ -120,7 +130,6 @@ class SettingController extends Controller
      */
     public function store(SettingRequest $request)
     {
-
         $image = $request->file('logo');
         $image_name = time() . '.' . $image->getClientOriginalExtension();
         $resizedImage = Image::make($image);
@@ -128,7 +137,7 @@ class SettingController extends Controller
         $storeData = array_merge(
             $request->all(),
             [
-                'logo' => Storage::putFileAs('setting/images/', $image, $image_name)
+                'logo' => Storage::putFileAs('setting/images/', $image, $image_name),
             ]
         );
         Storage::put('200x300/setting/images/'.$image_name, $resizedImage->resize(200,300)->encode());

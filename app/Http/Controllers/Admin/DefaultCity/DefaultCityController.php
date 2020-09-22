@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Admin\DefaultProfile;
+namespace App\Http\Controllers\Admin\DefaultCity;
 
 use App\Http\Controllers\Controller;
 use App\Services\General\City\CityService;
-use App\Services\General\DefaultProfile\DefaultProfileService;
+use App\Services\General\DefaultCity\DefaultCityService;
 use Illuminate\Http\Request;
 
-class DefaultProfileController extends Controller
+class DefaultCityController extends Controller
 {
     /**
-     * @var DefaultProfileService
+     * @var DefaultCityService
      */
-    private $defaultProfileService;
+    private $defaultCityService;
     /**
      * @var CityService
      */
@@ -20,15 +20,15 @@ class DefaultProfileController extends Controller
 
     /**
      * DefaultProfileController constructor.
-     * @param DefaultProfileService $defaultProfileService
+     * @param DefaultCityService $defaultProfileService
      * @param CityService $cityService
      */
     public function __construct(
-        DefaultProfileService $defaultProfileService,
+        DefaultCityService $defaultCityService,
         CityService $cityService
     )
     {
-        $this->defaultProfileService = $defaultProfileService;
+        $this->defaultCityService = $defaultCityService;
         $this->cityService = $cityService;
     }
 
@@ -39,8 +39,8 @@ class DefaultProfileController extends Controller
      */
     public function change($id)
     {
-        $city = $this->cityService->findOrFail(encrypt($id));
-        $this->defaultProfileService->set($city);
+        $city = $this->cityService->findOrFail(decrypt($id));
+        $this->defaultCityService->set($city);
 
         return redirect()->back();
     }

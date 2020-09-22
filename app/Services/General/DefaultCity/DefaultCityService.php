@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\Services\General\DefaultProfile;
+namespace App\Services\General\DefaultCity;
 
 
 use App\Services\General\City\CityService;
 use Illuminate\Support\Facades\Cache;
 
-class DefaultProfileService
+class DefaultCityService
 {
     /**
      * @var CityService
