@@ -13,7 +13,9 @@
                         </div>
                         <ul>
                             @foreach($categories as $category)
-                                <li><a href="{{ route('products', ['categories' => [$category->id]]) }}">{{ $category->name }}</a></li>
+                                <li>
+                                    <a href="{{ route('products', ['categories' => [$category->id]]) }}">{{ $category->name }}</a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
@@ -66,16 +68,16 @@
                         <span class="dot"></span>
                         <span class="dot"></span>
                     </div>
-{{--                    <div class="hero__item set-bg" data-setbg="{{ getImageUrl($cmsPages[0]->image ?? null) }}">--}}
-{{--                        <div class="hero__text">--}}
-{{--                            <span>Red Wine</span>--}}
+                    {{--                    <div class="hero__item set-bg" data-setbg="{{ getImageUrl($cmsPages[0]->image ?? null) }}">--}}
+                    {{--                        <div class="hero__text">--}}
+                    {{--                            <span>Red Wine</span>--}}
 
-{{--                            <h2>Buy Liquor<br />Online in Nepal </h2>--}}
-{{--                            <p>Free Delivery Available</p>--}}
+                    {{--                            <h2>Buy Liquor<br />Online in Nepal </h2>--}}
+                    {{--                            <p>Free Delivery Available</p>--}}
 
-{{--                            <a href="#" class="primary-btn">SHOP NOW</a>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                    {{--                            <a href="#" class="primary-btn">SHOP NOW</a>--}}
+                    {{--                        </div>--}}
+                    {{--                    </div>--}}
                 </div>
             </div>
         </div>
@@ -94,11 +96,14 @@
 
 
                         @foreach($latestProducts as $latestProduct)
-                        <div class="col-lg-3">
-                            <div class="categories__item set-bg" data-setbg="{{ getImageUrl($latestProduct->image) }}">
-                                <h5><a href="{{ route('product.show', ['id' => encrypt($latestProduct->id)]) }}">{{$latestProduct->name}}</a></h5>
+                            <div class="col-lg-3">
+                                <div class="categories__item set-bg"
+                                     data-setbg="{{ getImageUrl($latestProduct->image) }}">
+                                    <h5>
+                                        <a href="{{ route('product.show', ['id' => encrypt($latestProduct->id)]) }}">{{$latestProduct->name}}</a>
+                                    </h5>
+                                </div>
                             </div>
-                        </div>
                         @endforeach()
 
                     </div>
@@ -122,26 +127,33 @@
             <div class="row featured__filter">
 
                 @foreach($featuredProducts as $product)
-                <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="{{ getImageUrl($product->image) }}">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'wishList']) }}"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'cart']) }}"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg" data-setbg="{{ getImageUrl($product->image) }}">
+                                <ul class="featured__item__pic__hover">
+                                    <li>
+                                        <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'wishList']) }}"><i
+                                                class="fa fa-heart"></i></a></li>
+                                    <li>
+                                        <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'cart']) }}"><i
+                                                class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
 
-                        <div class="product__discount__item__text">
+                            <div class="product__discount__item__text">
 
-                            <h5><a href="{{ route('product.show', ['id' => encrypt($product->id)]) }}">{{$product->name}}</a></h5>
-                            @if($product->discount)
-                                <div class="product__item__price">{{ $product->discount_price }} <span>{{ $product->original_price }}</span></div>
-                            @else
-                                <div class="product__item__price">{{ $product->original_price }}</span></div>
-                            @endif
+                                <h5>
+                                    <a href="{{ route('product.show', ['id' => encrypt($product->id)]) }}">{{$product->name}}</a>
+                                </h5>
+                                @if($product->discount)
+                                    <div class="product__item__price">{{ $product->discount_price }}
+                                        <span>{{ $product->original_price }}</span></div>
+                                @else
+                                    <div class="product__item__price">{{ $product->original_price }}</span></div>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
@@ -160,23 +172,26 @@
             </div>
             <div class="row">
                 @forelse($recentBlogs as $recentBlog)
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic">
-                            <img src="{{ getImageUrl($recentBlog->image) }}" alt="">
-                        </div>
-                        <div class="blog__item__text">
-                            <ul>
-                                <li><i class="fa fa-calendar-o"></i> {{ $recentBlog->created_at }}</li>
-                                <li><i class="fa fa-user-o"></i> Admin</li>
-                            </ul>
+                    <div class="col-lg-4 col-md-4 col-sm-6">
+                        <div class="blog__item">
+                            <div class="blog__item__pic">
+                                <img src="{{ getImageUrl($recentBlog->image) }}" alt="">
+                            </div>
+                            <div class="blog__item__text">
+                                <ul>
+                                    <li><i class="fa fa-calendar-o"></i> {{ $recentBlog->created_at }}</li>
+                                    <li><i class="fa fa-user-o"></i> Admin</li>
+                                </ul>
 
-                            <h5><a href="{{ route('blog.details', encrypt($recentBlog->id) )  }}">{{$recentBlog->name}}</a></h5>
-                            <p>{!! strip_tags(Str::limit($recentBlog->description,100)) !!}</p>
-                            <a href="{{ route('blog.details', encrypt($recentBlog->id) )  }}" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+                                <h5>
+                                    <a href="{{ route('blog.details', encrypt($recentBlog->id) )  }}">{{$recentBlog->name}}</a>
+                                </h5>
+                                <p>{!! strip_tags(Str::limit($recentBlog->description,100)) !!}</p>
+                                <a href="{{ route('blog.details', encrypt($recentBlog->id) )  }}" class="blog__btn">READ
+                                    MORE <span class="arrow_right"></span></a>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @empty
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="blog__item">
@@ -191,8 +206,20 @@
 
 
     @push('script')
-
         <script>
+            $(document).ready(function () {
+                var message = @json(session()->get('message'));
+                var status = @json(session()->get('status')) ??
+                'success';
+                if (message) {
+                    if (status == 'success') {
+                        toastr.success(message);
+                    } else if (status == 'error') {
+                        toastr.error(message);
+                    }
+                }
+            });
+
             var slideIndex = 0;
             showSlides();
 
@@ -204,12 +231,14 @@
                     slides[i].style.display = "none";
                 }
                 slideIndex++;
-                if (slideIndex > slides.length) {slideIndex = 1}
+                if (slideIndex > slides.length) {
+                    slideIndex = 1
+                }
                 for (i = 0; i < dots.length; i++) {
                     dots[i].className = dots[i].className.replace(" active", "");
                 }
-                slides[slideIndex-1].style.display = "block";
-                dots[slideIndex-1].className += " active";
+                slides[slideIndex - 1].style.display = "block";
+                dots[slideIndex - 1].className += " active";
                 setTimeout(showSlides, 3000); // Change image every 3 seconds
             }
         </script>

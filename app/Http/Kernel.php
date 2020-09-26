@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckEmptyCart;
+use App\Http\Middleware\CheckEmptyWishList;
 use App\Http\Middleware\CheckifAdmin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -64,5 +66,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'emptyCart' => CheckEmptyCart::class,
+        'emptyList' => CheckEmptyWishList::class,
     ];
 }

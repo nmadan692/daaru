@@ -25,7 +25,8 @@ class BrandRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('brands')->ignore($this->category)]
+//            'name' => ['required', Rule::unique('brands')->ignore($this->category)]
+        'name' => 'email:rfc,dns'
 
         ];
     }

@@ -26,9 +26,9 @@ class RedirectIfAuthenticated
             elseif ($guard == 'staff') {
                 return redirect(RouteServiceProvider::STAFF);
             }
-            elseif ($guard == 'customer') {
-                return redirect(RouteServiceProvider::STAFF);
-            }
+//            elseif ($guard == 'customer') {
+//                return redirect(RouteServiceProvider::STAFF);
+//            }
         }
 
         return $next($request);

@@ -122,3 +122,15 @@
     color: #ffffff !important;
     transform: rotate(360deg);
 }
+
+.danger {
+    color: red!important;
+}
+
+.input-danger {
+    border-color: red!important;
+}
+
+.text-center {
+    text-align: center;
+}

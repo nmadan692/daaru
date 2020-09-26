@@ -1,1 +1,1 @@
-<billing-detail></billing-detail>
+<billing-detail :products="{{ json_encode($products) }}"></billing-detail>

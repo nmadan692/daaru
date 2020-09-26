@@ -120,12 +120,17 @@
     <script>
         $( document ).ready(function() {
             var message = @json(session()->get('message'));
-            if(message) {
-                toastr.success(message);
+            var status = @json(session()->get('status')) ??
+            'success';
+            if (message) {
+                if (status == 'success') {
+                    toastr.success(message);
+                } else if (status == 'error') {
+                    toastr.error(message);
+                }
             }
         });
     </script>
-
 @endpush
 
 

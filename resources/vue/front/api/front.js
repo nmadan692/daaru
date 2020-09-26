@@ -11,4 +11,8 @@ export default {
     checkout: function (data) {
         return 'checkout';
     },
+    // CheckoutController@store
+    placeOrder: function (data) {
+        return axios.post(`/checkout`, data);
+    }
 };
