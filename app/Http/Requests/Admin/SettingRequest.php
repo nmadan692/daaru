@@ -25,14 +25,15 @@ class SettingRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('settings')->ignore($this->setting)],
+            'name' => ['required'],
             'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
             'address' => 'required',
-            'email' => ['required', Rule::unique('settings')->ignore($this->setting)],
+            'email' => 'required',
             'delivery_start_hour' => 'required',
             'delivery_end_hour' => 'required',
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'viber' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'city_id' => ['required', Rule::unique('settings')->ignore($this->setting)]
         ];
     }
 }

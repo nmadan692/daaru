@@ -4,9 +4,13 @@
         @if($errors->count())
             <div class="alert alert-danger" role="alert">
                 Validation Errors! Please check out the form.
+                @if($errors->first('city_id'))
+                    <p>You can not create more than one settings for the same location.</p>
+                @endif
             </div>
         @endif
         <div class="form-group m-form__group row">
+            <input type="hidden" value="{{ defaultCity('id') }}" name="city_id">
             <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Company Name" labelfor="name" name="name" type="text" value="{{  $data['setting']->name ?? old('name') ?? null }}"></x-inputs.text>
             <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Phone" labelfor="phone" name="phone" type="number" value="{{  $data['setting']->phone ?? old('phone') ?? null }}"></x-inputs.text>
 

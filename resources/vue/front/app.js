@@ -10,12 +10,15 @@ window.Vue = require('vue');
 var _ = require('lodash');
 window.axios = require('axios');
 window.toastr = require('toastr');
+import VeeValidate from 'vee-validate';
 import frontComponents from './frontComponents'
+
 
 
 let baseUrl = document.head.querySelector('meta[name="base-url"]');
 
 window.baseUrl = baseUrl.content;
+Vue.use(VeeValidate);
 
 
 /**

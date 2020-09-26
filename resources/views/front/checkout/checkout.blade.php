@@ -29,15 +29,26 @@
 {{--            </div>--}}
             <div class="checkout__form">
                 <h4>Billing Details</h4>
-                <form action="{{ route('checkout') }}" method="post">
-                    @csrf
-                    <div class="row">
-                        @include('front.checkout.billing-detail')
-                        @include('front.checkout.order')
-                    </div>
-                </form>
+                @include('front.checkout.billing-detail')
             </div>
         </div>
     </section>
     <!-- Checkout Section End -->
 @endsection
+
+
+@push('script')
+    <script>
+        $( document ).ready(function() {
+            var message = @json(session()->get('message'));
+            var status = @json(session()->get('status')) ?? 'success';
+            if (message) {
+                if (status == 'success') {
+                    toastr.success(message);
+                } else if (status == 'error') {
+                    toastr.error(message);
+                }
+            }
+        });
+    </script>
+@endpush

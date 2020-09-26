@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "axios": "^0.20.0",
-        "toastr": "^2.1.4"
+        "toastr": "^2.1.4",
+        "vee-validate": "^2.2.15"
     }
 }

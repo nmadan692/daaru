@@ -13,8 +13,10 @@ Route::resource('/contact', 'ContactController');
 
 
 // checkout
-Route::get('/checkout', 'CheckoutController@index')->name('checkout');
-Route::post('/checkout', 'CheckoutController@store')->name('checkout');
+Route::middleware('emptyCart')->group(function () {
+    Route::get('/checkout', 'CheckoutController@index')->name('checkout');
+    Route::post('/checkout', 'CheckoutController@store')->name('checkout');
+});
 
 
 // Products
@@ -23,7 +25,7 @@ Route::get('/product-detail/{id}', 'ProductController@show')->name('product.show
 
 
 //Cart
-Route::get('/my-cart', 'CartController@cart')->name('my-cart');
+Route::get('/my-cart', 'CartController@cart')->name('my-cart')->middleware('emptyCart');
 Route::get('/product/shop/{id}/add', 'CartController@shop')->name('product.shop.add');
 Route::post('/product/shop/{id}/add', 'CartController@shop')->name('product.shop.add');
 
@@ -31,7 +33,7 @@ Route::post('/cart/update', 'CartController@updateCart')->name('my-cart.updateCa
 Route::delete('/cart/{id}', 'CartController@deleteCart')->name('my-cart.delete');
 
 //WishList
-Route::get('/my-wish-list', 'CartController@wishList')->name('my-wish-list');
+Route::get('/my-wish-list', 'CartController@wishList')->name('my-wish-list')->middleware('emptyList');
 
 
 

@@ -1,50 +1,121 @@
 <template>
-    <div class="col-lg-8 col-md-6">
-        <custom-form></custom-form>
-        <div class="checkout__input__checkbox">
-            <label for="acc">
-                Create an account?
-                <input type="checkbox" id="acc" name="create_account" v-model="create_account">
-                <span class="checkmark"></span>
-            </label>
+    <form @submit.prevent="handleSubmit" method="post">
+        <div class="row">
+            <div class="col-lg-8 col-md-6">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="checkout__input">
+                            <p :class="errors.first('first_name') ? 'danger' : null">First Name<span>*</span></p>
+                            <input :class="errors.first('first_name') ? 'input-danger' : null" v-validate="'required'" type="text" name="first_name" v-model="formData.first_name">
+                            <span class="danger">{{ errors.first('first_name') }}</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="checkout__input">
+                            <p :class="errors.first('last_name') ? 'danger' : null">Last Name<span>*</span></p>
+                            <input :class="errors.first('last_name') ? 'input-danger' : null" v-validate="'required'" type="text" name="last_name" v-model="formData.last_name">
+                            <span class="danger">{{ errors.first('last_name') }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout__input">
+                    <p :class="errors.first('address1') ? 'danger' : null">Address<span>*</span></p>
+                    <input :class="errors.first('address1') ? 'input-danger' : null" v-validate="'required'" type="text" name="address1" placeholder="Street Address" class="checkout__input__add" v-model="formData.address1">
+                    <input type="text" name="address2" placeholder="Apartment, suite, unite ect (optional)" v-model="formData.address2">
+                    <span class="danger">{{ errors.first('address1') }}</span>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="checkout__input">
+                            <p :class="errors.first('phone') ? 'danger' : null">Phone<span>*</span></p>
+                            <input :class="errors.first('phone') ? 'input-danger' : null" v-validate="'required'" type="text" name="phone" v-model="formData.phone">
+                            <span class="danger">{{ errors.first('phone') }}</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="checkout__input">
+                            <p :class="errors.first('email') ? 'danger' : null">Email<span>*</span></p>
+                            <input :class="errors.first('email') ? 'input-danger' : null" v-validate="'required'" type="text" name="email" v-model="formData.email">
+                            <span class="danger">{{ errors.first('email') }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout__input">
+                    <p :class="errors.first('password') ? 'danger' : null">Account Password<span>*</span></p>
+                    <input :class="errors.first('password') ? 'input-danger' : null" v-validate="'required'" type="password" name="password" v-model="formData.password">
+                    <span class="danger">{{ errors.first('password') }}</span>
+                </div>
+                <div class="checkout__input">
+                    <p>Order notes</p>
+                    <input type="text" placeholder="Notes about your order, e.g. special notes for delivery." name="note" v-model="formData.note">
+                </div>
+            </div>
+            <your-order :products="products" :submit-text="submitText"></your-order>
         </div>
-        <div class="checkout__input" v-if="create_account">
-            <p>Account Password<span>*</span></p>
-            <input type="password" name="password">
-        </div>
-<!--        <div class="checkout__input__checkbox" v-if="create_account">-->
-<!--            <label for="diff-acc">-->
-<!--                Ship to a different address?-->
-<!--                <input type="checkbox" id="diff-acc" name="different_shipping" v-model="different_shipping">-->
-<!--                <span class="checkmark"></span>-->
-<!--            </label>-->
-<!--        </div>-->
-<!--        <custom-form v-if="create_account && different_shipping"></custom-form>-->
-        <div class="checkout__input">
-            <p>Order notes<span>*</span></p>
-            <input type="text" placeholder="Notes about your order, e.g. special notes for delivery." name="note">
-        </div>
-    </div>
+    </form>
 </template>
 
 <script>
-    import CustomForm from './customForm'
+    import YourOrder from './your-order'
+    import front from "../../api/front";
+    import {Validator} from 'vee-validate';
+
+    const dictionary = {
+        en: {
+            attributes: {
+                'first_name': 'first name',
+                'last_name': 'last name',
+                'address1': 'address'
+            },
+        }
+    };
+    Validator.localize(dictionary);
+
     export default {
+        props: {
+            products : {
+                type: Object,
+                default() {
+                    return {};
+                }
+            }
+        },
         data() {
             return {
-                create_account: false,
-                different_shipping: false
+                submitText: 'PLACE ORDER',
+                formData: {
+                }
+            }
+        },
+        methods: {
+            handleSubmit(e) {
+                let self = this;
+                self.submitText = '<i class="fa fa-spinner fa-spin"></i> Please Wait';
+                e.target.querySelector('button[type=submit]').disabled = true;
+                self.$validator.validateAll().then((valid) => {
+                    if (valid) {
+                        front.placeOrder(self.formData).then(res => {
+                            if (res.status == 200) {
+                                toastr.success('Order Placed Successfully.', 'Success');
+                            }
+                            else {
+                                toastr.error('Sorry something went wrong.', 'Error');
+                            }
+                        }).catch(res => {
+                            toastr.error('Sorry something went wrong.', 'Error');
+                        });
+                        e.target.querySelector('button[type=submit]').disabled = false;
+                        self.submitText = 'Place Order';
+                    }
+                    else    {
+                        e.target.querySelector('button[type=submit]').disabled = false;
+                        self.submitText = 'Place Order';
+                    }
+                });
             }
         },
         components: {
-            'custom-form' : CustomForm
+            'your-order' : YourOrder
         },
-        watch: {
-            create_account: function(value, oldValue) {
-                if(value == false) {
-                    this.different_shipping = false
-                }
-            }
-        }
     }
 </script>

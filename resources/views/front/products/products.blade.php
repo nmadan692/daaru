@@ -15,10 +15,10 @@
             </div>
         </div>
         <div class="col-lg-4 col-md-3">
-{{--            <div class="filter__option">--}}
-{{--                <span class="icon_grid-2x2"></span>--}}
-{{--                <span class="icon_ul"></span>--}}
-{{--            </div>--}}
+            {{--            <div class="filter__option">--}}
+            {{--                <span class="icon_grid-2x2"></span>--}}
+            {{--                <span class="icon_ul"></span>--}}
+            {{--            </div>--}}
         </div>
     </div>
 </div>
@@ -26,23 +26,50 @@
     @foreach($products as $product)
         <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product__item">
-            <div class="product__item__pic set-bg" data-setbg="{{ getImageUrl($product->image) }}">
-                <ul class="product__item__pic__hover">
-                    <li><a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'wishList']) }}"><i class="fa fa-heart"></i></a></li>
-                    <li><a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'cart']) }}"><i class="fa fa-shopping-cart"></i></a></li>
-                </ul>
-            </div>
+                <div class="product__item__pic set-bg" data-setbg="{{ getImageUrl($product->image) }}">
+                    <ul class="product__item__pic__hover">
+                        @if(isInWishList($product->id))
+                            <li class="list-active">
+                                <a href="{{ route('my-wish-list') }}">
+                                    <i class="fa fa-heart"></i>
+                                </a>
+                            </li>
+                        @else
+                            <li>
+                                <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'wishList']) }}">
+                                    <i class="fa fa-heart"></i>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if(isInCart($product->id))
+                            <li class="cart-active">
+                                <a href="{{ route('my-cart') }}">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                            </li>
+                        @else
+                            <li>
+                                <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'cart']) }}">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
 
                 <div class="product__discount__item__text">
 
-                    <h5><a href="{{ route('product.show', ['id' => encrypt($product->id)]) }}">{{$product->name}}</a></h5>
+                    <h5><a href="{{ route('product.show', ['id' => encrypt($product->id)]) }}">{{$product->name}}</a>
+                    </h5>
                     @if($product->discount)
-                        <div class="product__item__price">{{ $product->discount_price }} <span>{{ $product->original_price }}</span></div>
+                        <div class="product__item__price">{{ $product->discount_price }}
+                            <span>{{ $product->original_price }}</span></div>
                     @else
-                        <div class="product__item__price">{{ $product->original_price }}</span></div>
+                        <div class="product__item__price">{{ $product->original_price }}</div>
                     @endif
                 </div>
-        </div>
+            </div>
         </div>
     @endforeach
 </div>
@@ -57,10 +84,16 @@
 
 @push('script')
     <script>
-        $( document ).ready(function() {
+        $(document).ready(function () {
             var message = @json(session()->get('message'));
-            if(message) {
-                toastr.success(message);
+            var status = @json(session()->get('status')) ?? 'success';
+            if (message) {
+                if(status == 'success') {
+                    toastr.success(message);
+                }
+                else if(status == 'error') {
+                    toastr.error(message);
+                }
             }
         });
     </script>

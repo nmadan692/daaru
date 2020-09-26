@@ -12,3 +12,16 @@
     font-weight: 300;
     font-size: .85rem;
 }
+
+.active-location {
+    background-color: #bcbcbc;
+}
+
+.location:hover {
+    background-color: black!important;
+}
+
+.active-location-text {
+    color: white!important;
+}
+

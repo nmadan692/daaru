@@ -96,3 +96,19 @@
     <!-- Blog Details Section End -->
 
 @endsection
+
+@push('script')
+    <script>
+        $( document ).ready(function() {
+            var message = @json(session()->get('message'));
+            var status = @json(session()->get('status')) ?? 'success';
+            if (message) {
+                if (status == 'success') {
+                    toastr.success(message);
+                } else if (status == 'error') {
+                    toastr.error(message);
+                }
+            }
+        });
+    </script>
+@endpush
