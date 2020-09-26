@@ -6,7 +6,9 @@ use App\Daaruu\Constants\OrderConstant;
 use App\Daaruu\Constants\RoleConstant;
 use App\Http\Controllers\Controller;
 use App\Services\General\UserService;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -39,8 +41,16 @@ class CheckoutController extends Controller
     }
 
     /**
+     * @return Application|Factory|View
+     */
+    public function invoice(){
+
+        return view('front.checkout.invoice');
+    }
+
+    /**
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
 //    public function store(Request $request) {
 //        $userData[] =  [

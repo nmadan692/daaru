@@ -18,6 +18,16 @@
                             <a href="{{ $setting[0]->twitter ?? null}}"><i class="fa fa-twitter"></i></a>
                             <a href="{{ $setting[0]->instagram ?? null}}"><i class="fa fa-instagram"></i></a>
                         </div>
+                        <div class="header__top__right__language">
+                            <img src="{{asset('front')}}/img/location.png" alt="">
+                            <div>Dharan</div>
+                            <span class="arrow_carrot-down"></span>
+                            <ul>
+                                <li><a href="#">Dharan</a></li>
+                                <li><a href="#">Biratnagar</a></li>
+                            </ul>
+                        </div>
+
 
                         <div class="header__top__right__auth">
                             <a href="#"><i class="fa fa-user"></i> Login</a>

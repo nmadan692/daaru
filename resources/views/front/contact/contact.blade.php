@@ -1,48 +1,5 @@
 @extends('front.layouts.master')
 @section('content')
-    @push('style')
-        <style>
-       .container{
-           margin-top: 1%;
-           margin-bottom: 1%;
-            }
-        /* Style the tab */
-        .tab {
-        overflow: hidden;
-        background-color:#f28e1c;
-        }
-
-        /* Style the buttons inside the tab */
-        .tab button {
-        background-color: inherit;
-        float: left;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-        font-size: 17px;
-        }
-
-        /* Change background color of buttons on hover */
-        .tab button:hover {
-        background-color: #ffcc00;
-        }
-
-        /* Create an active/current tablink class */
-        .tab button.active {
-        background-color: #ffcc00;
-        }
-
-        /* Style the tab content */
-        .tabcontent {
-        display: none;
-        padding: 6px 12px;
-        border: 1px solid #f28e1c;
-        border-top: none;
-        }
-        </style>
-    @endpush
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="{{asset('front')}}/img/daaruu.jpg">
@@ -64,12 +21,9 @@
     <!-- Breadcrumb Section End -->
 
     <div class="container">
-    <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Dharan</button>
-        <button class="tablinks" onclick="openCity(event, 'Paris')">Biratnagar</button>
-    </div>
 
-    <div id="London" class="tabcontent">
+
+
     <!-- Contact Section Begin -->
     <section class="contact spad">
         <div class="container">
@@ -108,45 +62,6 @@
     <!-- Contact Section End -->
     </div>
 
-    <div id="Paris" class="tabcontent">
-        <!-- Contact Section Begin -->
-        <section class="contact spad">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 text-center">
-                        <div class="contact__widget">
-                            <span class="icon_phone"></span>
-                            <h4>Phone Biratnagar</h4>
-                            <p>{{ $setting[0]->phone ?? null}}</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 text-center">
-                        <div class="contact__widget">
-                            <span class="icon_pin_alt"></span>
-                            <h4>Address Biratnagar</h4>
-                            <p>{{ $setting[0]->address ?? null}}</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 text-center">
-                        <div class="contact__widget">
-                            <span class="icon_clock_alt"></span>
-                            <h4>Open time Biratnagar</h4>
-                            <p>{{ $setting[0]->delivery_start_hour ?? null}} to {{ $setting[0]->delivery_start_hour ?? null }}</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 text-center">
-                        <div class="contact__widget">
-                            <span class="icon_mail_alt"></span>
-                            <h4>Email Biratnagar</h4>
-                            <p>{{ $setting[0]->email ?? null}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Contact Section End -->
-    </div>
-    </div>
 
     <!-- Map Begin -->
     <div class="map">
@@ -205,6 +120,7 @@
             </form>
         </div>
     </div>
+@endsection
     <!-- Contact Form End -->
     @push('script')
 
@@ -239,4 +155,3 @@
             document.getElementById("defaultOpen").click();
         </script>
     @endpush
-@endsection

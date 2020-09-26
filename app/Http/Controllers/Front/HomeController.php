@@ -73,5 +73,8 @@ class HomeController extends Controller
 
         return view('front.home.index', compact('setting', 'categories', 'latestProducts', 'recentBlogs', 'featuredProducts', 'cmsPages'));
     }
+    public function first() {
+        return view('front.home.first');
+    }
 }
 

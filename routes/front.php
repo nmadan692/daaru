@@ -2,6 +2,7 @@
 <?php
 // Homepage
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/first', 'HomeController@first')->name('first');
 
 // Blog
 Route::get('/blog', 'BlogController@index')->name('blog');
@@ -17,6 +18,8 @@ Route::middleware('emptyCart')->group(function () {
     Route::get('/checkout', 'CheckoutController@index')->name('checkout');
     Route::post('/checkout', 'CheckoutController@store')->name('checkout');
 });
+Route::get('/checkout/invoice', 'CheckoutController@invoice')->name('invoice');
+
 
 
 // Products
