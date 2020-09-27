@@ -44,6 +44,22 @@ class DefaultCityService
         }
     }
 
+    /**
+     * @param null $attribute
+     * @return mixed|null
+     */
+    public function getForFrontEnd($attribute = null) {
+        if(Cache::has($this->getKey())) {
+            if($attribute) {
+                return Cache::get($this->getKey())->{$attribute};
+            }
+            return Cache::get($this->getKey());
+        }
+        else {
+            return null;
+        }
+    }
+
     public function defaultCity() {
         Cache::forever($this->getKey(), $this->cityService->all()[0]);
     }

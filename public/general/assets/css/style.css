@@ -25,3 +25,7 @@
     color: white!important;
 }
 
+.display-block span {
+    display: block;
+}
+

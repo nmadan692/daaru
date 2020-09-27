@@ -33,14 +33,13 @@ class ComposerServiceProvider extends ServiceProvider
         );
 
         View::composer(
-            ['front.layouts.master'],
+            ['front.layouts.master', 'front.emails.invoice', 'front.order.invoice', 'admin.order.invoice'],
             SettingComposer::class
         );
 
         View::composer(
-            ['admin.includes.header'],
+            ['admin.includes.header', 'front.home.location', 'front.layouts.header'],
             CityComposer::class
         );
-
     }
 }

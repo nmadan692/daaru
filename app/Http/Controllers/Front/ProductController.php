@@ -52,7 +52,7 @@ class ProductController extends Controller
         $categories = $this->categoryService->whereNull(['parent_id'])->get();
         $subCategories = $this->categoryService->whereNotNull(['parent_id'])->get();
         $brands = $this->brandService->all(['parent_id']);
-        $products = $this->productService->query();
+        $products = $this->productService->query()->where('city_id', defaultCity('id'));
         $minAmount = $request->input('minAmount') ? (int)  $request->input('minAmount') : 0;
         $maxAmount = $request->input('maxAmount') ? (int) $request->input('maxAmount') : 100000;
         $products = $products->where(function ($query) use ($minAmount, $maxAmount) {

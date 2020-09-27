@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="handleSubmit" method="post">
         <div class="row">
-            <div class="col-lg-8 col-md-6">
+            <div v-if="!isAuthenticated" class="col-lg-8 col-md-6">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="checkout__input">
@@ -34,9 +34,10 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="checkout__input">
-                            <p :class="errors.first('email') ? 'danger' : null">Email<span>*</span></p>
-                            <input :class="errors.first('email') ? 'input-danger' : null" v-validate="'required'" type="text" name="email" v-model="formData.email">
-                            <span class="danger">{{ errors.first('email') }}</span>
+                            <p :class="(inputErrors.email || errors.first('email')) ? 'danger' : null">Email<span>*</span></p>
+                            <input :class="(inputErrors.email || errors.first('email')) ? 'input-danger' : null" v-validate="'required'" type="text" name="email" v-model="formData.email">
+                            <span class="danger">{{ errors.first('email')}}</span>
+                            <span class="danger" v-if="((inputErrors.email) && (!errors.first('email')))">{{ inputErrors.email[0]}}</span>
                         </div>
                     </div>
                 </div>
@@ -50,7 +51,12 @@
                     <input type="text" placeholder="Notes about your order, e.g. special notes for delivery." name="note" v-model="formData.note">
                 </div>
             </div>
-            <your-order :products="products" :submit-text="submitText"></your-order>
+            <div v-if="!isAuthenticated" class="col-lg-4 col-md-6">
+                <your-order :products="products" :submit-text="submitText"></your-order>
+            </div>
+            <div v-else class="col-lg-12">
+                <your-order :products="products" :submit-text="submitText"></your-order>
+            </div>
         </div>
     </form>
 </template>
@@ -78,10 +84,18 @@
                 default() {
                     return {};
                 }
+            },
+            isAuthenticated: {
+                type: Boolean,
+                default() {
+                    return false;
+                }
             }
         },
         data() {
             return {
+                inputErrors : {
+                },
                 submitText: 'PLACE ORDER',
                 formData: {
                 }
@@ -96,12 +110,16 @@
                     if (valid) {
                         front.placeOrder(self.formData).then(res => {
                             if (res.status == 200) {
-                                toastr.success('Order Placed Successfully.', 'Success');
+                                front.myOrder();
+                                // toastr.success('Order Placed Successfully.', 'Success');
                             }
                             else {
                                 toastr.error('Sorry something went wrong.', 'Error');
                             }
                         }).catch(res => {
+                            if (res.response.status == 422) {
+                                self.inputErrors = res.response.data.errors
+                            }
                             toastr.error('Sorry something went wrong.', 'Error');
                         });
                         e.target.querySelector('button[type=submit]').disabled = false;

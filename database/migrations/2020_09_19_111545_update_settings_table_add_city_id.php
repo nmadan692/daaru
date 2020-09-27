@@ -28,6 +28,7 @@ class UpdateSettingsTableAddCityId extends Migration
     {
         Schema::table('settings', function (Blueprint $table) {
             $table->dropForeign('settings_city_id_foreign');
+            $table->dropColumn('city_id');
         });
     }
 }

@@ -30,7 +30,7 @@ class CartController extends Controller
      * @return Factory|View
      */
     public function cart(Request $request) {
-        $products = session()->get('cart');
+        $products = session()->get('cart-'.defaultCity('id'));
 
         return view('front.cart.index', compact('products'));
     }
@@ -41,7 +41,7 @@ class CartController extends Controller
      */
     public function wishList(Request $request) {
 
-        $products = session()->get('list');
+        $products = session()->get('list-'.defaultCity('id'));
 
         return view('front.wishList.index', compact('products'));
     }
@@ -69,7 +69,7 @@ class CartController extends Controller
      */
     public  function addToCart($id, Request $request) {
         $product = $this->productService->findOrFail($id);
-        $carts = $request->session()->get('cart');
+        $carts = $request->session()->get('cart-'.defaultCity('id'));
 
         if(!$carts) {
             $carts = [
@@ -79,13 +79,13 @@ class CartController extends Controller
                 ]
             ];
 
-            $request->session()->put('cart', $carts);
+            $request->session()->put('cart-'.defaultCity('id'), $carts);
         }
         else {
             if(isset($carts[$id])) {
                 $carts[$id]['quantity'] = $carts[$id]['quantity'] + $request->quantity;
 
-                $request->session()->put('cart', $carts);
+                $request->session()->put('cart-'.defaultCity('id'), $carts);
             }
             else {
                 $carts[$id] = [
@@ -93,7 +93,7 @@ class CartController extends Controller
                     'quantity' => $request->quantity,
                 ];
 
-                $request->session()->put('cart', $carts);
+                $request->session()->put('cart-'.defaultCity('id'), $carts);
             }
         }
 
@@ -110,7 +110,7 @@ class CartController extends Controller
      */
     public  function addToWishList($id, Request $request) {
         $product = $this->productService->findOrFail($id);
-        $lists = $request->session()->get('list');
+        $lists = $request->session()->get('list-'.defaultCity('id'));
 
         if(!$lists) {
             $lists = [
@@ -120,13 +120,13 @@ class CartController extends Controller
                 ]
             ];
 
-            $request->session()->put('list', $lists);
+            $request->session()->put('list-'.defaultCity('id'), $lists);
         }
         else {
             if(isset($lists[$id])) {
                 $lists[$id]['quantity'] = $lists[$id]['quantity'] + $request->quantity;
 
-                $request->session()->put('list', $lists);
+                $request->session()->put('list-'.defaultCity('id'), $lists);
             }
             else {
                 $lists[$id] = [
@@ -134,7 +134,7 @@ class CartController extends Controller
                     'quantity' => $request->quantity,
                 ];
 
-                $request->session()->put('list', $lists);
+                $request->session()->put('list-'.defaultCity('id'), $lists);
             }
         }
         $request->session()->flash('message', 'Product added to wishlist successfully.');
@@ -146,8 +146,8 @@ class CartController extends Controller
      * @param Request $request
      */
     public function updateCart(Request $request) {
-        if(session()->get('cart')) {
-            \session()->forget('cart');
+        if(session()->get('cart-'.defaultCity('id'))) {
+            \session()->forget('cart-'.defaultCity('id'));
         }
 
         foreach ($request->all() as $data) {
@@ -158,7 +158,7 @@ class CartController extends Controller
                     'quantity' => $data['quantity'],
                 ]
             ];
-            $request->session()->put('cart', $carts);
+            $request->session()->put('cart-'.defaultCity('id'), $carts);
         }
 
         return response()->json(['message' => 'Successfully Updated Session.']);
@@ -169,9 +169,9 @@ class CartController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function deleteCart($id) {
-        $cart = session()->get('cart');
+        $cart = session()->get('cart-'.defaultCity('id'));
         unset($cart[$id]);
-        session()->put('cart', $cart);
+        session()->put('cart-'.defaultCity('id'), $cart);
 
         return response()->json(['message' => 'Successfully deleted cart.']);
     }

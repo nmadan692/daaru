@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\CheckEmptyCart;
 use App\Http\Middleware\CheckEmptyWishList;
 use App\Http\Middleware\CheckifAdmin;
+use App\Http\Middleware\CheckLocation;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'emptyCart' => CheckEmptyCart::class,
         'emptyList' => CheckEmptyWishList::class,
+        'emptyLocation' => CheckLocation::class,
     ];
 }

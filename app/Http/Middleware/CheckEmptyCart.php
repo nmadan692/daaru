@@ -15,7 +15,7 @@ class CheckEmptyCart
      */
     public function handle($request, Closure $next)
     {
-        if(empty(session()->get('cart'))) {
+        if(empty(session()->get('cart-'.defaultCity('id')))) {
             $request->session()->flash('message', 'No Products Added to Cart.');
             $request->session()->flash('status', 'error');
             return redirect()->back();

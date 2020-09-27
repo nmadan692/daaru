@@ -167,3 +167,45 @@ h5 {
 .text-dark {
     color: #3d405c !important
 }
+
+.label {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.label-success {
+    background-color: green;
+}
+
+.label-primary {
+    background-color: blue;
+}
+
+.label-warning {
+    background-color: yellow;
+}
+.label-danger {
+    background-color: red;
+}
+
+.view-pdf {
+    padding: 4px;
+    color: #f28e1c;
+}
+
+.download-pdf {
+    padding: 4px;
+    color: #f28e1c;
+}
+
+.display-block span {
+    display: block;
+}

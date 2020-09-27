@@ -12,6 +12,14 @@ function me($guard = null)
 }
 
 /**
+ * @param null $guard
+ * @return bool
+ */
+function authenticated($guard = null) {
+    return \Illuminate\Support\Facades\Auth::guard($guard)->check();
+}
+
+/**
  * @param null $attributes
  * @return mixed
  */
@@ -24,6 +32,15 @@ function adminUser($attributes = null) {
     }
 }
 
+function frontUser($attributes = null) {
+    if($attributes) {
+        return me('customer')->{$attributes};
+    }
+    else {
+        return me('customer');
+    }
+}
+
 function getImageUrl($image = null) {
     if($image) {
         return Storage::url($image);
@@ -31,6 +48,10 @@ function getImageUrl($image = null) {
     else {
         return asset('front/img/liquor/liquor.png');
     }
+}
+
+function getCartTotal() {
+    return 'Nrs 0';
 }
 
 /**
@@ -46,7 +67,7 @@ function defaultCity($attribute = null) {
  * @return bool
  */
 function isInCart($id) {
-    $carts = getSessionDataByKey('cart');
+    $carts = getSessionDataByKey('cart-'.defaultCity('id'));
     if(isset($carts[$id])) {
         return true;
     }
@@ -58,7 +79,7 @@ function isInCart($id) {
  * @return bool
  */
 function isInWishList($id) {
-    $lists = getSessionDataByKey('list');
+    $lists = getSessionDataByKey('list-'.defaultCity('id'));
     if(isset($lists[$id])) {
         return true;
     }
@@ -77,3 +98,17 @@ function wishListData($attribute = null) {
 
 }
 
+function getOrderConstants() {
+    return [
+        ['id' => \App\Daaruu\Constants\OrderConstant::ORDERED_ID, 'name' => \App\Daaruu\Constants\OrderConstant::ORDERED],
+        ['id' => \App\Daaruu\Constants\OrderConstant::SUCCEED_ID, 'name' => \App\Daaruu\Constants\OrderConstant::SUCCEED],
+        ['id' => \App\Daaruu\Constants\OrderConstant::CANCELED_ID, 'name' => \App\Daaruu\Constants\OrderConstant::CANCELED],
+    ];
+}
+
+function getPaymentConstants() {
+    return [
+        ['id' => \App\Daaruu\Constants\PaymentConstant::PENDING_ID, 'name' => \App\Daaruu\Constants\PaymentConstant::PENDING],
+        ['id' => \App\Daaruu\Constants\PaymentConstant::COMPLETED_ID, 'name' => \App\Daaruu\Constants\PaymentConstant::COMPLETED],
+    ];
+}
