@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Services\General\banner\BannerService;
 use App\Services\General\Blog\BlogService;
 use App\Services\General\Category\CategoryService;
 use App\Services\General\CmsPage\CmsPageService;
@@ -35,6 +36,10 @@ class HomeController extends Controller
      * @var CmsPageService
      */
     private $cmsPageService;
+    /**
+     * @var BannerService
+     */
+    private $bannerService;
 
     /**
      * HomeController constructor.
@@ -43,13 +48,16 @@ class HomeController extends Controller
      * @param ProductService $productService
      * @param BlogService $blogService
      * @param CmsPageService $cmsPageService
+     * @param BannerService $bannerService
      */
     public function __construct(
         SettingService $settingService,
         CategoryService $categoryService,
         ProductService $productService,
         BlogService $blogService,
-        CmsPageService $cmsPageService
+        CmsPageService $cmsPageService,
+        BannerService $bannerService
+
     )
     {
         $this->settingService = $settingService;
@@ -57,6 +65,7 @@ class HomeController extends Controller
         $this->productService = $productService;
         $this->blogService = $blogService;
         $this->cmsPageService = $cmsPageService;
+        $this->bannerService = $bannerService;
     }
 
     /**
@@ -67,10 +76,10 @@ class HomeController extends Controller
         $latestProducts = $this->productService->query()->where('city_id', defaultCity('id'))->take(8)->orderBy('id', 'desc')->get();
         $featuredProducts = $this->productService->query()->where(['is_featured' => true])->where('city_id', defaultCity('id'))->take(8)->orderBy('id', 'desc')->get();
         $recentBlogs = $this->blogService->take(3, 'desc');
-        $cmsPages = $this->cmsPageService->all();
+        $banners = $this->bannerService->all();
 
 
-        return view('front.home.index', compact('categories', 'latestProducts', 'recentBlogs', 'featuredProducts', 'cmsPages'));
+        return view('front.home.index', compact('categories', 'latestProducts', 'recentBlogs', 'featuredProducts', 'banners'));
     }
 
     /**

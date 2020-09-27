@@ -63,8 +63,8 @@
                             <li><b>Alcohol</b> <span>{{ $product->alcohol }}</span></li>
                             <li><b>Share On</b>
                                 <div class="share">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                    <iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Fdaaruu.com.np%2F&layout=button&size=large&width=77&height=28&appId" width="77" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+
                                 </div>
                             </li>
                         </ul>

@@ -79,11 +79,7 @@
                                         <li><span>Category: </span> {{ $blog->blogCategory->name }}</li>
                                     </ul>
                                     <div class="blog__details__social">
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                                        <a href="#"><i class="fa fa-envelope"></i></a>
+                                        <iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Fdaaruu.com.np%2F&layout=button&size=large&width=77&height=28&appId" width="77" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
                                     </div>
                                 </div>
                             </div>

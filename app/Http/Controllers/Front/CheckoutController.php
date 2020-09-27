@@ -52,6 +52,13 @@ class CheckoutController extends Controller
     }
 
     /**
+     * @return Application|Factory|View
+     */
+    public function profile(){
+
+        return view('front.checkout.profile');
+    }
+    /**
      * @param Request $request
      * @return RedirectResponse
      */

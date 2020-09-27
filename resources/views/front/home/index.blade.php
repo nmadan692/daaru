@@ -39,35 +39,19 @@
                         </div>
                     </div>
 
+                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
 
-                    <div class="slideshow-container">
+                            @foreach($banners as $key => $banner)
+                            <div class="carousel-item {{ $key == 0 ? 'active' : null }}">
+                                <img class="d-block w-100" src="{{ getImageUrl($banner->image ?? null) }}" alt="First slide">
+                            </div>
+                            @endforeach
 
-                        <div class="mySlides fade hero__item set-bg">
-                            <div class="numbertext">1 / 3</div>
-                            <img src="{{ getImageUrl($cmsPages[0]->image ?? null) }}" style="width:100%">
-                            <div class="text">Caption Text</div>
                         </div>
-
-                        <div class="mySlides fade hero__item set-bg">
-                            <div class="numbertext">2 / 3</div>
-                            <img src="{{ getImageUrl($cmsPages[0]->image ?? null) }}" style="width:100%">
-                            <div class="text">Caption Two</div>
-                        </div>
-
-                        <div class="mySlides fade hero__item set-bg">
-                            <div class="numbertext">3 / 3</div>
-                            <img src="{{ getImageUrl($cmsPages[0]->image ?? null) }}" style="width:100%">
-                            <div class="text">Caption Three</div>
-                        </div>
-
                     </div>
-                    <br>
+                   
 
-                    <div style="text-align:center">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </div>
                     {{--                    <div class="hero__item set-bg" data-setbg="{{ getImageUrl($cmsPages[0]->image ?? null) }}">--}}
                     {{--                        <div class="hero__text">--}}
                     {{--                            <span>Red Wine</span>--}}
@@ -220,27 +204,7 @@
                 }
             });
 
-            var slideIndex = 0;
-            showSlides();
 
-            function showSlides() {
-                var i;
-                var slides = document.getElementsByClassName("mySlides");
-                var dots = document.getElementsByClassName("dot");
-                for (i = 0; i < slides.length; i++) {
-                    slides[i].style.display = "none";
-                }
-                slideIndex++;
-                if (slideIndex > slides.length) {
-                    slideIndex = 1
-                }
-                for (i = 0; i < dots.length; i++) {
-                    dots[i].className = dots[i].className.replace(" active", "");
-                }
-                slides[slideIndex - 1].style.display = "block";
-                dots[slideIndex - 1].className += " active";
-                setTimeout(showSlides, 3000); // Change image every 3 seconds
-            }
         </script>
     @endpush
 @endsection
