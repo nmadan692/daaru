@@ -18,6 +18,8 @@ Route::middleware('emptyCart')->group(function () {
     Route::post('/checkout', 'CheckoutController@store')->name('checkout');
 });
 Route::get('/checkout/invoice', 'CheckoutController@invoice')->name('invoice');
+Route::get('/checkout/profile', 'CheckoutController@profile')->name('profileche');
+
 
 
 

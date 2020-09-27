@@ -14,3 +14,4 @@
 <link rel="stylesheet" href="{{asset('front')}}/css/style.css" type="text/css">
 <link rel="stylesheet" href="{{asset('front')}}/css/custom-style.css" type="text/css">
 @stack('style')
+
