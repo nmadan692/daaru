@@ -78,21 +78,16 @@
 <!-- ======= Header ======= -->
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex flex-column align-items-center">
-
         <h1>Daaruu Dot Com</h1>
         <h2>We're now available at two store. Place  your order and grab the opportunity.</h2>
-        <h2>Where are you now?</h2>
+        <h1>Where are you now?</h1>
         <div class="countdown d-flex justify-content-center">
             <ul>
-
-                <li><a href="#"><button class="button button1">Dharan</button></a></li>
-                <li><a  href="#"><button class="button button1">Biratnagar</button></a></li>
-
-
+                @foreach($cities as $city)
+                    <li><a href="{{ route('default.city', encrypt($city->id)) }}"><button class="button button1">{{$city->name}}</button></a></li>
+                @endforeach
             </ul>
         </div>
-
-
 
         <div class="social-links text-center">
             <a href="#" class="twitter"><i class="icofont-twitter"></i></a>

@@ -2,7 +2,6 @@
 <?php
 // Homepage
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/first', 'HomeController@first')->name('first');
 
 // Blog
 Route::get('/blog', 'BlogController@index')->name('blog');
@@ -52,3 +51,10 @@ Route::get('/return-policy', 'ReturnController@index')->name('return');
 
 // privacy policy
 Route::get('/privacy-policy', 'PrivacyController@index')->name('privacy');
+
+// My Order
+Route::get('my-order', 'MyOrderController@index')->name('my-order');
+Route::get('my-order/invoice/view/{id}', 'MyOrderController@viewInvoice')->name('my-order.invoice.view');
+Route::get('my-order/invoice/download/{id}', 'MyOrderController@downloadInvoice')->name('my-order.invoice.download');
+
+Route::get('my-order/invoice', 'MyOrderController@invoice')->name('invoice');

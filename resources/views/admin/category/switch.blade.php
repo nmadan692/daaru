@@ -8,12 +8,14 @@
 <script>
     function changeStatus(id) {
         $.ajax({
-            url : 'http://127.0.0.1:8000/admin/category/status/change/' + id,
+            url : '{{ config('app.url') }}/admin/category/status/change/' + id,
             type : 'GET',
             success : function(data) {
+                toastr.success('Status changed successfully.');
             },
             error : function(request,error)
             {
+                toastr.error('Sorry something went wrong.');
                 alert("Request: "+JSON.stringify(request));
             }
         });

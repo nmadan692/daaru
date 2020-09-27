@@ -2202,6 +2202,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2222,10 +2228,17 @@ vee_validate__WEBPACK_IMPORTED_MODULE_2__["Validator"].localize(dictionary);
       "default": function _default() {
         return {};
       }
+    },
+    isAuthenticated: {
+      type: Boolean,
+      "default": function _default() {
+        return false;
+      }
     }
   },
   data: function data() {
     return {
+      inputErrors: {},
       submitText: 'PLACE ORDER',
       formData: {}
     };
@@ -2239,11 +2252,15 @@ vee_validate__WEBPACK_IMPORTED_MODULE_2__["Validator"].localize(dictionary);
         if (valid) {
           _api_front__WEBPACK_IMPORTED_MODULE_1__["default"].placeOrder(self.formData).then(function (res) {
             if (res.status == 200) {
-              toastr.success('Order Placed Successfully.', 'Success');
+              _api_front__WEBPACK_IMPORTED_MODULE_1__["default"].myOrder(); // toastr.success('Order Placed Successfully.', 'Success');
             } else {
               toastr.error('Sorry something went wrong.', 'Error');
             }
           })["catch"](function (res) {
+            if (res.response.status == 422) {
+              self.inputErrors = res.response.data.errors;
+            }
+
             toastr.error('Sorry something went wrong.', 'Error');
           });
           e.target.querySelector('button[type=submit]').disabled = false;
@@ -2271,11 +2288,6 @@ vee_validate__WEBPACK_IMPORTED_MODULE_2__["Validator"].localize(dictionary);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
 //
 //
 //
@@ -43844,338 +43856,381 @@ var render = function() {
       }
     },
     [
-      _c(
-        "div",
-        { staticClass: "row" },
-        [
-          _c("div", { staticClass: "col-lg-8 col-md-6" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-lg-6" }, [
-                _c("div", { staticClass: "checkout__input" }, [
-                  _c(
-                    "p",
-                    { class: _vm.errors.first("first_name") ? "danger" : null },
-                    [_vm._v("First Name"), _c("span", [_vm._v("*")])]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
+      _c("div", { staticClass: "row" }, [
+        !_vm.isAuthenticated
+          ? _c("div", { staticClass: "col-lg-8 col-md-6" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-lg-6" }, [
+                  _c("div", { staticClass: "checkout__input" }, [
+                    _c(
+                      "p",
                       {
-                        name: "validate",
-                        rawName: "v-validate",
-                        value: "required",
-                        expression: "'required'"
+                        class: _vm.errors.first("first_name") ? "danger" : null
                       },
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.formData.first_name,
-                        expression: "formData.first_name"
-                      }
-                    ],
-                    class: _vm.errors.first("first_name")
-                      ? "input-danger"
-                      : null,
-                    attrs: { type: "text", name: "first_name" },
-                    domProps: { value: _vm.formData.first_name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                      [_vm._v("First Name"), _c("span", [_vm._v("*")])]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "validate",
+                          rawName: "v-validate",
+                          value: "required",
+                          expression: "'required'"
+                        },
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.first_name,
+                          expression: "formData.first_name"
                         }
-                        _vm.$set(
-                          _vm.formData,
-                          "first_name",
-                          $event.target.value
-                        )
+                      ],
+                      class: _vm.errors.first("first_name")
+                        ? "input-danger"
+                        : null,
+                      attrs: { type: "text", name: "first_name" },
+                      domProps: { value: _vm.formData.first_name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.formData,
+                            "first_name",
+                            $event.target.value
+                          )
+                        }
                       }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "danger" }, [
-                    _vm._v(_vm._s(_vm.errors.first("first_name")))
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "danger" }, [
+                      _vm._v(_vm._s(_vm.errors.first("first_name")))
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-6" }, [
+                  _c("div", { staticClass: "checkout__input" }, [
+                    _c(
+                      "p",
+                      {
+                        class: _vm.errors.first("last_name") ? "danger" : null
+                      },
+                      [_vm._v("Last Name"), _c("span", [_vm._v("*")])]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "validate",
+                          rawName: "v-validate",
+                          value: "required",
+                          expression: "'required'"
+                        },
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.last_name,
+                          expression: "formData.last_name"
+                        }
+                      ],
+                      class: _vm.errors.first("last_name")
+                        ? "input-danger"
+                        : null,
+                      attrs: { type: "text", name: "last_name" },
+                      domProps: { value: _vm.formData.last_name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.formData,
+                            "last_name",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "danger" }, [
+                      _vm._v(_vm._s(_vm.errors.first("last_name")))
+                    ])
                   ])
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-lg-6" }, [
-                _c("div", { staticClass: "checkout__input" }, [
-                  _c(
-                    "p",
-                    { class: _vm.errors.first("last_name") ? "danger" : null },
-                    [_vm._v("Last Name"), _c("span", [_vm._v("*")])]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "validate",
-                        rawName: "v-validate",
-                        value: "required",
-                        expression: "'required'"
-                      },
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.formData.last_name,
-                        expression: "formData.last_name"
-                      }
-                    ],
-                    class: _vm.errors.first("last_name")
-                      ? "input-danger"
-                      : null,
-                    attrs: { type: "text", name: "last_name" },
-                    domProps: { value: _vm.formData.last_name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.formData, "last_name", $event.target.value)
-                      }
+              _c("div", { staticClass: "checkout__input" }, [
+                _c(
+                  "p",
+                  { class: _vm.errors.first("address1") ? "danger" : null },
+                  [_vm._v("Address"), _c("span", [_vm._v("*")])]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "validate",
+                      rawName: "v-validate",
+                      value: "required",
+                      expression: "'required'"
+                    },
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.formData.address1,
+                      expression: "formData.address1"
                     }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "danger" }, [
-                    _vm._v(_vm._s(_vm.errors.first("last_name")))
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkout__input" }, [
-              _c(
-                "p",
-                { class: _vm.errors.first("address1") ? "danger" : null },
-                [_vm._v("Address"), _c("span", [_vm._v("*")])]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: "required",
-                    expression: "'required'"
+                  ],
+                  staticClass: "checkout__input__add",
+                  class: _vm.errors.first("address1") ? "input-danger" : null,
+                  attrs: {
+                    type: "text",
+                    name: "address1",
+                    placeholder: "Street Address"
                   },
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.formData.address1,
-                    expression: "formData.address1"
-                  }
-                ],
-                staticClass: "checkout__input__add",
-                class: _vm.errors.first("address1") ? "input-danger" : null,
-                attrs: {
-                  type: "text",
-                  name: "address1",
-                  placeholder: "Street Address"
-                },
-                domProps: { value: _vm.formData.address1 },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.formData, "address1", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.formData.address2,
-                    expression: "formData.address2"
-                  }
-                ],
-                attrs: {
-                  type: "text",
-                  name: "address2",
-                  placeholder: "Apartment, suite, unite ect (optional)"
-                },
-                domProps: { value: _vm.formData.address2 },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.formData, "address2", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("span", { staticClass: "danger" }, [
-                _vm._v(_vm._s(_vm.errors.first("address1")))
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-lg-6" }, [
-                _c("div", { staticClass: "checkout__input" }, [
-                  _c(
-                    "p",
-                    { class: _vm.errors.first("phone") ? "danger" : null },
-                    [_vm._v("Phone"), _c("span", [_vm._v("*")])]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "validate",
-                        rawName: "v-validate",
-                        value: "required",
-                        expression: "'required'"
-                      },
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.formData.phone,
-                        expression: "formData.phone"
+                  domProps: { value: _vm.formData.address1 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
                       }
-                    ],
-                    class: _vm.errors.first("phone") ? "input-danger" : null,
-                    attrs: { type: "text", name: "phone" },
-                    domProps: { value: _vm.formData.phone },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                      _vm.$set(_vm.formData, "address1", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.formData.address2,
+                      expression: "formData.address2"
+                    }
+                  ],
+                  attrs: {
+                    type: "text",
+                    name: "address2",
+                    placeholder: "Apartment, suite, unite ect (optional)"
+                  },
+                  domProps: { value: _vm.formData.address2 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.formData, "address2", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "danger" }, [
+                  _vm._v(_vm._s(_vm.errors.first("address1")))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-lg-6" }, [
+                  _c("div", { staticClass: "checkout__input" }, [
+                    _c(
+                      "p",
+                      { class: _vm.errors.first("phone") ? "danger" : null },
+                      [_vm._v("Phone"), _c("span", [_vm._v("*")])]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "validate",
+                          rawName: "v-validate",
+                          value: "required",
+                          expression: "'required'"
+                        },
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.phone,
+                          expression: "formData.phone"
                         }
-                        _vm.$set(_vm.formData, "phone", $event.target.value)
+                      ],
+                      class: _vm.errors.first("phone") ? "input-danger" : null,
+                      attrs: { type: "text", name: "phone" },
+                      domProps: { value: _vm.formData.phone },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.formData, "phone", $event.target.value)
+                        }
                       }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "danger" }, [
-                    _vm._v(_vm._s(_vm.errors.first("phone")))
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "danger" }, [
+                      _vm._v(_vm._s(_vm.errors.first("phone")))
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-6" }, [
+                  _c("div", { staticClass: "checkout__input" }, [
+                    _c(
+                      "p",
+                      {
+                        class:
+                          _vm.inputErrors.email || _vm.errors.first("email")
+                            ? "danger"
+                            : null
+                      },
+                      [_vm._v("Email"), _c("span", [_vm._v("*")])]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "validate",
+                          rawName: "v-validate",
+                          value: "required",
+                          expression: "'required'"
+                        },
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.email,
+                          expression: "formData.email"
+                        }
+                      ],
+                      class:
+                        _vm.inputErrors.email || _vm.errors.first("email")
+                          ? "input-danger"
+                          : null,
+                      attrs: { type: "text", name: "email" },
+                      domProps: { value: _vm.formData.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.formData, "email", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "danger" }, [
+                      _vm._v(_vm._s(_vm.errors.first("email")))
+                    ]),
+                    _vm._v(" "),
+                    _vm.inputErrors.email && !_vm.errors.first("email")
+                      ? _c("span", { staticClass: "danger" }, [
+                          _vm._v(_vm._s(_vm.inputErrors.email[0]))
+                        ])
+                      : _vm._e()
                   ])
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-lg-6" }, [
-                _c("div", { staticClass: "checkout__input" }, [
-                  _c(
-                    "p",
-                    { class: _vm.errors.first("email") ? "danger" : null },
-                    [_vm._v("Email"), _c("span", [_vm._v("*")])]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "validate",
-                        rawName: "v-validate",
-                        value: "required",
-                        expression: "'required'"
-                      },
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.formData.email,
-                        expression: "formData.email"
-                      }
-                    ],
-                    class: _vm.errors.first("email") ? "input-danger" : null,
-                    attrs: { type: "text", name: "email" },
-                    domProps: { value: _vm.formData.email },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.formData, "email", $event.target.value)
-                      }
+              _c("div", { staticClass: "checkout__input" }, [
+                _c(
+                  "p",
+                  { class: _vm.errors.first("password") ? "danger" : null },
+                  [_vm._v("Account Password"), _c("span", [_vm._v("*")])]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "validate",
+                      rawName: "v-validate",
+                      value: "required",
+                      expression: "'required'"
+                    },
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.formData.password,
+                      expression: "formData.password"
                     }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "danger" }, [
-                    _vm._v(_vm._s(_vm.errors.first("email")))
-                  ])
+                  ],
+                  class: _vm.errors.first("password") ? "input-danger" : null,
+                  attrs: { type: "password", name: "password" },
+                  domProps: { value: _vm.formData.password },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.formData, "password", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "danger" }, [
+                  _vm._v(_vm._s(_vm.errors.first("password")))
                 ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkout__input" }, [
-              _c(
-                "p",
-                { class: _vm.errors.first("password") ? "danger" : null },
-                [_vm._v("Account Password"), _c("span", [_vm._v("*")])]
-              ),
+              ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: "required",
-                    expression: "'required'"
+              _c("div", { staticClass: "checkout__input" }, [
+                _c("p", [_vm._v("Order notes")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.formData.note,
+                      expression: "formData.note"
+                    }
+                  ],
+                  attrs: {
+                    type: "text",
+                    placeholder:
+                      "Notes about your order, e.g. special notes for delivery.",
+                    name: "note"
                   },
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.formData.password,
-                    expression: "formData.password"
-                  }
-                ],
-                class: _vm.errors.first("password") ? "input-danger" : null,
-                attrs: { type: "password", name: "password" },
-                domProps: { value: _vm.formData.password },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+                  domProps: { value: _vm.formData.note },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.formData, "note", $event.target.value)
                     }
-                    _vm.$set(_vm.formData, "password", $event.target.value)
                   }
-                }
-              }),
-              _vm._v(" "),
-              _c("span", { staticClass: "danger" }, [
-                _vm._v(_vm._s(_vm.errors.first("password")))
+                })
               ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkout__input" }, [
-              _c("p", [_vm._v("Order notes")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.formData.note,
-                    expression: "formData.note"
-                  }
-                ],
-                attrs: {
-                  type: "text",
-                  placeholder:
-                    "Notes about your order, e.g. special notes for delivery.",
-                  name: "note"
-                },
-                domProps: { value: _vm.formData.note },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.formData, "note", $event.target.value)
-                  }
-                }
-              })
             ])
-          ]),
-          _vm._v(" "),
-          _c("your-order", {
-            attrs: { products: _vm.products, "submit-text": _vm.submitText }
-          })
-        ],
-        1
-      )
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.isAuthenticated
+          ? _c(
+              "div",
+              { staticClass: "col-lg-4 col-md-6" },
+              [
+                _c("your-order", {
+                  attrs: {
+                    products: _vm.products,
+                    "submit-text": _vm.submitText
+                  }
+                })
+              ],
+              1
+            )
+          : _c(
+              "div",
+              { staticClass: "col-lg-12" },
+              [
+                _c("your-order", {
+                  attrs: {
+                    products: _vm.products,
+                    "submit-text": _vm.submitText
+                  }
+                })
+              ],
+              1
+            )
+      ])
     ]
   )
 }
@@ -44201,51 +44256,42 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-lg-4 col-md-6" }, [
-    _c("div", { staticClass: "checkout__order" }, [
-      _c("h4", [_vm._v("Your Order")]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "ul",
-        [
-          _vm._l(_vm.products, function(product) {
-            return [
-              _c("li", [
-                _vm._v(_vm._s(product.product.name) + " "),
-                _c("span", [
-                  _vm._v(
-                    _vm._s(
-                      "Nrs " +
-                        product.product.discount_amount * product.quantity
-                    )
+  return _c("div", { staticClass: "checkout__order" }, [
+    _c("h4", [_vm._v("Your Order")]),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "ul",
+      [
+        _vm._l(_vm.products, function(product) {
+          return [
+            _c("li", [
+              _vm._v(_vm._s(product.product.name) + " "),
+              _c("span", [
+                _vm._v(
+                  _vm._s(
+                    "Nrs " + product.product.discount_amount * product.quantity
                   )
-                ])
+                )
               ])
-            ]
-          })
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "checkout__order__total" }, [
-        _vm._v("Total "),
-        _c("span", [_vm._v(_vm._s("Nrs " + _vm.quantity))])
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v(
-          "Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt\n            ut labore et dolore magna aliqua."
-        )
-      ]),
-      _vm._v(" "),
-      _c("button", {
-        staticClass: "site-btn",
-        attrs: { type: "submit" },
-        domProps: { innerHTML: _vm._s(_vm.submitText) }
-      })
-    ])
+            ])
+          ]
+        })
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "checkout__order__total" }, [
+      _vm._v("Total "),
+      _c("span", [_vm._v(_vm._s("Nrs " + _vm.quantity))])
+    ]),
+    _vm._v(" "),
+    _c("button", {
+      staticClass: "site-btn",
+      attrs: { type: "submit" },
+      domProps: { innerHTML: _vm._s(_vm.submitText) }
+    })
   ])
 }
 var staticRenderFns = [
@@ -56997,6 +57043,11 @@ __webpack_require__.r(__webpack_exports__);
   // CheckoutController@store
   placeOrder: function placeOrder(data) {
     return axios.post("/checkout", data);
+  },
+  // Redirect to Order Page
+  // MyOrderController@index
+  myOrder: function myOrder() {
+    return window.location.href = baseUrl + '/my-order';
   }
 });
 

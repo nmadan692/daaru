@@ -19,3 +19,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/live/set-up', 'TerminalController@liveSetUp')->name('live.setup');
 
+Route::get('/select-location', 'Front\HomeController@showLocationPage')->name('select.location');
+//default Profile
+Route::get('default-city/{id}', 'DefaultCity\DefaultCityController@change')->name('default.city');
+
+
+

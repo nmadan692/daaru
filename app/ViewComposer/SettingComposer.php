@@ -27,7 +27,7 @@ class SettingComposer
      * @param View $view
      */
     public function compose(View $view) {
-        $setting = $this->settingService->all();
+        $setting = $this->settingService->getWhere([['city_id', defaultCity('id')]]);
 
         $view->with(compact('setting'));
 

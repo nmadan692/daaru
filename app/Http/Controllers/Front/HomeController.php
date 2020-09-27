@@ -63,18 +63,21 @@ class HomeController extends Controller
      * @return Application|Factory|View
      */
     public function index(){
-        $setting = $this->settingService->all();
         $categories = $this->categoryService->query()->where('status' , true)->whereNull('parent_id')->get();
-        $latestProducts = $this->productService->take(8, 'desc');
-        $featuredProducts = $this->productService->query()->where(['is_featured' => true])->take(8)->orderBy('id', 'desc')->get();
+        $latestProducts = $this->productService->query()->where('city_id', defaultCity('id'))->take(8)->orderBy('id', 'desc')->get();
+        $featuredProducts = $this->productService->query()->where(['is_featured' => true])->where('city_id', defaultCity('id'))->take(8)->orderBy('id', 'desc')->get();
         $recentBlogs = $this->blogService->take(3, 'desc');
         $cmsPages = $this->cmsPageService->all();
 
 
-        return view('front.home.index', compact('setting', 'categories', 'latestProducts', 'recentBlogs', 'featuredProducts', 'cmsPages'));
+        return view('front.home.index', compact('categories', 'latestProducts', 'recentBlogs', 'featuredProducts', 'cmsPages'));
     }
-    public function first() {
-        return view('front.home.first');
+
+    /**
+     * @return Factory|View
+     */
+    public function showLocationPage() {
+        return view('front.home.location');
     }
 }
 

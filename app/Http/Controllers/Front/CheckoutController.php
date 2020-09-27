@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Front;
 
 use App\Daaruu\Constants\OrderConstant;
 use App\Daaruu\Constants\RoleConstant;
+use App\Events\Front\OrderBooked;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Front\CheckoutRequest;
+use App\Jobs\SendCustomerInvoice;
 use App\Services\General\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -35,7 +38,7 @@ class CheckoutController extends Controller
      * @return Factory|View
      */
     public function index(){
-        $products = session()->get('cart') ?? collect([]);
+        $products = session()->get('cart-'.defaultCity('id')) ?? collect([]);
 
         return view('front.checkout.checkout', compact('products'));
     }
@@ -129,24 +132,33 @@ class CheckoutController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request) {
-        $storeData = array_merge(
-            $request->all(),
-            [
-                'account_created' => true,
-                'role_id' => RoleConstant::CUSTOMER_ID,
-                'password' => bcrypt($request->input('password'))
-            ]
-        );
+    public function store(CheckoutRequest $request) {
+        if(!authenticated('customer')) {
+            $storeData = array_merge(
+                $request->all(),
+                [
+                    'account_created' => true,
+                    'role_id' => RoleConstant::CUSTOMER_ID,
+                    'password' => bcrypt($request->input('password'))
+                ]
+            );
+        }
         DB::beginTransaction();
-            $customer = $this->userService->create($storeData);
-            $this->guard()->login($customer);
+            if(!authenticated('customer')) {
+                $customer = $this->userService->create($storeData);
+                $this->guard()->login($customer);
+            }
+            else {
+                $customer = me('customer');
+            }
             $ordersData = [
                 'status' => OrderConstant::ORDERED_ID,
             ];
             $order = $customer->orders()->create($ordersData);
-            if(session()->get('cart')) {
-                foreach (session()->get('cart') as $product) {
+            $this->dispatch(new SendCustomerInvoice($order, $customer));
+//            event(new OrderBooked($order, $customer));
+            if(session()->get('cart-'.defaultCity('id'))) {
+                foreach (session()->get('cart-'.defaultCity('id')) as $product) {
                     $order->products()->attach(
                         $product['product']->id,
                         [
@@ -156,8 +168,9 @@ class CheckoutController extends Controller
                     );
                 }
             }
-            session()->forget('cart');
+            session()->forget('cart-'.defaultCity('id'));
         DB::commit();
+        $request->session()->flash('message', 'Order Placed Successfully');
 
         return response()->json(['message' => 'Successfully Placed Ordered.']);
     }

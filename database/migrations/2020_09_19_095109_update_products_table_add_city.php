@@ -28,6 +28,7 @@ class UpdateProductsTableAddCity extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             $table->dropForeign('products_city_id_foreign');
+            $table->dropColumn('city_id');
         });
     }
 }

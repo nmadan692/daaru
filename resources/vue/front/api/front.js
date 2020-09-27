@@ -14,5 +14,10 @@ export default {
     // CheckoutController@store
     placeOrder: function (data) {
         return axios.post(`/checkout`, data);
+    },
+    // Redirect to Order Page
+    // MyOrderController@index
+    myOrder: function () {
+        return window.location.href = baseUrl + '/my-order';
     }
 };
