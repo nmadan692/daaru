@@ -1,5 +1,10 @@
 
 <?php
+//Customer Login
+Route::get('customer/login', 'Auth\LoginController@showLoginForm')->name('customer.auth.login');
+Route::post('customer/login', 'Auth\LoginController@login')->name('customer.auth.login');
+Route::post('customer/logout', 'Auth\LoginController@logout')->name('customer.auth.logout');
+
 // Homepage
 Route::get('/', 'HomeController@index')->name('home');
 

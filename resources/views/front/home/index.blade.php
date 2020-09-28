@@ -115,12 +115,34 @@
                         <div class="featured__item">
                             <div class="featured__item__pic set-bg" data-setbg="{{ getImageUrl($product->image) }}">
                                 <ul class="featured__item__pic__hover">
-                                    <li>
-                                        <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'wishList']) }}"><i
-                                                class="fa fa-heart"></i></a></li>
-                                    <li>
-                                        <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'cart']) }}"><i
-                                                class="fa fa-shopping-cart"></i></a></li>
+
+                                    @if(isInWishList($product->id))
+                                        <li class="list-active">
+                                            <a href="{{ route('my-wish-list') }}">
+                                                <i class="fa fa-heart"></i>
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li>
+                                            <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'wishList']) }}">
+                                                <i class="fa fa-heart"></i>
+                                            </a>
+                                        </li>
+                                    @endif
+
+                                    @if(isInCart($product->id))
+                                        <li class="cart-active">
+                                            <a href="{{ route('my-cart') }}">
+                                                <i class="fa fa-shopping-cart"></i>
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li>
+                                            <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'cart']) }}">
+                                                <i class="fa fa-shopping-cart"></i>
+                                            </a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
 

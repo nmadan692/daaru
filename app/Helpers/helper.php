@@ -51,7 +51,12 @@ function getImageUrl($image = null) {
 }
 
 function getCartTotal() {
-    return 'Nrs 0';
+    $amount = 0;
+    $products = getSessionDataByKey('cart-'.defaultCity('id')) ?? collect([]);
+    foreach($products as $product) {
+        $amount+= $product['product']->discount_amount * $product['quantity'];
+    }
+    return 'Nrs '. $amount;
 }
 
 /**

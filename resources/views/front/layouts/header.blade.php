@@ -38,10 +38,18 @@
                                 <ul>
                                     <li><a href="#"><i class="fa fa-user"></i>Profile</a></li>
                                     <li><a href="{{ route('my-order') }}"><i class="fa fa-shopping-cart"></i>My Order</a></li>
-                                    <li><a href="#"><i class="fa fa-cog"></i>Logout</a></li>
+                                    <li>
+                                        <a href="javascript::void(0)"
+                                           onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
+                                            <i class="fa fa-cog"></i>Logout
+                                        </a>
+                                        <form id="logout-form" action="{{ route('customer.auth.logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
                                 </ul>
                             @else
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
+                                <a href="{{ route('customer.auth.login') }}"><i class="fa fa-user"></i> Login</a>
                             @endif
                         </div>
                     </div>
