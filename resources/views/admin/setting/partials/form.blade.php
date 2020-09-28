@@ -38,6 +38,8 @@
 
         <div class="form-group m-form__group row">
             <x-inputs.image form-class="col-lg-6" :errors="$errors" label="Logo" labelfor="logo" name="logo" type="file" value="{{  $data['setting']->logo ?? old('logo') ?? null }}"></x-inputs.image>
+            <x-inputs.text form-class="col-lg-6" :errors="$errors" label="Facebook Page iframe" labelfor="facebook_page" name="facebook_page" type="text" value="{{  $data['setting']->facebook_page ?? old('facebook_page') ?? null }}"></x-inputs.text>
+
         </div>
 
 

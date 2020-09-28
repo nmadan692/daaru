@@ -39,9 +39,7 @@
                     <h4><b>Join Our Social Links</b></h4><br>
 
                     <div class="footer__widget__social">
-                        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FDaaruu.comBiratnagar&tabs&width=340&height=200&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-                                width="340" height="200" style="border:none;overflow:hidden"
-                                scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                        {{ $setting[0]->facebook_page ?? null }}
 {{--                        <a href="{{ $setting[0]->facebook ?? null }}"><i class="fa fa-facebook"></i></a>--}}
 {{--                        <a href="{{ $setting[0]->instagram ?? null}}"><i class="fa fa-instagram"></i></a>--}}
 {{--                        <a href="{{ $setting[0]->twitter ?? null}}"><i class="fa fa-twitter"></i></a>--}}
