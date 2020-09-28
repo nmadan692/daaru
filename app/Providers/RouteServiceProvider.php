@@ -73,6 +73,21 @@ class RouteServiceProvider extends ServiceProvider
     public const STAFFLOGIN = '/staff/login';
 
     /**
+     * The path to the "customer" route for your application.
+     *
+     * @var string
+     */
+    public const CUSTOMER = '/my-order';
+
+    /**
+     * The path to the "staff" route for your application.
+     *
+     * @var string
+     */
+    public const CUSTOMERLOGIN = '/customer/login';
+
+
+    /**
      * The path to the "home" route for your application.
      *
      * @var string
