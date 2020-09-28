@@ -67,7 +67,7 @@ Route::resource('city', 'City\CityController');
 //default Profile
 Route::get('default-city/{id}', 'DefaultCity\DefaultCityController@change')->name('default.city');
 
-// customer
+// banner
 Route::get('banner/list', 'Banner\BannerController@list')->name('banner.list');
 Route::get('banner/status/change/{id}', 'Banner\BannerController@changeStatus')->name('banner.status.change');
 Route::resource('banner', 'Banner\BannerController');

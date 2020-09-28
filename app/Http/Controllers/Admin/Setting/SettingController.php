@@ -81,7 +81,8 @@ class SettingController extends Controller
                 'delivery_end_hour',
                 'facebook',
                 'instagram',
-                'twitter'
+                'twitter',
+                'facebook_page'
             ],
             null,
             [

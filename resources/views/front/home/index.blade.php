@@ -50,7 +50,7 @@
 
                         </div>
                     </div>
-                   
+
 
                     {{--                    <div class="hero__item set-bg" data-setbg="{{ getImageUrl($cmsPages[0]->image ?? null) }}">--}}
                     {{--                        <div class="hero__text">--}}
