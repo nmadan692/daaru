@@ -22,6 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-5">
+
                     <form action="" method="get" action="{{ route('products') }}" id="product-search-form">
                         @include('front.products.sidebar')
                         <input type="hidden" name="sortBy" id="hidden-sort-by" value="{{request('sortBy') ?? null}}">
