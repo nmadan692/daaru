@@ -8,6 +8,8 @@ use App\Events\Front\OrderBooked;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Front\CheckoutRequest;
 use App\Jobs\SendCustomerInvoice;
+use App\Services\General\DefaultCity\DefaultCityService;
+use App\Services\General\Product\ProductService;
 use App\Services\General\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -24,14 +26,30 @@ class CheckoutController extends Controller
      * @var UserService
      */
     private $userService;
+    /**
+     * @var DefaultCityService
+     */
+    private $defaultCityService;
+    /**
+     * @var ProductService
+     */
+    private $productService;
 
     /**
      * CheckoutController constructor.
      * @param UserService $userService
+     * @param DefaultCityService $defaultCityService
+     * @param ProductService $productService
      */
-    public function __construct(UserService $userService)
+    public function __construct(
+        UserService $userService,
+        DefaultCityService $defaultCityService,
+        ProductService $productService
+    )
     {
         $this->userService = $userService;
+        $this->defaultCityService = $defaultCityService;
+        $this->productService = $productService;
     }
 
     /**
@@ -47,7 +65,6 @@ class CheckoutController extends Controller
      * @return Application|Factory|View
      */
     public function invoice(){
-
         return view('front.checkout.invoice');
     }
 
@@ -58,82 +75,7 @@ class CheckoutController extends Controller
 
         return view('front.checkout.profile');
     }
-    /**
-     * @param Request $request
-     * @return RedirectResponse
-     */
-//    public function store(Request $request) {
-//        $userData[] =  [
-//            'first_name' => $request->input('first_name')[0],
-//            'last_name' => $request->input('last_name')[0],
-//            'address1' => $request->input('address1')[0],
-//            'address2' => $request->input('address2')[0],
-//            'phone' => $request->input('phone')[0],
-//            'email' => $request->input('email')[0],
-//            'city' => $request->input('city')[0],
-//            'account_created' => false,
-//            'role_id' => RoleConstant::CUSTOMER_ID
-//        ];
-//        if($request->input('create_account') == 'on') {
-//            $userData[0] = array_merge(
-//                $userData[0],
-//                [
-//                    'account_created' => true,
-//                    'password' => bcrypt($request->input('password'))
-//                ]
-//            );
-//            if($request->input('different_shipping') == 'on') {
-//                $userData[] = [
-//                    'first_name' => $request->input('first_name')[1],
-//                    'last_name' => $request->input('last_name')[1],
-//                    'address1' => $request->input('address1')[1],
-//                    'address2' => $request->input('address2')[1],
-//                    'phone' => $request->input('phone')[1],
-//                    'email' => $request->input('email')[1],
-//                    'city' => $request->input('city')[0],
-//                    'account_created' => false,
-//                    'password' => bcrypt(Str::random(12)),
-//                    'role_id' => RoleConstant::CUSTOMER_ID
-//                ];
-//            }
-//        }
-//
-//        DB::beginTransaction();
-//        foreach ($userData as $key => $user) {
-//            $u[$key] = $this->userService->create($user);
-//        }
-//        $ordersData = [
-//            'status' => OrderConstant::ORDERED_ID,
-//        ];
-//        if(isset($u[1])) {
-//            $ordersData = [
-//                array_merge(
-//                    $ordersData,
-//                    [
-//                        'ordered_by' => $u[0]->id,
-//                    ]
-//                )
-//            ];
-//            $order = $u[1]->orders()->create($ordersData);
-//        }
-//        else {
-//            $order = $u[0]->orders()->create($ordersData);
-//        }
-//        foreach (session()->get('cart') as $product) {
-//            $order->products()->attach(
-//                $product['product']->id,
-//                [
-//                    'quantity' => $product['quantity'],
-//                    'amount' => $product['quantity']*$product['product']->discount_amount,
-//                ]
-//            );
-//        }
-//        session()->forget('cart');
-//        DB::commit();
-//
-//        return redirect()->route('products');
-//
-//    }
+
 
     /**
      * @param Request $request
@@ -160,10 +102,10 @@ class CheckoutController extends Controller
             }
             $ordersData = [
                 'status' => OrderConstant::ORDERED_ID,
+                'city_id' => $this->defaultCityService->get('id')
             ];
             $order = $customer->orders()->create($ordersData);
             $this->dispatch(new SendCustomerInvoice($order, $customer));
-//            event(new OrderBooked($order, $customer));
             if(session()->get('cart-'.defaultCity('id'))) {
                 foreach (session()->get('cart-'.defaultCity('id')) as $product) {
                     $order->products()->attach(
@@ -173,6 +115,16 @@ class CheckoutController extends Controller
                             'amount' => $product['quantity'] * $product['product']->discount_amount,
                         ]
                     );
+                    $p = $this->productService->findOrFail($product['product']->id);
+                    $p->quantity-=$product['quantity'];
+                    if($p->quantity<0) {
+                        $error = \Illuminate\Validation\ValidationException::withMessages([
+                            'out_of_stock' => $p->name.' is out of stock.'
+                                ]
+                        );
+                        throw $error;
+                    }
+                    $p->save();
                 }
             }
             session()->forget('cart-'.defaultCity('id'));

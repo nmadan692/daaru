@@ -182,6 +182,17 @@ class MenuTableSeeder extends Seeder
                 'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
                 'related_route' => null
             ],
+            [
+                'name' => 'Banner',
+                'slug' => 'banner',
+                'order' => 14,
+                'status' => true,
+                'route' => 'admin.banner.index',
+                'icon' => 'm-menu__link-icon fa fa-cog',
+                'parent_id' => null,
+                'menu_group_id' => MenuGroupConstant::ADMIN_SIDEBAR_ID,
+                'related_route' => null
+            ]
         ];
 
         $this->menuService->truncate();

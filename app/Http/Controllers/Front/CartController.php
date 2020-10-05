@@ -152,14 +152,12 @@ class CartController extends Controller
 
         foreach ($request->all() as $data) {
             $product = $this->productService->findOrFail($data['id']);
-            $carts = [
-                $data['id'] => [
+            $carts[$data['id']] = [
                     'product' => $product,
                     'quantity' => $data['quantity'],
-                ]
-            ];
-            $request->session()->put('cart-'.defaultCity('id'), $carts);
+                ];
         }
+        $request->session()->put('cart-'.defaultCity('id'), $carts);
 
         return response()->json(['message' => 'Successfully Updated Session.']);
     }

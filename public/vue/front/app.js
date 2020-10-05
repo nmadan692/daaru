@@ -2259,9 +2259,13 @@ vee_validate__WEBPACK_IMPORTED_MODULE_2__["Validator"].localize(dictionary);
           })["catch"](function (res) {
             if (res.response.status == 422) {
               self.inputErrors = res.response.data.errors;
-            }
 
-            toastr.error('Sorry something went wrong.', 'Error');
+              _.forEach(res.response.data.errors, function (obj) {
+                toastr.error(obj[0], 'Error');
+              });
+            } else {
+              toastr.error('Sorry something went wrong.', 'Error');
+            }
           });
           e.target.querySelector('button[type=submit]').disabled = false;
           self.submitText = 'Place Order';
@@ -2421,6 +2425,15 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$emit('setSliderValue', this.formData);
     }
+  },
+  watch: {
+    formData: {
+      deep: true,
+      handler: function handler() {
+        this.sliderMoved('upper');
+        this.sliderMoved('lower');
+      }
+    }
   }
 });
 
@@ -2532,9 +2545,9 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     handleInputs: function handleInputs(data) {
       var self = this;
-      self.search = data.search;
-      self.lower = parseInt(data.minAmount);
-      self.upper = parseInt(data.maxAmount);
+      self.search = data.search ? data.search : null;
+      self.lower = data.minAmount ? parseInt(data.minAmount) : this.lower;
+      self.upper = data.maxAmount ? parseInt(data.maxAmount) : this.upper;
     },
     handleCategory: function handleCategory(id) {
       var self = this;

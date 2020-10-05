@@ -43,25 +43,15 @@
                         <div class="carousel-inner">
 
                             @foreach($banners as $key => $banner)
-                            <div class="carousel-item {{ $key == 0 ? 'active' : null }}">
-                                <img class="d-block w-100" src="{{ getImageUrl($banner->image ?? null) }}" alt="First slide">
-                            </div>
+                                <div class="carousel-item {{ $key == 0 ? 'active' : null }}">
+                                    <img class="d-block w-100" src="{{ getImageUrl($banner->image ?? null) }}"
+                                         alt="First slide">
+                                </div>
                             @endforeach
 
                         </div>
                     </div>
 
-
-                    {{--                    <div class="hero__item set-bg" data-setbg="{{ getImageUrl($cmsPages[0]->image ?? null) }}">--}}
-                    {{--                        <div class="hero__text">--}}
-                    {{--                            <span>Red Wine</span>--}}
-
-                    {{--                            <h2>Buy Liquor<br />Online in Nepal </h2>--}}
-                    {{--                            <p>Free Delivery Available</p>--}}
-
-                    {{--                            <a href="#" class="primary-btn">SHOP NOW</a>--}}
-                    {{--                        </div>--}}
-                    {{--                    </div>--}}
                 </div>
             </div>
         </div>
@@ -82,7 +72,7 @@
                         @foreach($latestProducts as $latestProduct)
                             <div class="col-lg-3">
                                 <div class="categories__item set-bg"
-                                     data-setbg="{{ getImageUrl($latestProduct->image) }}">
+                                     data-setbg="{{ getResizedImage($latestProduct->image, \App\Daaruu\Constants\ImageSizeConstant::PRODUCT_270_270) }}">
                                     <h5>
                                         <a href="{{ route('product.show', ['id' => encrypt($latestProduct->id)]) }}">{{$latestProduct->name}}</a>
                                     </h5>
@@ -113,35 +103,41 @@
                 @foreach($featuredProducts as $product)
                     <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
                         <div class="featured__item">
-                            <div class="featured__item__pic set-bg" data-setbg="{{ getImageUrl($product->image) }}">
+                            <div class="featured__item__pic set-bg"
+                                 data-setbg="{{ getResizedImage($product->image, \App\Daaruu\Constants\ImageSizeConstant::PRODUCT_270_270) }}">
                                 <ul class="featured__item__pic__hover">
-
-                                    @if(isInWishList($product->id))
+                                    @if($product->quantity == 0)
                                         <li class="list-active">
-                                            <a href="{{ route('my-wish-list') }}">
-                                                <i class="fa fa-heart"></i>
-                                            </a>
+                                            <span class="out-of-stock">Out of Stock</span>
                                         </li>
                                     @else
-                                        <li>
-                                            <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'wishList']) }}">
-                                                <i class="fa fa-heart"></i>
-                                            </a>
-                                        </li>
-                                    @endif
+                                        @if(isInWishList($product->id))
+                                            <li class="list-active">
+                                                <a href="{{ route('my-wish-list') }}">
+                                                    <i class="fa fa-heart"></i>
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'wishList']) }}">
+                                                    <i class="fa fa-heart"></i>
+                                                </a>
+                                            </li>
+                                        @endif
 
-                                    @if(isInCart($product->id))
-                                        <li class="cart-active">
-                                            <a href="{{ route('my-cart') }}">
-                                                <i class="fa fa-shopping-cart"></i>
-                                            </a>
-                                        </li>
-                                    @else
-                                        <li>
-                                            <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'cart']) }}">
-                                                <i class="fa fa-shopping-cart"></i>
-                                            </a>
-                                        </li>
+                                        @if(isInCart($product->id))
+                                            <li class="cart-active">
+                                                <a href="{{ route('my-cart') }}">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'cart']) }}">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                </a>
+                                            </li>
+                                        @endif
                                     @endif
                                 </ul>
                             </div>
@@ -155,7 +151,7 @@
                                     <div class="product__item__price">{{ $product->discount_price }}
                                         <span>{{ $product->original_price }}</span></div>
                                 @else
-                                    <div class="product__item__price">{{ $product->original_price }}</span></div>
+                                    <div class="product__item__price"><span>{{ $product->original_price }}</span></div>
                                 @endif
                             </div>
                         </div>

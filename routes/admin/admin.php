@@ -20,6 +20,7 @@ Route::resource('brand', 'Brand\BrandController');
 // Product
 Route::get('product/list', 'Product\ProductController@list')->name('product.list');
 Route::get('product/status/change/{id}', 'Product\ProductController@changeStatus')->name('product.status.change');
+Route::get('product/stock/change/{id}', 'Product\ProductController@changeStock')->name('product.stock.change');
 Route::resource('product', 'Product\ProductController');
 
 // Product

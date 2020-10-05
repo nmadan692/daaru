@@ -94,9 +94,9 @@
         methods : {
             handleInputs(data) {
                 let self = this;
-                self.search = data.search;
-                self.lower = parseInt(data.minAmount);
-                self.upper = parseInt(data.maxAmount);
+                self.search = data.search ? data.search : null;
+                self.lower = data.minAmount ? parseInt(data.minAmount) : this.lower;
+                self.upper = data.maxAmount ? parseInt(data.maxAmount) : this.upper;
             },
             handleCategory(id) {
                 let self = this;

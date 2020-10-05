@@ -7,6 +7,8 @@
                             'ID',
                             'Name',
                             'Brand Name',
+                            'In Stock',
+                            'Quantity',
                             'Status',
                             'Action'
                             ]"
@@ -18,7 +20,9 @@
                             {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false, width: '5%'},
                             { data: 'name', name: 'name' },
                             { data: 'brand_name', name: 'brands.name' },
-                            { data: 'status', name: 'status' },
+                            { data: 'in_stock', name: 'in_stock', searchable: false, orderable: false, },
+                            { data: 'quantity', name: 'quantity'},
+                            { data: 'status', name: 'status', searchable: false, orderable: false, },
                             { data: 'action', name: 'action', orderable: false, searchable: false }
                             ]">
         </x-tables.datatable>

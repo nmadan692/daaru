@@ -210,4 +210,10 @@ h5 {
     display: block;
 }
 
+.out-of-stock {
+    background: #f28e1c;
+    color: white;
+    padding: 0px 16px;
+}
+
 

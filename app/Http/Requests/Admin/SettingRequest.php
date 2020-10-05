@@ -24,16 +24,24 @@ class SettingRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => ['required'],
-            'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
-            'address' => 'required',
-            'email' => 'required',
-            'delivery_start_hour' => 'required',
-            'delivery_end_hour' => 'required',
-            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-            'viber' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-            'city_id' => ['required', Rule::unique('settings')->ignore($this->setting)]
-        ];
+        $rules = [];
+        if($this->file('logo')) {
+            $rules = [
+                'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg'
+            ];
+        }
+        return array_merge(
+            $rules,
+            [
+                'name' => ['required'],
+                'address' => 'required',
+                'email' => 'required',
+                'delivery_start_hour' => 'required',
+                'delivery_end_hour' => 'required',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+                'viber' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+                'city_id' => ['required', Rule::unique('settings')->ignore($this->setting)]
+            ]
+        );
     }
 }
