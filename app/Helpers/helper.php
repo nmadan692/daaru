@@ -50,6 +50,21 @@ function getImageUrl($image = null) {
     }
 }
 
+function getResizedImage($image = null, $size = null) {
+    if($image) {
+        $image = getResizedImageName($image, $size);
+        return Storage::url($image);
+    }
+    else {
+        return asset('front/img/liquor/liquor.png');
+    }
+}
+
+function getResizedImageName($image, $size) {
+        $image = explode('/', $image);
+        return $size.last($image);
+}
+
 function getCartTotal() {
     $amount = 0;
     $products = getSessionDataByKey('cart-'.defaultCity('id')) ?? collect([]);

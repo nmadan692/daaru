@@ -26,40 +26,46 @@
     @foreach($products as $product)
         <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product__item">
-                <div class="product__item__pic set-bg" data-setbg="{{ getImageUrl($product->image) }}">
+                <div class="product__item__pic set-bg"
+                     data-setbg="{{ getResizedImage($product->image, \App\Daaruu\Constants\ImageSizeConstant::PRODUCT_270_270) }}">
                     <ul class="product__item__pic__hover">
-                        @if(isInWishList($product->id))
+                        @if($product->quantity == 0)
                             <li class="list-active">
-                                <a href="{{ route('my-wish-list') }}">
-                                    <i class="fa fa-heart"></i>
-                                </a>
+                                <span class="out-of-stock">Out of Stock</span>
                             </li>
                         @else
-                            <li>
-                                <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'wishList']) }}">
-                                    <i class="fa fa-heart"></i>
-                                </a>
-                            </li>
-                        @endif
+                            @if(isInWishList($product->id))
+                                <li class="list-active">
+                                    <a href="{{ route('my-wish-list') }}">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'wishList']) }}">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
+                                </li>
+                            @endif
 
-                        @if(isInCart($product->id))
-                            <li class="cart-active">
-                                <a href="{{ route('my-cart') }}">
-                                    <i class="fa fa-shopping-cart"></i>
-                                </a>
-                            </li>
-                        @else
-                            <li>
-                                <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'cart']) }}">
-                                    <i class="fa fa-shopping-cart"></i>
-                                </a>
-                            </li>
+                            @if(isInCart($product->id))
+                                <li class="cart-active">
+                                    <a href="{{ route('my-cart') }}">
+                                        <i class="fa fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="{{ route('product.shop.add', ['id' => encrypt($product->id), 'quantity' => 1, 'action'=> 'cart']) }}">
+                                        <i class="fa fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            @endif
                         @endif
                     </ul>
                 </div>
 
                 <div class="product__discount__item__text">
-
                     <h5><a href="{{ route('product.show', ['id' => encrypt($product->id)]) }}">{{$product->name}}</a>
                     </h5>
                     @if($product->discount)
@@ -86,12 +92,12 @@
     <script>
         $(document).ready(function () {
             var message = @json(session()->get('message'));
-            var status = @json(session()->get('status')) ?? 'success';
+            var status = @json(session()->get('status')) ??
+            'success';
             if (message) {
-                if(status == 'success') {
+                if (status == 'success') {
                     toastr.success(message);
-                }
-                else if(status == 'error') {
+                } else if (status == 'error') {
                     toastr.error(message);
                 }
             }

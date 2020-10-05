@@ -33,7 +33,7 @@ class ComposerServiceProvider extends ServiceProvider
         );
 
         View::composer(
-            ['front.layouts.master', 'front.emails.invoice', 'front.order.invoice', 'admin.order.invoice'],
+            ['front.layouts.master', 'front.emails.invoice', 'admin.order.invoice'],
             SettingComposer::class
         );
 

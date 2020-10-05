@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Services\General\OrderService;
+use App\Services\General\Setting\SettingService;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
@@ -15,21 +16,30 @@ class MyOrderController extends Controller
      * @var OrderService
      */
     private $orderService;
+    /**
+     * @var SettingService
+     */
+    private $settingService;
 
     /**
      * MyOrderController constructor.
      * @param OrderService $orderService
+     * @param SettingService $settingService
      */
-    public function __construct(OrderService $orderService)
+    public function __construct(
+        OrderService $orderService,
+        SettingService $settingService
+    )
     {
         $this->orderService = $orderService;
+        $this->settingService = $settingService;
     }
 
     /**
      * @return Factory|View
      */
     public function index() {
-        $orders = $this->orderService->query()->where('user_id', frontUser('id'))->with('products')->paginate(4);
+        $orders = $this->orderService->query()->where('user_id', frontUser('id'))->with('products', 'city')->paginate(4);
 
         return view('front.order.index', compact('orders'));
     }
@@ -40,9 +50,11 @@ class MyOrderController extends Controller
      */
     public function viewInvoice($id) {
         $order =  $this->orderService->findOrFail(decrypt($id))->load('products');
+        $setting = $this->settingService->getWhere([['city_id', $order->city_id]]);
+
         $user = me('customer');
 
-        return view('front.order.invoice', compact('order', 'user'));
+        return view('front.order.invoice', compact('order', 'user', 'setting'));
     }
 
     /**

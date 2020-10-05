@@ -26,7 +26,7 @@ class ProductRequest extends FormRequest
     {
         return [
             'name' => ['required', Rule::unique('categories')->ignore($this->product)],
-            'volume' => 'required',
+//            'volume' => 'required',
             'price' => 'required',
             'quantity' => 'required|integer',
             'image' => 'image|mimes:jpg,png,jpeg,gif,svg',

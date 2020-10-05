@@ -72,6 +72,15 @@
 
                 this.$emit('setSliderValue', this.formData);
             },
+        },
+        watch: {
+            formData: {
+                deep: true,
+                handler() {
+                    this.sliderMoved('upper');
+                    this.sliderMoved('lower');
+                }
+            }
         }
     }
 </script>

@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="mt-1">
-                    <img src="{{ getImageUrl($setting[0]->logo ) }}" alt="" height="100px;" width="200px;">
+                    <img src="{{ getImageUrl($setting[0]->logo ?? null ) }}" alt="" height="100px;" width="200px;">
                     <div class="float-right display-block text-right">
                         <span class="mb-0">Invoice Number : <strong>{{ $order->invoice_number }}</strong></span>
                         <span class="mb-0">Invoice Date : <strong>{{ $order->created_at }}</strong></span>
@@ -16,10 +16,10 @@
                     <div class="col-sm-6">
                         <div class="display-block">
                             <span><strong>From :</strong></span>
-                            <span>{{ $setting[0]->name }}</span>
-                            <span>{{ $setting[0]->address }}</span>
-                            <span>{{ $setting[0]->email }}</span>
-                            <span>{{ $setting[0]->phone }}</span>
+                            <span>{{ $setting[0]->name ?? null }}</span>
+                            <span>{{ $setting[0]->address ?? null }}</span>
+                            <span>{{ $setting[0]->email ?? null}}</span>
+                            <span>{{ $setting[0]->phone ?? null }}</span>
                         </div>
                     </div>
                     <div class="col-sm-6">

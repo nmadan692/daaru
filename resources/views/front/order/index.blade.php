@@ -26,6 +26,7 @@
                             <tr>
                                 <th>S.N</th>
                                 <th>Ordered Date</th>
+                                <th>Order Location</th>
                                 <th>Product</th>
                                 <th>Status</th>
                                 <th>Price</th>
@@ -37,6 +38,7 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $order->created_at }}</td>
+                                    <td>{{ $order->city->name ?? null }}</td>
                                     <td>
                                         @foreach($order->products as $product)
                                             {{ $product->name }}

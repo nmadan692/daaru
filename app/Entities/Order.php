@@ -6,12 +6,13 @@ use App\Daaruu\Constants\PaymentConstant;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['status', 'ordered_by', 'payment_status'];
+    protected $fillable = ['status', 'ordered_by', 'payment_status', 'city_id'];
     public $appends = ['invoice_number', 'pay_status'];
 
     /**
@@ -19,6 +20,14 @@ class Order extends Model
      */
     public function products() {
         return $this->belongsToMany(Product::class, 'order_products', 'order_id', 'product_id')->withPivot(['quantity', 'amount']);
+    }
+
+
+    /**
+     * @return BelongsTo
+     */
+    public function city() {
+        return $this->belongsTo(City::class);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Product;
 
+use App\Daaruu\Constants\ImageSizeConstant;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Services\General\Brand\BrandService;
@@ -11,6 +12,7 @@ use App\Services\General\Product\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
@@ -120,11 +122,22 @@ class ProductController extends Controller
             }
             return view('admin.product.switch', compact('name', 'disabled', 'checked', 'id'));
         });
+        $query->editColumn('in_stock', function ($data) {
+            $id = $data->id;
+            $name = 'in_stock';
+            $checked = true;
+            $disabled = false;
+            if($data->quantity == 0) {
+                $checked = false;
+                $disabled = true;
+            }
+            return view('admin.product.stock', compact('name', 'checked', 'disabled', 'id'));
+        });
         $query->addColumn('action', function ($data) use($actionData) {
             $id = $data->id;
             return view('general.datatable.action', compact('actionData', 'id'));
         });
-        $query->rawColumns(['status', 'action']);
+        $query->rawColumns(['status', 'stock', 'action']);
 
         return $query->make();
     }
@@ -159,15 +172,35 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $image = $request->file('image');
-        $image_name = time() . '.' . $image->getClientOriginalExtension();
         $storeData = array_merge(
             $request->all(),
             [
-                'image' => Storage::putFileAs('product/images', $image, $image_name),
                 'city_id' => $this->defaultCityService->get('id')
             ]
         );
+        if($request->file('image')) {
+            $image = $request->file('image');
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $resizedImage = Image::make($image);
+            $storeData = array_merge(
+                $storeData,
+                [
+                    'image' => Storage::putFileAs('product/images', $image, $image_name),
+                ]
+            );
+            Storage::put(ImageSizeConstant::PRODUCT_540_560.$image_name, $resizedImage->resize(540,560, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->encode());
+            Storage::put(ImageSizeConstant::PRODUCT_270_270.$image_name, $resizedImage->resize(270,270, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->encode());
+            Storage::put(ImageSizeConstant::PRODUCT_400_280.$image_name, $resizedImage->resize(400,280, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->encode());
+        }
         $this->productService->create($storeData);
 
         return redirect()->route('admin.product.index');
@@ -210,20 +243,48 @@ class ProductController extends Controller
     public function update(ProductRequest $request, $id)
     {
         $updateData = $request->all();
+        if(!isset($request->is_featured)) {
+            $updateData = array_merge(
+                $updateData,
+                ['is_featured' => 0]
+            );
+        }
+        if(!isset($request->is_percent)) {
+            $updateData = array_merge(
+                $updateData,
+                ['is_percent' => 0]
+            );
+        }
         if($request->file('image')) {
             $image = $request->file('image');
             $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $resizedImage = Image::make($image);
             $updateData = array_merge(
                 $updateData,
                 [
                     'image' => Storage::putFileAs('product/images', $image, $image_name)
                 ]);
+            Storage::put(ImageSizeConstant::PRODUCT_540_560.$image_name, $resizedImage->resize(540,560, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->encode());
+            Storage::put(ImageSizeConstant::PRODUCT_270_270.$image_name, $resizedImage->resize(270,270, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->encode());
+            Storage::put(ImageSizeConstant::PRODUCT_400_280.$image_name, $resizedImage->resize(400,280, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->encode());
         }
         $product = $this->productService->findOrFail($id);
         $this->productService->update($id, $updateData);
         $oldImage = $product->image;
         if($oldImage && $request->file('image')) {
             Storage::delete($oldImage);
+            Storage::delete(getResizedImageName($oldImage, ImageSizeConstant::PRODUCT_270_270));
+            Storage::delete(getResizedImageName($oldImage, ImageSizeConstant::PRODUCT_540_560));
+            Storage::delete(getResizedImageName($oldImage, ImageSizeConstant::PRODUCT_400_280));
         }
         return redirect()->route('admin.product.index');
     }
@@ -236,7 +297,14 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $this->productService->findOrFail($id)->delete();
+        $product = $this->productService->findOrFail($id);
+        if($image = $product->image) {
+            Storage::delete($image);
+            Storage::delete(getResizedImageName($image, ImageSizeConstant::PRODUCT_270_270));
+            Storage::delete(getResizedImageName($image, ImageSizeConstant::PRODUCT_540_560));
+            Storage::delete(getResizedImageName($image, ImageSizeConstant::PRODUCT_400_280));
+        }
+        $product->delete();
 
         return redirect()->route('admin.product.index');
     }
@@ -248,6 +316,19 @@ class ProductController extends Controller
         $product = $this->productService->findOrFail($id);
         DB::beginTransaction();
         $product->status = !$product->status;
+        $product->save();
+        DB::commit();
+
+        return;
+    }
+
+    /**
+     * @param $id
+     */
+    public function changeStock($id) {
+        $product = $this->productService->findOrFail($id);
+        DB::beginTransaction();
+        $product->quantity = 0;
         $product->save();
         DB::commit();
 

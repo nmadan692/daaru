@@ -119,8 +119,13 @@
                         }).catch(res => {
                             if (res.response.status == 422) {
                                 self.inputErrors = res.response.data.errors
+                                _.forEach(res.response.data.errors, function(obj) {
+                                    toastr.error(obj[0], 'Error');
+                                });
                             }
-                            toastr.error('Sorry something went wrong.', 'Error');
+                            else {
+                                toastr.error('Sorry something went wrong.', 'Error');
+                            }
                         });
                         e.target.querySelector('button[type=submit]').disabled = false;
                         self.submitText = 'Place Order';
