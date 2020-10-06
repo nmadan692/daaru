@@ -49,10 +49,10 @@ class ProductController extends Controller
      * @return Factory|View
      */
     public function index(Request  $request){
-        $categories = $this->categoryService->whereNull(['parent_id'])->get();
-        $subCategories = $this->categoryService->whereNotNull(['parent_id'])->get();
+        $categories = $this->categoryService->whereNull(['parent_id'])->where(['status' => true])->get();
+        $subCategories = $this->categoryService->whereNotNull(['parent_id'])->where(['status' => true])->get();
         $brands = $this->brandService->all(['parent_id']);
-        $products = $this->productService->query()->where('city_id', defaultCity('id'));
+        $products = $this->productService->query()->where('city_id', defaultCity('id'))->where('status', true);
         $minAmount = $request->input('minAmount') ? (int)  $request->input('minAmount') : 0;
         $maxAmount = $request->input('maxAmount') ? (int) $request->input('maxAmount') : 100000;
         $products = $products->where(function ($query) use ($minAmount, $maxAmount) {

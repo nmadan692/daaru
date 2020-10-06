@@ -25,7 +25,7 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('categories')->ignore($this->product)],
+            'name' => 'required',
 //            'volume' => 'required',
             'price' => 'required',
             'quantity' => 'required|integer',

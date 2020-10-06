@@ -74,7 +74,7 @@ class HomeController extends Controller
     public function index(){
         $categories = $this->categoryService->query()->where('status' , true)->whereNull('parent_id')->get();
         $latestProducts = $this->productService->query()->where('city_id', defaultCity('id'))->take(8)->orderBy('id', 'desc')->get();
-        $featuredProducts = $this->productService->query()->where(['is_featured' => true])->where('city_id', defaultCity('id'))->take(8)->orderBy('id', 'desc')->get();
+        $featuredProducts = $this->productService->query()->where('status' , true)->where(['is_featured' => true])->where('city_id', defaultCity('id'))->take(8)->orderBy('id', 'desc')->get();
         $recentBlogs = $this->blogService->take(3, 'desc');
         $banners = $this->bannerService->all();
 
