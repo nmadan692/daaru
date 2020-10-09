@@ -26,7 +26,7 @@ class CreateSettingsTable extends Migration
             $table->string('facebook')->default('#')->nullable();
             $table->string('instagram')->default('#')->nullable();
             $table->string('twitter')->default('#')->nullable();
-            $table->string('facebook_page')->default('#')->nullable();
+            $table->string('facebook_page', 1000)->default('#')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
