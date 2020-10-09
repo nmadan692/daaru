@@ -44,7 +44,7 @@
 
                             @foreach($banners as $key => $banner)
                                 <div class="carousel-item {{ $key == 0 ? 'active' : null }}">
-                                    <img class="d-block w-100" src="{{ getImageUrl($banner->image ?? null) }}"
+                                    <img class="d-block w-100" src="{{ getResizedImage($banner->image, \App\Daaruu\Constants\ImageSizeConstant::BANNER_878_431) }}"
                                          alt="First slide">
                                 </div>
                             @endforeach

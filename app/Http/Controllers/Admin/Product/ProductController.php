@@ -278,7 +278,6 @@ class ProductController extends Controller
             })->encode());
         }
         $product = $this->productService->findOrFail($id);
-        $this->productService->update($id, $updateData);
         $oldImage = $product->image;
         if($oldImage && $request->file('image')) {
             Storage::delete($oldImage);
@@ -286,6 +285,8 @@ class ProductController extends Controller
             Storage::delete(getResizedImageName($oldImage, ImageSizeConstant::PRODUCT_540_560));
             Storage::delete(getResizedImageName($oldImage, ImageSizeConstant::PRODUCT_400_280));
         }
+        $this->productService->update($id, $updateData);
+
         return redirect()->route('admin.product.index');
     }
 

@@ -28,15 +28,15 @@ class DefaultCityService
      * @return string
      */
     public function getKey() {
-            return 'city';
+        return 'city';
     }
 
     public function get($attribute = null) {
-        if(Cache::has($this->getKey())) {
+        if(session()->has($this->getKey())) {
             if($attribute) {
-                return Cache::get($this->getKey())->{$attribute};
+                return session()->get($this->getKey())->{$attribute};
             }
-            return Cache::get($this->getKey());
+            return session()->get($this->getKey());
         }
         else {
             $this->defaultCity();
@@ -49,11 +49,11 @@ class DefaultCityService
      * @return mixed|null
      */
     public function getForFrontEnd($attribute = null) {
-        if(Cache::has($this->getKey())) {
+        if(session()->has($this->getKey())) {
             if($attribute) {
-                return Cache::get($this->getKey())->{$attribute};
+                return session()->get($this->getKey())->{$attribute};
             }
-            return Cache::get($this->getKey());
+            return session()->get($this->getKey());
         }
         else {
             return null;
@@ -61,17 +61,17 @@ class DefaultCityService
     }
 
     public function defaultCity() {
-        Cache::forever($this->getKey(), $this->cityService->all()[0]);
+        session()->put($this->getKey(), $this->cityService->all()[0]);
     }
 
     public function set($city) {
         $this->clear();
-        Cache::forever($this->getKey(), $city);
+        session()->put($this->getKey(), $city);
 
         return $city;
     }
 
     public function clear() {
-        return Cache::forget($this->getKey());
+        return session()->forget($this->getKey());
     }
 }

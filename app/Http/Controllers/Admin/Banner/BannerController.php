@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Banner;
 
+use App\Daaruu\Constants\ImageSizeConstant;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BannerRequest;
 use App\Services\General\banner\BannerService;
@@ -131,6 +132,11 @@ class BannerController extends Controller
                 'image' => Storage::putFileAs('banner/images/', $image, $image_name)
             ]
         );
+
+        Storage::put(ImageSizeConstant::BANNER_878_431.$image_name, $resizedImage->resize(878,431, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        })->encode());
         $this->bannerService->create($storeData);
 
         return redirect()->route('admin.banner.index');
@@ -173,18 +179,25 @@ class BannerController extends Controller
         if($request->file('image')) {
             $image = $request->file('image');
             $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $resizedImage = Image::make($image);
             $updateData = array_merge(
                 $updateData,
                 [
                     'image' => Storage::putFileAs('banner/images', $image, $image_name)
                 ]);
+            Storage::put(ImageSizeConstant::BANNER_878_431.$image_name, $resizedImage->resize(878,431, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->encode());
         }
         $blog = $this->bannerService->findOrFail($id);
-        $this->bannerService->update($id, $updateData);
         $oldImage = $blog->image;
         if($oldImage && $request->file('image')) {
             Storage::delete($oldImage);
+            Storage::delete(getResizedImageName($oldImage, ImageSizeConstant::BANNER_878_431));
         }
+        $this->bannerService->update($id, $updateData);
+
 
         return redirect()->route('admin.banner.index');
 
@@ -198,7 +211,12 @@ class BannerController extends Controller
      */
     public function destroy($id)
     {
-        $this->bannerService->findOrFail($id)->delete();
+        $banner= $this->bannerService->findOrFail($id);
+        if($image = $banner->image) {
+            Storage::delete($image);
+            Storage::delete(getResizedImageName($image, ImageSizeConstant::BANNER_878_431));
+        }
+        $banner->delete();
         return redirect()->route('admin.banner.index');
     }
     public function changeStatus($id) {
